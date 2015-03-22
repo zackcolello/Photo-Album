@@ -77,6 +77,12 @@ public class CmdView {
 
 		}
 
+		if(args.length == 0){
+			System.out.println("Error: Must Enter a command.");
+			return;
+		}
+		
+		
 		if (args[0].equalsIgnoreCase("listusers")) {
 
 			if (args.length != 1) {

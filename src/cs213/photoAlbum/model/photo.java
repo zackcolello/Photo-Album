@@ -16,6 +16,11 @@ public class photo implements java.io.Serializable, Iphoto {
 	 * Holds the file name of the photo
 	 */
 	private String fileName;
+	
+	/**
+	 * Holds the local name of the photo
+	 */
+	private String localName;
 	/**
 	 * Holds the caption of the photo
 	 */
@@ -83,6 +88,16 @@ public class photo implements java.io.Serializable, Iphoto {
 			date += "0";
 		}
 		date += Integer.toString(calendar.get(Calendar.SECOND));
+		
+		
+		int index = -1;
+		localName = fileName;
+		while (localName.indexOf('/') != -1) {
+			System.out.println("local file name: " + localName);
+			index = localName.indexOf('/');
+			localName = localName.substring(index+1);
+		}
+		System.out.println("File name: " + fileName + " Local name: " + localName);
 		
 		count = 1;
 	}
