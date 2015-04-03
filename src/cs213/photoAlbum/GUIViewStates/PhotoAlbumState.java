@@ -2,6 +2,8 @@ package cs213.photoAlbum.GUIViewStates;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.JFrame;
+
 
 public abstract class PhotoAlbumState {
 

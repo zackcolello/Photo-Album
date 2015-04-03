@@ -5,10 +5,10 @@ import java.awt.event.ActionListener;
 
 public class PhotoAlbumController implements ActionListener{
 
-	PhotoAlbumState currentState;
+	protected PhotoAlbumState currentState;
 	
 	public void start(){
-		//currentState = PhotoAlbumState.loginState;
+		currentState = PhotoAlbumStore.login1State;
 		currentState.enter();
 	}
 	
