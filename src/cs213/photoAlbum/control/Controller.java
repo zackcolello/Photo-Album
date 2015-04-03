@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import javax.swing.JFrame;
+
 import cs213.photoAlbum.model.IUser;
 import cs213.photoAlbum.model.Ialbum;
 import cs213.photoAlbum.model.Ibackend;
@@ -52,6 +54,14 @@ public class Controller implements IController {
 			cs213.photoAlbum.simpleview.CmdView cmdview) {
 		this.backend = backend;
 		this.cmdview = cmdview;
+	}
+	
+	/**
+	 * This is the constructor for the GUI portion of the program
+	 */
+	public Controller(Ibackend backend) {
+		this.backend = backend;
+		
 	}
 
 	// this will return backend's readDatabase method
@@ -97,6 +107,10 @@ public class Controller implements IController {
 				"data" + File.separator + "data.dat"));
 		out.writeObject(database);
 
+	}
+	
+	public Ibackend getBackend(){
+		return backend;
 	}
 
 	/*

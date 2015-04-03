@@ -5,9 +5,27 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
+import cs213.photoAlbum.control.Controller;
+import cs213.photoAlbum.control.IController;
+import cs213.photoAlbum.model.Ibackend;
+import cs213.photoAlbum.model.User;
+import cs213.photoAlbum.model.backend;
+import cs213.photoAlbum.simpleview.CmdView;
+
 
 public class PhotoAlbum extends JFrame {
 
+	/**
+	 * Stores the backend for the model portion of the application
+	 */
+	public static Ibackend backend = new backend();
+	
+	/**
+	 * Creates Controller object to pass information from view to model
+	 */
+	public static IController controller = new Controller(backend);
+	
+	
 	private ActionListener al = new PhotoAlbumController();
 
 	public void buildLayout() {
@@ -22,6 +40,9 @@ public class PhotoAlbum extends JFrame {
 		this.setPreferredSize(new Dimension(900, 600));
 		buildLayout();
 		((PhotoAlbumController)al).start();
+		
+		User admin = new User("admin", "admin");
+		backend.addUser(admin);
 	}
 
 	public static void main(String[] args) {
