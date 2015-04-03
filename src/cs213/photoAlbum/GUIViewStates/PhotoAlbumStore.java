@@ -2,6 +2,6 @@ package cs213.photoAlbum.GUIViewStates;
 
 public class PhotoAlbumStore {
 
-	static final PhotoAlbumState Login1State = PhotoAlbumState.getInstance();
+	static final Login1State login1State = Login1State.getInstance();
 	
 }
