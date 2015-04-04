@@ -81,10 +81,16 @@ public class Login1State extends PhotoAlbumState {
 		bottomPanel.setLayout(new BorderLayout());
 		bottomPanel.add(usernamePanel, BorderLayout.NORTH);
 		bottomPanel.add(buttonPanel, BorderLayout.CENTER);
+		
 		JLabel errorLabel = new JLabel("Error: User ID not found in database.");
 		errorLabel.setForeground(Color.red);
 		errorLabel.setVisible(false);
-		bottomPanel.add(errorLabel, BorderLayout.SOUTH);
+		
+		JPanel errorPanel = new JPanel();
+		errorPanel.add(errorLabel);
+		errorPanel.setPreferredSize(new Dimension(100, 20));
+		
+		bottomPanel.add(errorPanel, BorderLayout.SOUTH);
 		bottomPanel.setBorder(new EmptyBorder(0, 330, 0, 330));
 
 		// add top panel to main panel
@@ -141,18 +147,20 @@ public class Login1State extends PhotoAlbumState {
 
 			public void actionPerformed(ActionEvent e) {
 				
-				// Execute when button is pressed, go to new state if necessary
+				// Go to new state if necessary
 				if (PhotoAlbum.backend.containsUser(usernameField.getText())) {
+					
+					errorLabel.setVisible(false);
 					
 					if(usernameField.getText().equalsIgnoreCase("admin")){
 						//go to state 2, admin view
 					}else{
-						//go to state 3, normal view
+						processEvent();
 					}
 					
+				//Entered name not valid, tell user the error
 				}else{
 					errorLabel.setVisible(true);
-					
 					//refresh jframe
 					pa.revalidate();
 					pa.repaint();
@@ -166,9 +174,18 @@ public class Login1State extends PhotoAlbumState {
 	// Processes events to move to other states
 	public PhotoAlbumState processEvent() {
 
-		// JButton b = (JButton) lastEvent.getSource();
+		//JButton b = (JButton) lastEvent.getSource();
 
-		return PhotoAlbumStore.login1State;
+		
+		if(usernameLabel.getText().equalsIgnoreCase("admin")){
+			//go to admin view, state 2
+		}else{
+			//go to standard view, state 3
+			PhotoAlbumStore.album3State.enter();
+			return PhotoAlbumStore.album3State;
+		}
+		
+		return null;
 	}
 
 	public static Login1State getInstance() {

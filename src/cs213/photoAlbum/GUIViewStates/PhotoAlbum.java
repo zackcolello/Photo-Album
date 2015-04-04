@@ -1,9 +1,12 @@
 package cs213.photoAlbum.GUIViewStates;
 
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import cs213.photoAlbum.control.Controller;
 import cs213.photoAlbum.control.IController;
@@ -43,6 +46,9 @@ public class PhotoAlbum extends JFrame {
 		
 		User admin = new User("admin", "admin");
 		backend.addUser(admin);
+		
+		User zack = new User("zack", "zack");
+		backend.addUser(zack);
 	}
 
 	public static void main(String[] args) {
@@ -54,5 +60,20 @@ public class PhotoAlbum extends JFrame {
 		photoAlbumGUI.setLocationRelativeTo(null);
 		photoAlbumGUI.setVisible(true);
 
+	}
+	
+	public static void setAllChildPanelsInvisible(Container parent) {
+	    Component[] components = parent.getComponents();
+
+	    if (components.length > 0) {
+	        for (Component component : components) {
+	            if (component instanceof JPanel) {
+	                ((JPanel) component).setVisible(false);
+	            }
+	            if (component instanceof Container) {
+	                setAllChildPanelsInvisible((Container) component);
+	            }
+	        }
+	    }
 	}
 }
