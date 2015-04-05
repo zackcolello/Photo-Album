@@ -14,7 +14,7 @@ public class PhotoAlbumController implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e) {
 		PhotoAlbumState.lastEvent = e; 
-		currentState = currentState.processEvent();
+		//currentState = currentState.processEvent();
 	}
 	
 }

@@ -14,6 +14,6 @@ public abstract class PhotoAlbumState {
 	static ActionEvent lastEvent;
 	
 	//Process last event to determine next state
-	abstract PhotoAlbumState processEvent();
+	abstract PhotoAlbumState processEvent(String button);
 	
 }
