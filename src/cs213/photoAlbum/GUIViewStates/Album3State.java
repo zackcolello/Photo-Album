@@ -13,6 +13,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -98,10 +99,18 @@ public class Album3State extends PhotoAlbumState {
 		for (album a : PhotoAlbum.backend.getUser(Login1State.user).getAlbums()) {
 
 			JPanel temp = new JPanel();
-			temp.setPreferredSize(new Dimension(100, 130));
+			temp.setPreferredSize(new Dimension(170, 200));
 			temp.setBorder(new EtchedBorder());
 			temp.setVisible(true);
 			JLabel albumN = new JLabel(a.getName());
+			
+			//set photo in album
+			if(a.getPhotos().size() == 0){
+				ImageIcon noPhoto = new ImageIcon("docs/NoPhoto.png");
+				JLabel label = new JLabel("", noPhoto, JLabel.CENTER);
+				temp.add(label);
+			}
+			
 			temp.add(albumN);
 			albumThumbnails.add(temp);
 		}
@@ -112,9 +121,9 @@ public class Album3State extends PhotoAlbumState {
 
 			scrollc.gridx = columnCount;
 			scrollc.gridy = rowCount;
-
+			
 			if (columnCount == 2) {
-				rowCount++;
+				rowCount+= 1;
 				columnCount = 0;
 			} else {
 				columnCount++;
@@ -298,28 +307,38 @@ public class Album3State extends PhotoAlbumState {
 
 						// Add new album to scroll pane to jpanel
 
-						JPanel temp = new JPanel();
-						temp.setPreferredSize(new Dimension(100, 130));
-						temp.setBorder(new EtchedBorder());
-						temp.setVisible(true);
-						JLabel albumN = new JLabel(AlbumField.getText());
-						temp.add(albumN);
+						// Add elements to albumPanel
+						List<JPanel> albumThumbnails = new ArrayList<JPanel>();
 
-						System.out.println("col: " + columnCount + "row: "
-								+ rowCount);
-					
+						for (album a : PhotoAlbum.backend.getUser(Login1State.user).getAlbums()) {
 
-						//This doesn't work properly
-						scrollc.gridx = columnCount;
-						scrollc.gridy = rowCount;
-
-						if (columnCount == 2) {
-							rowCount++;
-							columnCount = 0;
-						} else {
-							columnCount++;
+							JPanel temp = new JPanel();
+							temp.setPreferredSize(new Dimension(170, 200));
+							temp.setBorder(new EtchedBorder());
+							temp.setVisible(true);
+							JLabel albumN = new JLabel(a.getName());
+							temp.add(albumN);
+							albumThumbnails.add(temp);
 						}
-						innerPanel.add(temp, scrollc);
+					
+						innerPanel.removeAll();
+						rowCount = 0;
+						columnCount = 0;
+						
+						for (JPanel j : albumThumbnails) {
+
+							scrollc.gridx = columnCount;
+							scrollc.gridy = rowCount;
+							
+							if (columnCount == 2) {
+								rowCount+= 1;
+								columnCount = 0;
+							} else {
+								columnCount++;
+							}
+							innerPanel.add(j, scrollc);
+						}
+						pa.revalidate();
 
 					}
 				});

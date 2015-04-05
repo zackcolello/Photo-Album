@@ -48,8 +48,11 @@ public class PhotoAlbum extends JFrame {
 		User admin = new User("admin", "admin");
 		backend.addUser(admin);
 
-		User z = new User("z", "z");
-		backend.addUser(z);
+		User x = new User("x", "x");
+		backend.addUser(x);
+		
+		User p = new User("p", "p");
+		backend.addUser(p);
 	}
 
 	public static void main(String[] args) {
@@ -87,18 +90,4 @@ public class PhotoAlbum extends JFrame {
 
 	}
 
-	public static void setAllChildPanelsInvisible(Container parent) {
-		Component[] components = parent.getComponents();
-
-		if (components.length > 0) {
-			for (Component component : components) {
-				if (component instanceof JPanel) {
-					((JPanel) component).setVisible(false);
-				}
-				if (component instanceof Container) {
-					setAllChildPanelsInvisible((Container) component);
-				}
-			}
-		}
-	}
 }
