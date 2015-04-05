@@ -10,12 +10,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneLayout;
 import javax.swing.border.EtchedBorder;
 
 import cs213.photoAlbum.model.album;
@@ -30,15 +33,18 @@ public class Album3State extends PhotoAlbumState {
 	JPanel MainPanel = new JPanel();
 	JPanel LeftPanel = new JPanel();
 	JPanel RightPanel = new JPanel();
-	
+
 	private GridBagLayout gbl = new GridBagLayout();
 	private GridBagConstraints gbc = new GridBagConstraints();
 
+	int columnCount = 0;
+	int rowCount = 0;
+
 	// Constructor
 	public Album3State() {
-		
+
 	}
-	
+
 	// Called when state is entered, build state
 	public void enter() {
 
@@ -49,7 +55,8 @@ public class Album3State extends PhotoAlbumState {
 		// Clear items from that state
 		pa.getContentPane().removeAll();
 		pa.getContentPane().repaint();
-		
+		pa.getContentPane().revalidate();
+
 		pa.setLayout(gbl);
 
 		MainPanel.setLayout(gbl);
@@ -70,13 +77,50 @@ public class Album3State extends PhotoAlbumState {
 		// Set up album panel with album scroll pane
 
 		JPanel albumPanel = new JPanel();
-		JScrollPane albumScroll = new JScrollPane();
+
+		GridBagLayout scrollL = new GridBagLayout();
+		GridBagConstraints scrollc = new GridBagConstraints();
+
+		JPanel innerPanel = new JPanel();
+		innerPanel.setBorder(new EtchedBorder());
+		innerPanel.setLayout(scrollL);
+		JScrollPane albumScroll = new JScrollPane(innerPanel);
 		albumScroll.setVisible(true);
 		albumScroll
 				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
+		albumScroll.setLayout(new ScrollPaneLayout());
 		albumPanel.setLayout(new BorderLayout());
 		albumPanel.setPreferredSize(new Dimension(300, 545));
+
+		// Add elements to albumPanel
+		List<JPanel> albumThumbnails = new ArrayList<JPanel>();
+
+		for (album a : PhotoAlbum.backend.getUser(Login1State.user).getAlbums()) {
+
+			JPanel temp = new JPanel();
+			temp.setPreferredSize(new Dimension(100, 130));
+			temp.setBorder(new EtchedBorder());
+			temp.setVisible(true);
+			JLabel albumN = new JLabel(a.getName());
+			temp.add(albumN);
+			albumThumbnails.add(temp);
+		}
+
+		// makes sure we lay out 3 thumbnails per row
+
+		for (JPanel j : albumThumbnails) {
+
+			scrollc.gridx = columnCount;
+			scrollc.gridy = rowCount;
+
+			if (columnCount == 2) {
+				rowCount++;
+				columnCount = 0;
+			} else {
+				columnCount++;
+			}
+			innerPanel.add(j, scrollc);
+		}
 
 		albumPanel.add(albumScroll, BorderLayout.CENTER);
 
@@ -148,10 +192,10 @@ public class Album3State extends PhotoAlbumState {
 		pa.setVisible(true);
 
 		// Check for when AddAlbumButton selected
-		
+
 		AddAlbumButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				GridBagLayout fillergbl = new GridBagLayout();
 				GridBagConstraints fillergbc = new GridBagConstraints();
 				fillerPanel.setLayout(fillergbl);
@@ -206,7 +250,6 @@ public class Album3State extends PhotoAlbumState {
 				AddAlbumButton.setEnabled(false);
 				pa.revalidate();
 
-				
 				// add event listener for when text is entered into label
 				AlbumField.addKeyListener(new KeyListener() {
 
@@ -237,39 +280,61 @@ public class Album3State extends PhotoAlbumState {
 						}
 					}
 				});
-				
-				
+
 				// Check for when Create is clicked
 
 				CreateAlbum.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
-						PhotoAlbum.backend.getUser(Login1State.user).addAlbum(AlbumField.getText());
-						
+
+						PhotoAlbum.backend.getUser(Login1State.user).addAlbum(
+								AlbumField.getText());
+
 						AlbumField.setVisible(false);
 						AlbumName.setVisible(false);
 						CancelAlbum.setVisible(false);
 						CreateAlbum.setVisible(false);
 						AddAlbumButton.setEnabled(true);
 						fillerbottom.setVisible(false);
-						
-						for(album a: PhotoAlbum.backend.getUser(Login1State.user).getAlbums()){
-							System.out.println(a.getName());
+
+						// Add new album to scroll pane to jpanel
+
+						JPanel temp = new JPanel();
+						temp.setPreferredSize(new Dimension(100, 130));
+						temp.setBorder(new EtchedBorder());
+						temp.setVisible(true);
+						JLabel albumN = new JLabel(AlbumField.getText());
+						temp.add(albumN);
+
+						System.out.println("col: " + columnCount + "row: "
+								+ rowCount);
+					
+
+						//This doesn't work properly
+						scrollc.gridx = columnCount;
+						scrollc.gridy = rowCount;
+
+						if (columnCount == 2) {
+							rowCount++;
+							columnCount = 0;
+						} else {
+							columnCount++;
 						}
+						innerPanel.add(temp, scrollc);
+
 					}
 				});
-				
+
 				// Check for when Cancel is clicked
 				CancelAlbum.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
+
 						AlbumField.setVisible(false);
 						AlbumName.setVisible(false);
 						CancelAlbum.setVisible(false);
 						CreateAlbum.setVisible(false);
 						AddAlbumButton.setEnabled(true);
 						fillerbottom.setVisible(false);
-						
+
 					}
 				});
 			}
@@ -281,14 +346,14 @@ public class Album3State extends PhotoAlbumState {
 	public PhotoAlbumState processEvent(String button) {
 
 		instance = null;
-		
+
 		if (button.equals("create")) {
-			
+
 			PhotoAlbumStore.album3State.enter();
 			return PhotoAlbumStore.album3State;
 		}
-		
-		if(button.equals("cancel")){
+
+		if (button.equals("cancel")) {
 			PhotoAlbumStore.album3State.enter();
 			return PhotoAlbumStore.album3State;
 		}
