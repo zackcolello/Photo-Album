@@ -2,6 +2,7 @@ package cs213.photoAlbum.GUIViewStates;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
@@ -39,13 +40,10 @@ public class Album3State extends PhotoAlbumState {
 	JPanel LeftPanel = new JPanel();
 	JPanel RightPanel = new JPanel();
 
-	
-	
-
 	PhotoAlbum pa = new PhotoAlbum();
 
 	boolean panelSelected = false;
-	
+
 	private GridBagLayout gbl = new GridBagLayout();
 	private GridBagConstraints gbc = new GridBagConstraints();
 
@@ -88,7 +86,7 @@ public class Album3State extends PhotoAlbumState {
 
 		JButton DeleteAlbumButton = new JButton("Delete Album");
 		JButton RenameAlbumButton = new JButton("Rename Album");
-		
+
 		// Set up album panel with album scroll pane
 
 		JPanel albumPanel = new JPanel();
@@ -133,10 +131,10 @@ public class Album3State extends PhotoAlbumState {
 						innerPanel.revalidate();
 						innerPanel.repaint();
 					}
-					
+
 					RenameAlbumButton.setEnabled(true);
 					DeleteAlbumButton.setEnabled(true);
-					
+
 					temp.setBackground(Color.LIGHT_GRAY);
 					innerPanel.revalidate();
 					innerPanel.repaint();
@@ -242,7 +240,6 @@ public class Album3State extends PhotoAlbumState {
 		buttongbc.gridx = 0;
 		ButtonsPanel.add(AddAlbumButton, buttongbc);
 
-		
 		RenameAlbumButton.setVisible(true);
 		RenameAlbumButton.setEnabled(false);
 		// RenameAlbumButton.setPreferredSize(new Dimension(140, 40));
@@ -250,9 +247,40 @@ public class Album3State extends PhotoAlbumState {
 		buttongbc.weightx = 0.5;
 		ButtonsPanel.add(RenameAlbumButton, buttongbc);
 
-		
 		DeleteAlbumButton.setVisible(true);
 		DeleteAlbumButton.setEnabled(false);
+
+		// DeleteAlbumButton listener
+
+		DeleteAlbumButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				FancyPanel temp = new FancyPanel();
+
+				for (FancyPanel f : albumThumbnails) {
+
+					if (f.getBackground().equals(Color.LIGHT_GRAY)) {
+						temp = f;
+						break;
+					}
+				}
+
+				albumThumbnails.clear();
+				innerPanel.removeAll();
+
+				// get jlabel with albumname
+				Component[] components = temp.getComponents();		
+					String text = ((JLabel) components[1]).getText();
+				PhotoAlbum.backend.getUser(Login1State.user).removeAlbum(text);
+
+				
+				
+				pa.revalidate();
+				pa.repaint();
+
+			}
+		});
+
 		// DeleteAlbumButton.setPreferredSize(new Dimension(140, 40));
 		buttongbc.gridx = 2;
 		buttongbc.weightx = 0.5;
