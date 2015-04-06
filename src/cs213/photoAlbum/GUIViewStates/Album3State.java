@@ -1,6 +1,7 @@
 package cs213.photoAlbum.GUIViewStates;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
@@ -10,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +26,7 @@ import javax.swing.ScrollPaneLayout;
 import javax.swing.border.EtchedBorder;
 
 import cs213.photoAlbum.model.album;
+import cs213.photoAlbum.model.photo;
 
 public class Album3State extends PhotoAlbumState {
 
@@ -35,6 +39,13 @@ public class Album3State extends PhotoAlbumState {
 	JPanel LeftPanel = new JPanel();
 	JPanel RightPanel = new JPanel();
 
+	
+	
+
+	PhotoAlbum pa = new PhotoAlbum();
+
+	boolean panelSelected = false;
+	
 	private GridBagLayout gbl = new GridBagLayout();
 	private GridBagConstraints gbc = new GridBagConstraints();
 
@@ -51,7 +62,7 @@ public class Album3State extends PhotoAlbumState {
 
 		// Grab current JFrame
 		Frame[] frames = Frame.getFrames();
-		PhotoAlbum pa = (PhotoAlbum) frames[0];
+		pa = (PhotoAlbum) frames[0];
 
 		// Clear items from that state
 		pa.getContentPane().removeAll();
@@ -75,6 +86,9 @@ public class Album3State extends PhotoAlbumState {
 		gbc.gridwidth = 2;
 		MainPanel.add(MenuBar, gbc);
 
+		JButton DeleteAlbumButton = new JButton("Delete Album");
+		JButton RenameAlbumButton = new JButton("Rename Album");
+		
 		// Set up album panel with album scroll pane
 
 		JPanel albumPanel = new JPanel();
@@ -94,25 +108,95 @@ public class Album3State extends PhotoAlbumState {
 		albumPanel.setPreferredSize(new Dimension(300, 545));
 
 		// Add elements to albumPanel
-		List<JPanel> albumThumbnails = new ArrayList<JPanel>();
+		List<FancyPanel> albumThumbnails = new ArrayList<FancyPanel>();
 
 		for (album a : PhotoAlbum.backend.getUser(Login1State.user).getAlbums()) {
 
-			JPanel temp = new JPanel();
+			FancyPanel temp = new FancyPanel();
+			temp.setLayout(new GridBagLayout());
+			GridBagConstraints gbc = new GridBagConstraints();
+
 			temp.setPreferredSize(new Dimension(170, 200));
 			temp.setBorder(new EtchedBorder());
 			temp.setVisible(true);
+
+			// mice
+			temp.addMouseListener(new MouseAdapter() {
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+
+					// resetColors();
+					for (FancyPanel f : albumThumbnails) {
+
+						f.setBackground(Color.WHITE);
+						innerPanel.revalidate();
+						innerPanel.repaint();
+					}
+					
+					RenameAlbumButton.setEnabled(true);
+					DeleteAlbumButton.setEnabled(true);
+					
+					temp.setBackground(Color.LIGHT_GRAY);
+					innerPanel.revalidate();
+					innerPanel.repaint();
+
+				}
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// setBackground(background);
+				}
+			});
+
 			JLabel albumN = new JLabel(a.getName());
-			
-			//set photo in album
-			if(a.getPhotos().size() == 0){
-				ImageIcon noPhoto = new ImageIcon("docs/NoPhoto.png");
+
+			// set photo in album
+			if (a.getPhotos().size() == 0) {
+				ImageIcon noPhoto = new ImageIcon("docs/NoPhotos.png");
+				gbc.gridx = 0;
+				gbc.gridy = 0;
+
 				JLabel label = new JLabel("", noPhoto, JLabel.CENTER);
-				temp.add(label);
+				temp.add(label, gbc);
 			}
-			
-			temp.add(albumN);
-			albumThumbnails.add(temp);
+			gbc.gridx = 0;
+			gbc.gridy = 1;
+			temp.add(albumN, gbc);
+
+			JLabel numPhotos = new JLabel("Number of photos: "
+					+ Integer.toString(a.getPhotos().size()));
+			gbc.gridx = 0;
+			gbc.gridy = 2;
+			temp.add(numPhotos, gbc);
+
+			// Find earliest and latest
+			ArrayList<photo> photoList = a.getPhotos();
+			JLabel dates = new JLabel();
+
+			if (photoList.size() == 0) {
+				dates.setText("From: -- To: --");
+			} else {
+
+				String earliest = photoList.get(0).getCalendar();
+				String latest = photoList.get(0).getCalendar();
+				for (photo p : photoList) {
+					if (p.getCalendar().compareTo(earliest) < 0) {
+						earliest = p.getCalendar();
+					}
+					if (p.getCalendar().compareTo(latest) > 0) {
+						latest = p.getCalendar();
+					}
+
+				}
+				dates.setText("From: " + earliest + " To: " + latest);
+			}
+
+			gbc.gridx = 0;
+			gbc.gridy = 3;
+			temp.add(dates, gbc);
+
+			albumThumbnails.add((FancyPanel) temp);
 		}
 
 		// makes sure we lay out 3 thumbnails per row
@@ -121,9 +205,9 @@ public class Album3State extends PhotoAlbumState {
 
 			scrollc.gridx = columnCount;
 			scrollc.gridy = rowCount;
-			
+
 			if (columnCount == 2) {
-				rowCount+= 1;
+				rowCount += 1;
 				columnCount = 0;
 			} else {
 				columnCount++;
@@ -158,7 +242,7 @@ public class Album3State extends PhotoAlbumState {
 		buttongbc.gridx = 0;
 		ButtonsPanel.add(AddAlbumButton, buttongbc);
 
-		JButton RenameAlbumButton = new JButton("Rename Album");
+		
 		RenameAlbumButton.setVisible(true);
 		RenameAlbumButton.setEnabled(false);
 		// RenameAlbumButton.setPreferredSize(new Dimension(140, 40));
@@ -166,7 +250,7 @@ public class Album3State extends PhotoAlbumState {
 		buttongbc.weightx = 0.5;
 		ButtonsPanel.add(RenameAlbumButton, buttongbc);
 
-		JButton DeleteAlbumButton = new JButton("Delete Album");
+		
 		DeleteAlbumButton.setVisible(true);
 		DeleteAlbumButton.setEnabled(false);
 		// DeleteAlbumButton.setPreferredSize(new Dimension(140, 40));
@@ -310,7 +394,8 @@ public class Album3State extends PhotoAlbumState {
 						// Add elements to albumPanel
 						List<JPanel> albumThumbnails = new ArrayList<JPanel>();
 
-						for (album a : PhotoAlbum.backend.getUser(Login1State.user).getAlbums()) {
+						for (album a : PhotoAlbum.backend.getUser(
+								Login1State.user).getAlbums()) {
 
 							JPanel temp = new JPanel();
 							temp.setPreferredSize(new Dimension(170, 200));
@@ -320,18 +405,18 @@ public class Album3State extends PhotoAlbumState {
 							temp.add(albumN);
 							albumThumbnails.add(temp);
 						}
-					
+
 						innerPanel.removeAll();
 						rowCount = 0;
 						columnCount = 0;
-						
+
 						for (JPanel j : albumThumbnails) {
 
 							scrollc.gridx = columnCount;
 							scrollc.gridy = rowCount;
-							
+
 							if (columnCount == 2) {
-								rowCount+= 1;
+								rowCount += 1;
 								columnCount = 0;
 							} else {
 								columnCount++;
@@ -378,6 +463,15 @@ public class Album3State extends PhotoAlbumState {
 		}
 
 		return null;
+	}
+
+	class FancyPanel extends JPanel {
+
+		FancyPanel() {
+
+			this.setBackground(Color.white);
+
+		}
 	}
 
 	public static Album3State getInstance() {
