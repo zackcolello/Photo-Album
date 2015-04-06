@@ -58,6 +58,8 @@ public class Album3State extends PhotoAlbumState {
 	// Called when state is entered, build state
 	public void enter() {
 
+		System.out.println("hi");
+		
 		// Grab current JFrame
 		Frame[] frames = Frame.getFrames();
 		pa = (PhotoAlbum) frames[0];
@@ -265,16 +267,18 @@ public class Album3State extends PhotoAlbumState {
 					}
 				}
 
-				albumThumbnails.clear();
-				innerPanel.removeAll();
+				
 
 				// get jlabel with albumname
 				Component[] components = temp.getComponents();		
 					String text = ((JLabel) components[1]).getText();
 				PhotoAlbum.backend.getUser(Login1State.user).removeAlbum(text);
+				
+				/////////////////////////////////////////////////////
+				innerPanel.remove(temp);
+				
+				//////////////////////////////////////////////////////////////////////
 
-				
-				
 				pa.revalidate();
 				pa.repaint();
 
@@ -420,18 +424,96 @@ public class Album3State extends PhotoAlbumState {
 						// Add new album to scroll pane to jpanel
 
 						// Add elements to albumPanel
-						List<JPanel> albumThumbnails = new ArrayList<JPanel>();
+						List<FancyPanel> albumThumbnails = new ArrayList<FancyPanel>();
 
 						for (album a : PhotoAlbum.backend.getUser(
 								Login1State.user).getAlbums()) {
 
-							JPanel temp = new JPanel();
+							FancyPanel temp = new FancyPanel();
+							temp.setLayout(new GridBagLayout());
+							GridBagConstraints gbc = new GridBagConstraints();
+
 							temp.setPreferredSize(new Dimension(170, 200));
 							temp.setBorder(new EtchedBorder());
 							temp.setVisible(true);
+
+							// mice
+							temp.addMouseListener(new MouseAdapter() {
+
+								@Override
+								public void mousePressed(MouseEvent e) {
+
+									// resetColors();
+									for (FancyPanel f : albumThumbnails) {
+
+										f.setBackground(Color.WHITE);
+										innerPanel.revalidate();
+										innerPanel.repaint();
+									}
+
+									RenameAlbumButton.setEnabled(true);
+									DeleteAlbumButton.setEnabled(true);
+
+									temp.setBackground(Color.LIGHT_GRAY);
+									innerPanel.revalidate();
+									innerPanel.repaint();
+
+								}
+
+								@Override
+								public void mouseReleased(MouseEvent e) {
+									// setBackground(background);
+								}
+							});
+
 							JLabel albumN = new JLabel(a.getName());
-							temp.add(albumN);
-							albumThumbnails.add(temp);
+
+							// set photo in album
+							if (a.getPhotos().size() == 0) {
+								ImageIcon noPhoto = new ImageIcon("docs/NoPhotos.png");
+								gbc.gridx = 0;
+								gbc.gridy = 0;
+
+								JLabel label = new JLabel("", noPhoto, JLabel.CENTER);
+								temp.add(label, gbc);
+							}
+							gbc.gridx = 0;
+							gbc.gridy = 1;
+							temp.add(albumN, gbc);
+
+							JLabel numPhotos = new JLabel("Number of photos: "
+									+ Integer.toString(a.getPhotos().size()));
+							gbc.gridx = 0;
+							gbc.gridy = 2;
+							temp.add(numPhotos, gbc);
+
+							// Find earliest and latest
+							ArrayList<photo> photoList = a.getPhotos();
+							JLabel dates = new JLabel();
+
+							if (photoList.size() == 0) {
+								dates.setText("From: -- To: --");
+							} else {
+
+								String earliest = photoList.get(0).getCalendar();
+								String latest = photoList.get(0).getCalendar();
+								for (photo p : photoList) {
+									if (p.getCalendar().compareTo(earliest) < 0) {
+										earliest = p.getCalendar();
+									}
+									if (p.getCalendar().compareTo(latest) > 0) {
+										latest = p.getCalendar();
+									}
+
+								}
+								dates.setText("From: " + earliest + " To: " + latest);
+							}
+
+							gbc.gridx = 0;
+							gbc.gridy = 3;
+							temp.add(dates, gbc);
+
+							albumThumbnails.add((FancyPanel) temp);
 						}
 
 						innerPanel.removeAll();
