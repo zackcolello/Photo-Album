@@ -34,7 +34,7 @@ public class MenuBarPanel extends JPanel{
 		MenuBar.setLayout(gbl);
 
 		JPanel whiteSpacePanel = new JPanel();
-		// whiteSpacePanel.setBorder(new EtchedBorder(EtchedBorder.RAISED));
+		//whiteSpacePanel.setBorder(new EtchedBorder(EtchedBorder.RAISED));
 		whiteSpacePanel.setPreferredSize(new Dimension(340, 2));
 		whiteSpacePanel.setVisible(true);
 		gbc.fill = GridBagConstraints.HORIZONTAL;

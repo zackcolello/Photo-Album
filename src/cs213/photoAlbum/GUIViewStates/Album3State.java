@@ -86,8 +86,8 @@ public class Album3State extends PhotoAlbumState {
 		gbc.gridwidth = 2;
 		MainPanel.add(MenuBar, gbc);
 
-		JButton DeleteAlbumButton = new JButton("Delete Album");
-		JButton RenameAlbumButton = new JButton("Rename Album");
+		Album3Store.DeleteAlbumButton = new JButton("Delete Album");
+		Album3Store.RenameAlbumButton = new JButton("Rename Album");
 
 		// Set up album panel with album scroll pane
 
@@ -134,8 +134,8 @@ public class Album3State extends PhotoAlbumState {
 						innerPanel.repaint();
 					}
 
-					RenameAlbumButton.setEnabled(true);
-					DeleteAlbumButton.setEnabled(true);
+					Album3Store.RenameAlbumButton.setEnabled(true);
+					Album3Store.DeleteAlbumButton.setEnabled(true);
 
 					temp.setBackground(Color.LIGHT_GRAY);
 					innerPanel.revalidate();
@@ -236,25 +236,25 @@ public class Album3State extends PhotoAlbumState {
 		// ButtonsPanel.setBorder(new EtchedBorder());
 		ButtonsPanel.setPreferredSize(new Dimension(300, 545));
 
-		JButton AddAlbumButton = new JButton("Add Album");
-		AddAlbumButton.setVisible(true);
+		Album3Store.AddAlbumButton = new JButton("Add Album");
+		Album3Store.AddAlbumButton.setVisible(true);
 		// AddAlbumButton.setPreferredSize(new Dimension(140, 40));
 		buttongbc.gridx = 0;
-		ButtonsPanel.add(AddAlbumButton, buttongbc);
+		ButtonsPanel.add(Album3Store.AddAlbumButton, buttongbc);
 
-		RenameAlbumButton.setVisible(true);
-		RenameAlbumButton.setEnabled(false);
+		Album3Store.RenameAlbumButton.setVisible(true);
+		Album3Store.RenameAlbumButton.setEnabled(false);
 		// RenameAlbumButton.setPreferredSize(new Dimension(140, 40));
 		buttongbc.gridx = 1;
 		buttongbc.weightx = 0.5;
-		ButtonsPanel.add(RenameAlbumButton, buttongbc);
+		ButtonsPanel.add(Album3Store.RenameAlbumButton, buttongbc);
 
-		DeleteAlbumButton.setVisible(true);
-		DeleteAlbumButton.setEnabled(false);
+		Album3Store.DeleteAlbumButton.setVisible(true);
+		Album3Store.DeleteAlbumButton.setEnabled(false);
 
 		// DeleteAlbumButton listener
 
-		DeleteAlbumButton.addActionListener(new ActionListener() {
+		Album3Store.DeleteAlbumButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				FancyPanel temp = new FancyPanel();
@@ -267,13 +267,12 @@ public class Album3State extends PhotoAlbumState {
 					}
 				}
 
-				
-
 				// get jlabel with albumname
 				Component[] components = temp.getComponents();		
 					String text = ((JLabel) components[1]).getText();
 				PhotoAlbum.backend.getUser(Login1State.user).removeAlbum(text);
 				
+				System.out.println("removing " + text);
 				/////////////////////////////////////////////////////
 				innerPanel.remove(temp);
 				
@@ -288,7 +287,7 @@ public class Album3State extends PhotoAlbumState {
 		// DeleteAlbumButton.setPreferredSize(new Dimension(140, 40));
 		buttongbc.gridx = 2;
 		buttongbc.weightx = 0.5;
-		ButtonsPanel.add(DeleteAlbumButton, buttongbc);
+		ButtonsPanel.add(Album3Store.DeleteAlbumButton, buttongbc);
 
 		// add filler for under the buttons
 		JPanel fillerPanel = new JPanel();
@@ -318,7 +317,7 @@ public class Album3State extends PhotoAlbumState {
 
 		// Check for when AddAlbumButton selected
 
-		AddAlbumButton.addActionListener(new ActionListener() {
+		Album3Store.AddAlbumButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				GridBagLayout fillergbl = new GridBagLayout();
@@ -372,7 +371,7 @@ public class Album3State extends PhotoAlbumState {
 				fillergbc.fill = GridBagConstraints.BOTH;
 				fillerPanel.add(fillerbottom, fillergbc);
 
-				AddAlbumButton.setEnabled(false);
+				Album3Store.AddAlbumButton.setEnabled(false);
 				pa.revalidate();
 
 				// add event listener for when text is entered into label
@@ -418,7 +417,7 @@ public class Album3State extends PhotoAlbumState {
 						AlbumName.setVisible(false);
 						CancelAlbum.setVisible(false);
 						CreateAlbum.setVisible(false);
-						AddAlbumButton.setEnabled(true);
+						Album3Store.AddAlbumButton.setEnabled(true);
 						fillerbottom.setVisible(false);
 
 						// Add new album to scroll pane to jpanel
@@ -451,8 +450,8 @@ public class Album3State extends PhotoAlbumState {
 										innerPanel.repaint();
 									}
 
-									RenameAlbumButton.setEnabled(true);
-									DeleteAlbumButton.setEnabled(true);
+									Album3Store.RenameAlbumButton.setEnabled(true);
+									Album3Store.DeleteAlbumButton.setEnabled(true);
 
 									temp.setBackground(Color.LIGHT_GRAY);
 									innerPanel.revalidate();
@@ -546,7 +545,7 @@ public class Album3State extends PhotoAlbumState {
 						AlbumName.setVisible(false);
 						CancelAlbum.setVisible(false);
 						CreateAlbum.setVisible(false);
-						AddAlbumButton.setEnabled(true);
+						Album3Store.AddAlbumButton.setEnabled(true);
 						fillerbottom.setVisible(false);
 
 					}

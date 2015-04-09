@@ -173,8 +173,9 @@ public class Login1State extends PhotoAlbumState {
 					
 					if (usernameField.getText().equalsIgnoreCase("admin")) {
 						// go to state 2, admin view
-					} else {
 						processEvent("admin");
+					} else {
+						processEvent("nonadmin");
 					}
 
 					// Entered name not valid, tell user the error
@@ -199,8 +200,8 @@ public class Login1State extends PhotoAlbumState {
 			// go to admin view, state 2
 		} else {
 			// go to standard view, state 3
-			PhotoAlbumStore.album3State.enter();
-			return PhotoAlbumStore.album3State;
+			PhotoAlbumStore.newAlbum3State.enter();
+			return PhotoAlbumStore.newAlbum3State;
 		}
 
 		return null;
