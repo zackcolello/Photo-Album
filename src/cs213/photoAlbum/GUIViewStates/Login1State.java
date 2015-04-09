@@ -56,7 +56,7 @@ public class Login1State extends PhotoAlbumState {
 
 		// Grab current JFrame
 		Frame[] frames = Frame.getFrames();
-		PhotoAlbum pa = (PhotoAlbum) frames[0];
+		final PhotoAlbum pa = (PhotoAlbum) frames[0];
 
 		// Clear items from that state
 		pa.getContentPane().removeAll();
@@ -97,7 +97,7 @@ public class Login1State extends PhotoAlbumState {
 		bottomPanel.add(usernamePanel, BorderLayout.NORTH);
 		bottomPanel.add(buttonPanel, BorderLayout.CENTER);
 
-		JLabel errorLabel = new JLabel("Error: User ID not found in database.");
+		final JLabel errorLabel = new JLabel("Error: User ID not found in database.");
 		errorLabel.setForeground(Color.red);
 		errorLabel.setVisible(false);
 
@@ -173,9 +173,9 @@ public class Login1State extends PhotoAlbumState {
 					
 					if (usernameField.getText().equalsIgnoreCase("admin")) {
 						// go to state 2, admin view
-						processEvent("admin");
+						processEvent();
 					} else {
-						processEvent("nonadmin");
+						processEvent();
 					}
 
 					// Entered name not valid, tell user the error
@@ -192,7 +192,7 @@ public class Login1State extends PhotoAlbumState {
 	}
 
 	// Processes events to move to other states
-	public PhotoAlbumState processEvent(String button) {
+	public PhotoAlbumState processEvent() {
 
 		// JButton b = (JButton) lastEvent.getSource();
 
