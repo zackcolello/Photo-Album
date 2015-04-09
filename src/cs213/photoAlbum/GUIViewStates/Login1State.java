@@ -196,15 +196,16 @@ public class Login1State extends PhotoAlbumState {
 
 		// JButton b = (JButton) lastEvent.getSource();
 
-		if (usernameLabel.getText().equalsIgnoreCase("admin")) {
-			// go to admin view, state 2
+		if (usernameField.getText().equalsIgnoreCase("admin")) {
+			PhotoAlbumStore.admin2State.enter();
+			return PhotoAlbumStore.admin2State;
 		} else {
 			// go to standard view, state 3
 			PhotoAlbumStore.newAlbum3State.enter();
 			return PhotoAlbumStore.newAlbum3State;
 		}
 
-		return null;
+		
 	}
 
 	public static Login1State getInstance() {
