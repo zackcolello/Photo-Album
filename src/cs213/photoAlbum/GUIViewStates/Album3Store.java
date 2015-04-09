@@ -2,11 +2,15 @@ package cs213.photoAlbum.GUIViewStates;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+
+import cs213.photoAlbum.model.photo;
 
 public class Album3Store{
 	
@@ -35,6 +39,24 @@ public class Album3Store{
 	static GridBagLayout filgbl;
 	static GridBagConstraints filgbc;
 	static JLabel AlbumName;
+	static JPanel fillerbottom;
+	static JTextField AlbumField;
+	static JButton CreateAlbum;
+	static JButton CancelAlbum;
 	
+	//For filling in the album Panel
+	static ArrayList<JPanel> albumsArray;
+	static JPanel temp;
+	static GridBagLayout algbl;
+	static GridBagConstraints algbc;
+	static JLabel albumName;
+	
+	//For getting the dates of the photos
+	static ArrayList<photo> photoList;
+	static JLabel numPhotos;
+	static JLabel dates;
+	static GridBagConstraints scrollConstraints;
+	static int rowCount;
+	static int columnCount;
 	
 }
