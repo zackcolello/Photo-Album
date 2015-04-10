@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,26 +15,29 @@ import javax.swing.border.EtchedBorder;
 
 public class MenuBarPanel extends JPanel{
 
-	JButton logoutButton = new JButton("logout");
+	JButton logoutButton = new JButton("Logout");
+	JButton backButton = new JButton("Back");
 	
 	public MenuBarPanel(){
 	}
 	
 	public JPanel CreateMenuBarPanel(String location) {
 
-		// Grab current JFrame
-		Frame[] frames = Frame.getFrames();
-		PhotoAlbum pa = (PhotoAlbum) frames[0];
-
 		JPanel MenuBar = new JPanel();
 		GridBagLayout gbl = new GridBagLayout();
 		GridBagConstraints gbc = new GridBagConstraints();
-		// gbc.insets = new Insets(0,200,0, 0);
 		MenuBar.setLayout(gbl);
 
+		//Add back button
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		MenuBar.add(backButton);
+		
+		//Add white space
 		JPanel whiteSpacePanel = new JPanel();
 		//whiteSpacePanel.setBorder(new EtchedBorder(EtchedBorder.RAISED));
-		whiteSpacePanel.setPreferredSize(new Dimension(340, 2));
+		whiteSpacePanel.setPreferredSize(new Dimension(275, 2));
 		whiteSpacePanel.setVisible(true);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 1;
@@ -67,6 +69,11 @@ public class MenuBarPanel extends JPanel{
 
 		MenuBar.add(logoutButton, gbc);
 
+		//Do not want a back button for the first album screen
+		if(location.equals("Albums")){
+			backButton.setVisible(false);
+		}
+		
 		// Event listeners for buttons
 		logoutButton.addActionListener(new ActionListener() {
 

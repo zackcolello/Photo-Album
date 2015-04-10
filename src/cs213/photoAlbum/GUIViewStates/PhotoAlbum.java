@@ -1,7 +1,5 @@
 package cs213.photoAlbum.GUIViewStates;
 
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -9,14 +7,13 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import cs213.photoAlbum.control.Controller;
 import cs213.photoAlbum.control.IController;
 import cs213.photoAlbum.model.Ibackend;
 import cs213.photoAlbum.model.User;
 import cs213.photoAlbum.model.backend;
-import cs213.photoAlbum.simpleview.CmdView;
+import cs213.photoAlbum.model.photo;
 
 public class PhotoAlbum extends JFrame {
 
@@ -49,7 +46,13 @@ public class PhotoAlbum extends JFrame {
 		User admin = new User("admin", "admin");
 		backend.addUser(admin);
 
+		
+		//Create test user for debugging
 		User z = new User("z", "z");
+		z.addAlbum("Dogs");
+		photo photo = new photo("docs/puppy.jpg", "A cute puppy");
+		Album5Store.currentPhoto = photo;
+		z.getAlbum("Dogs").addPhoto(photo);
 		backend.addUser(z);
 
 	}

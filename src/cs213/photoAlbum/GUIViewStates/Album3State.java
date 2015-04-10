@@ -455,7 +455,7 @@ public class Album3State extends PhotoAlbumState {
 
 				Album3State.instance = null;
 				PhotoAlbumStore.album3State.enter();
-				
+
 			}
 		});
 
