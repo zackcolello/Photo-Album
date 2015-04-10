@@ -236,7 +236,7 @@ public class NewAlbum3State extends PhotoAlbumState {
 			Album3Store.rowCount = 0;
 			Album3Store.columnCount = 0;
 
-			for (JPanel j : Album3Store.albumsArray) {
+			for (final JPanel j : Album3Store.albumsArray) {
 
 				Album3Store.scrollConstraints.gridx = Album3Store.columnCount;
 				Album3Store.scrollConstraints.gridy = Album3Store.rowCount;
