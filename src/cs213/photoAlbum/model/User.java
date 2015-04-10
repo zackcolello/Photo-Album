@@ -202,4 +202,16 @@ public class User implements java.io.Serializable, IUser {
 		
 	}
 
+
+	@Override
+	public void renameAlbum(String oldAlbumName, String newAlbumName) {
+
+			for(album a: albums){
+				if(a.getName().equals(oldAlbumName)){
+					a.renameAlbum(newAlbumName);
+				}
+			}
+		
+	}
+
 }

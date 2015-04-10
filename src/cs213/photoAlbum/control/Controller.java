@@ -12,6 +12,7 @@ import java.util.HashMap;
 
 import javax.swing.JFrame;
 
+import cs213.photoAlbum.GUIViewStates.Login1State;
 import cs213.photoAlbum.model.IUser;
 import cs213.photoAlbum.model.Ialbum;
 import cs213.photoAlbum.model.Ibackend;
@@ -563,6 +564,12 @@ public class Controller implements IController {
 
 		return photoList;
 
+	}
+	
+	public void renameAlbum(String oldAlbumName, String newAlbumName){
+		
+		backend.getUser(Login1State.user).renameAlbum(oldAlbumName, newAlbumName);
+		
 	}
 
 	// used for debugging purposes

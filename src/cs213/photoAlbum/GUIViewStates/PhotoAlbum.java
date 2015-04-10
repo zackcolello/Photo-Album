@@ -45,14 +45,13 @@ public class PhotoAlbum extends JFrame {
 		buildLayout();
 		((PhotoAlbumController) al).start();
 
+		
 		User admin = new User("admin", "admin");
 		backend.addUser(admin);
 
-		User x = new User("x", "x");
-		backend.addUser(x);
-		
-		User p = new User("p", "p");
-		backend.addUser(p);
+		User z = new User("z", "z");
+		backend.addUser(z);
+
 	}
 
 	public static void main(String[] args) {
@@ -70,7 +69,6 @@ public class PhotoAlbum extends JFrame {
 
 		} catch (Exception e) {
 			// Database file does not exist yet, create file
-
 			File f = new File("data" + File.separator + "data.dat");
 
 		}

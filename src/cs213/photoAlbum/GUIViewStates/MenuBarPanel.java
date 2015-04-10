@@ -61,8 +61,6 @@ public class MenuBarPanel extends JPanel{
 		MenuBar.add(searchBox, gbc);
 		MenuBar.setBorder(new EtchedBorder(EtchedBorder.RAISED));
 
-		
-
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 4;
 		gbc.gridy = 0;
@@ -74,7 +72,9 @@ public class MenuBarPanel extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				processEvent();
+				
+				PhotoAlbumStore.login1State.enter();
+				//processEvent();
 				
 			}
 		});
@@ -86,6 +86,7 @@ public class MenuBarPanel extends JPanel{
 	public PhotoAlbumState processEvent() {
 
 		if (logoutButton.getText().equals("logout")) {
+
 			PhotoAlbumStore.login1State.enter();
 			return PhotoAlbumStore.login1State;
 		}
