@@ -52,11 +52,16 @@ public class Album3Store{
 	static JLabel albumName;
 	
 	//For getting the dates of the photos
-	static ArrayList<photo> photoList;
+	//static ArrayList<photo> photoList;
 	static JLabel numPhotos;
 	static JLabel dates;
 	static GridBagConstraints scrollConstraints;
 	static int rowCount;
 	static int columnCount;
+	
+	//For renameAlbumButton
+	static JButton RenameAlbum;
+	static JButton RenameCancel;
+	static JLabel errLabel;
 	
 }
