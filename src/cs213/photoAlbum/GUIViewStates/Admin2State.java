@@ -12,13 +12,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneLayout;
 import javax.swing.border.EtchedBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import cs213.photoAlbum.model.User;
 
 public class Admin2State extends PhotoAlbumState {
 
@@ -86,15 +93,30 @@ public class Admin2State extends PhotoAlbumState {
 
 
 		Admin2Store.UserPanel = new JPanel();
-		Admin2Store.innerPanel = new JPanel();
+		//Admin2Store.innerPanel = new JPanel();
+
+		Admin2Store.listModel = new DefaultListModel<User>();
+
+		Admin2Store.database = PhotoAlbum.backend.returnList();
+
+		for(User u: Admin2Store.database){
+			if(!u.getId().equalsIgnoreCase("admin")){
+				Admin2Store.listModel.addElement(u);
+			}
+		}
 
 
+		Admin2Store.UserList = new JList<User>(Admin2Store.listModel); 
+
+		Admin2Store.UserList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		Admin2Store.UserList.setLayoutOrientation(JList.VERTICAL);
+		Admin2Store.UserList.setVisibleRowCount(-1);
 
 
-		Admin2Store.innerPanel.setBorder(new EtchedBorder());;
-		Admin2Store.innerPanel.setLayout(Admin2Store.gbl);
+		//Admin2Store.innerPanel.setBorder(new EtchedBorder());;
+		//Admin2Store.innerPanel.setLayout(Admin2Store.gbl);
 
-		Admin2Store.UserScroll = new JScrollPane(Admin2Store.innerPanel);
+		Admin2Store.UserScroll = new JScrollPane(Admin2Store.UserList);
 		Admin2Store.UserScroll.setVisible(true);
 		Admin2Store.UserScroll
 		.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -140,6 +162,7 @@ public class Admin2State extends PhotoAlbumState {
 		Admin2Store.ButtonsPanel.add(Admin2Store.AddUserButton, Admin2Store.bgbc);
 
 		Admin2Store.RemoveUserButton = new JButton("Remove User");
+		Admin2Store.RemoveUserButton.setEnabled(false);
 		Admin2Store.bgbc.gridx = 1;
 		Admin2Store.bgbc.gridy = 0;
 		Admin2Store.bgbc.weightx=.05;
@@ -166,19 +189,57 @@ public class Admin2State extends PhotoAlbumState {
 
 		Admin2Store.pa.add(Admin2Store.MainPanel, Admin2Store.gbc);
 
-	//	AddListeners();
+		//fillUserList;
+
+		AddListeners();
 
 	}
-/*
+
+
+	public void fillUserList(){
+
+
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
 	public void AddListeners() {
 
 		Admin2Store.Add = new JButton("Add");
 		Admin2Store.Cancel = new JButton("Cancel");
+		
+		
+		//Even listener for list selection
+		
+		
+		Admin2Store.UserList.addListSelectionListener(new ListSelectionListener(){
+			public void valueChanged(ListSelectionEvent e){
+				if(Admin2Store.UserList.getSelectedIndex()!=-1){
+				Admin2Store.RemoveUserButton.setEnabled(true);
+				}else{
+				Admin2Store.RemoveUserButton.setEnabled(false);
+			}
+			}
+
+		});
+		
+		
 
 		// Event listener for Add Album Button
-		Admin2Store.Add.addActionListener(new ActionListener() {
+		Admin2Store.AddUserButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				Admin2Store.AddUserButton.setEnabled(false);
+				Admin2Store.RemoveUserButton.setEnabled(false);
 				// Create GBL & GBC for filler panel
 				Admin2Store.filgbl = new GridBagLayout();
 				Admin2Store.filgbc = new GridBagConstraints();
@@ -226,7 +287,7 @@ public class Admin2State extends PhotoAlbumState {
 				Admin2Store.filgbc.weightx = .5;
 				Admin2Store.filgbc.gridwidth = 1;
 				Admin2Store.filgbc.gridx = 0;
-				Admin2Store.filgbc.gridy = 1;
+				Admin2Store.filgbc.gridy = 2;
 				Admin2Store.Add.setEnabled(false);
 				Admin2Store.Add.setVisible(true);
 				Admin2Store.fillerPanel.add(Admin2Store.Add,
@@ -237,7 +298,7 @@ public class Admin2State extends PhotoAlbumState {
 				Admin2Store.filgbc.weightx = .5;
 				Admin2Store.filgbc.gridx = 1;
 				Admin2Store.filgbc.gridwidth = 1;
-				Admin2Store.filgbc.gridy = 1;
+				Admin2Store.filgbc.gridy = 2;
 				Admin2Store.Cancel.setVisible(true);
 				Admin2Store.fillerPanel.add(Admin2Store.Cancel,
 						Admin2Store.filgbc);
@@ -249,12 +310,13 @@ public class Admin2State extends PhotoAlbumState {
 				Admin2Store.filgbc.weightx = 1;
 				Admin2Store.filgbc.weighty = 1;
 				Admin2Store.filgbc.gridwidth = 2;
-				Admin2Store.fillerbottom.setPreferredSize(new Dimension(190,
+				Admin2Store.fillerbottom.setPreferredSize(new Dimension(100,
 						350));
 				Admin2Store.filgbc.fill = GridBagConstraints.BOTH;
 				Admin2Store.fillerPanel.add(Admin2Store.fillerbottom,
 						Admin2Store.filgbc);
-
+				
+				Admin2Store.errLabel = new JLabel("Error, User already Exists with that ID");
 
 
 				// Event listener for when text is entered into NameField
@@ -336,51 +398,74 @@ public class Admin2State extends PhotoAlbumState {
 				Admin2Store.Add.setVisible(false);
 				Admin2Store.AddUserButton.setEnabled(true);
 				Admin2Store.fillerbottom.setVisible(false);
-
+				Admin2Store.errLabel.setVisible(false);
+				
+				if(Admin2Store.UserList.getSelectedIndex()!=-1){
+					Admin2Store.RemoveUserButton.setEnabled(true);
+				}else{
+					Admin2Store.RemoveUserButton.setEnabled(false);
+				}
 			}
 		});
 
 		// Event listener for Create Album Button
 		Admin2Store.Add.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
-						
-				Admin2Store.AlbumField.setVisible(false);
-				Admin2Store.AlbumName.setVisible(false);
-				Admin2Store.CancelAlbum.setVisible(false);
-				Admin2Store.CreateAlbum.setVisible(false);
-				Admin2Store.AddAlbumButton.setEnabled(true);
-				Admin2Store.fillerbottom.setVisible(false);
 
-				fillAlbumPanel();
+				if(PhotoAlbum.backend.containsUser(Admin2Store.IDField.getText())){
+					addDubError();
 
-				if (Admin2Store.albumsArray != null) {
-					for (JPanel f : Admin2Store.albumsArray) {
-						f.setBackground(Color.WHITE);
-					}
+				}else{
+
+					PhotoAlbum.backend.addUser(Admin2Store.IDField.getText(),Admin2Store.NameField.getText());
+					Admin2State.instance = null;
+					PhotoAlbumStore.admin2State.enter();
 				}
+
+			/*	Admin2Store.NameField.setVisible(false);
+				Admin2Store.UserName.setVisible(false);
+				Admin2Store.IDField.setVisible(false);
+				Admin2Store.UserID.setVisible(false);
+				Admin2Store.Cancel.setVisible(false);
+				Admin2Store.Add.setVisible(false);
+				Admin2Store.AddUserButton.setEnabled(true);
+				Admin2Store.fillerbottom.setVisible(false);
+    */
 
 			}
 		});
 
 		// Event listener for Delete Album Button
-		Admin2Store.DeleteAlbumButton.addActionListener(new ActionListener() {
+		Admin2Store.RemoveUserButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JPanel temp = new JPanel();
-				// HERE
-
+				PhotoAlbum.backend.removeUser(((User)Admin2Store.UserList.getSelectedValue()).getId());
+				PhotoAlbumStore.admin2State.enter();
 			}
 		});
 
 
 	}
-*/
 
 
 
 
 
+	public void addDubError() {
+
+		
+		Admin2Store.errLabel.setVisible(true);
+		Admin2Store.errLabel.setForeground(Color.red);
+		Admin2Store.bgbc.gridy = 2;
+		Admin2Store.bgbc.gridx = 0;
+		Admin2Store.bgbc.weighty = 1;
+		Admin2Store.bgbc.weightx = 1;
+		Admin2Store.bgbc.fill = GridBagConstraints.BOTH;
+		Admin2Store.bgbc.gridwidth = 3;
+		Admin2Store.ButtonsPanel.add(Admin2Store.errLabel, Admin2Store.bgbc);
+
+		Admin2Store.pa.revalidate();
+		Admin2Store.pa.repaint();
+	}
 
 
 
