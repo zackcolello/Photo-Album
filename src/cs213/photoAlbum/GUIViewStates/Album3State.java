@@ -15,7 +15,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,153 +28,184 @@ import javax.swing.border.EtchedBorder;
 import cs213.photoAlbum.model.album;
 import cs213.photoAlbum.model.photo;
 
+//make the album jpanels an instance with getInstance.
+
 public class Album3State extends PhotoAlbumState {
 
-	/**
-	 * Singleton instance
-	 */
-	private static Album3State instance = null;
+	public ArrayList<photo> photoList;
 
-	JPanel MainPanel = new JPanel();
-	JPanel LeftPanel = new JPanel();
-	JPanel RightPanel = new JPanel();
+	static Album3State instance = null;
 
-	PhotoAlbum pa = new PhotoAlbum();
+	public void enter() {
 
-	boolean panelSelected = false;
+		Album3Store.albumsArray = new ArrayList<JPanel>();
 
-	private GridBagLayout gbl = new GridBagLayout();
-	private GridBagConstraints gbc = new GridBagConstraints();
+		// Grab current JFrame and remove all the things
+		Frame[] frames = Frame.getFrames();
+		Album3Store.pa = (PhotoAlbum) frames[0];
+		Album3Store.pa.getContentPane().removeAll();
+		Album3Store.pa.getContentPane().repaint();
+		Album3Store.pa.getContentPane().revalidate();
 
-	int columnCount = 0;
-	int rowCount = 0;
+		// Create constraints, add to main panel
 
-	// Constructor
-	public Album3State() {
+		Album3Store.gbl = new GridBagLayout();
+		Album3Store.gbc = new GridBagConstraints();
+		Album3Store.MainPanel = new JPanel();
+		Album3Store.MainPanel.setLayout(Album3Store.gbl);
+
+		// Create top Menu Bar
+		JPanel MenuBar = new MenuBarPanel();
+		MenuBar = (JPanel) ((MenuBarPanel) MenuBar)
+				.CreateMenuBarPanel("Albums");
+		Album3Store.gbc.fill = GridBagConstraints.HORIZONTAL;
+		Album3Store.gbc.gridx = 0;
+		Album3Store.gbc.gridy = 0;
+		Album3Store.gbc.weightx = 1;
+		Album3Store.gbc.gridwidth = 2;
+		Album3Store.MainPanel.add(MenuBar, Album3Store.gbc);
+
+		// Create album panel of the screen
+		Album3Store.albumPanel = new JPanel();
+		Album3Store.innerPanel = new JPanel();
+
+		// set up inner Panel of album panel
+		Album3Store.innerPanel.setBorder(new EtchedBorder());
+		Album3Store.innerPanel.setLayout(Album3Store.gbl);
+
+		// Create jscrollpane for album panel
+		Album3Store.albumScroll = new JScrollPane(Album3Store.innerPanel);
+		Album3Store.albumScroll.setVisible(true);
+		Album3Store.albumScroll
+				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		Album3Store.albumScroll.setLayout(new ScrollPaneLayout());
+		Album3Store.albumScroll.setVisible(true);
+		Album3Store.albumPanel.setLayout(new BorderLayout());
+		Album3Store.albumPanel.setPreferredSize(new Dimension(300, 545));
+		Album3Store.albumPanel
+				.add(Album3Store.albumScroll, BorderLayout.CENTER);
+
+		// Add albumPanel to mainPanel
+		Album3Store.gbc.gridx = 0;
+		Album3Store.gbc.gridy = 1;
+		Album3Store.gbc.weightx = .8;
+		Album3Store.gbc.gridwidth = 1;
+		Album3Store.albumPanel.setBorder(new EtchedBorder());
+		Album3Store.albumPanel.setVisible(true);
+
+		Album3Store.MainPanel.add(Album3Store.albumPanel, Album3Store.gbc);
+
+		// Create Buttons Panel
+		Album3Store.ButtonsPanel = new JPanel();
+		Album3Store.ButtonsPanel.setLayout(Album3Store.gbl);
+		Album3Store.ButtonsPanel.setPreferredSize(new Dimension(300, 545));
+		Album3Store.bgbc = new GridBagConstraints();
+		Album3Store.bgbl = new GridBagLayout();
+		Album3Store.ButtonsPanel.setLayout(Album3Store.bgbl);
+
+		// Add Album Button
+		Album3Store.AddAlbumButton = new JButton("Add Album");
+		Album3Store.bgbc.gridx = 0;
+		Album3Store.bgbc.gridy = 0;
+		Album3Store.ButtonsPanel.add(Album3Store.AddAlbumButton,
+				Album3Store.bgbc);
+
+		// Rename Album Button
+		Album3Store.RenameAlbumButton = new JButton("Rename Album");
+		Album3Store.bgbc.gridx = 1;
+		Album3Store.bgbc.gridy = 0;
+		Album3Store.bgbc.weightx = 0.5;
+		Album3Store.RenameAlbumButton.setEnabled(false);
+		Album3Store.ButtonsPanel.add(Album3Store.RenameAlbumButton,
+				Album3Store.bgbc);
+
+		// Delete Album Button
+		Album3Store.DeleteAlbumButton = new JButton("Delete Album");
+		Album3Store.bgbc.gridx = 2;
+		Album3Store.bgbc.gridy = 0;
+		Album3Store.bgbc.weightx = 0.5;
+		Album3Store.DeleteAlbumButton.setEnabled(false);
+		Album3Store.ButtonsPanel.add(Album3Store.DeleteAlbumButton,
+				Album3Store.bgbc);
+
+		// Add filler panel below buttons
+		Album3Store.fillerPanel = new JPanel();
+		Album3Store.bgbc.gridx = 0;
+		Album3Store.bgbc.gridy = 1;
+		Album3Store.bgbc.weighty = 1;
+		Album3Store.bgbc.weightx = 1;
+		Album3Store.bgbc.fill = GridBagConstraints.BOTH;
+		Album3Store.bgbc.gridwidth = 3;
+		Album3Store.ButtonsPanel.add(Album3Store.fillerPanel, Album3Store.bgbc);
+
+		// Add buttons panel to main panel
+		Album3Store.gbc.gridx = 1;
+		Album3Store.gbc.gridy = 1;
+		Album3Store.gbc.weightx = .2;
+		Album3Store.gbc.weighty = 1;
+		Album3Store.albumPanel.setBorder(new EtchedBorder());
+		Album3Store.albumPanel.setVisible(true);
+		Album3Store.MainPanel.add(Album3Store.ButtonsPanel, Album3Store.gbc);
+
+		// Add MainPanel to pa
+		Album3Store.pa.add(Album3Store.MainPanel, Album3Store.gbc);
+
+		// Build the list of photo Albums to put in the AlbumPanel list
+		fillAlbumPanel();
+
+		// Add all the listeners
+		AddListeners();
 
 	}
 
-	// Called when state is entered, build state
-	public void enter() {
+	public void fillAlbumPanel() {
 
-		System.out.println("hi");
-		
-		// Grab current JFrame
-		Frame[] frames = Frame.getFrames();
-		pa = (PhotoAlbum) frames[0];
-
-		// Clear items from that state
-		pa.getContentPane().removeAll();
-		pa.getContentPane().repaint();
-		pa.getContentPane().revalidate();
-
-		pa.setLayout(gbl);
-
-		MainPanel.setLayout(gbl);
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-
-		JPanel MenuBar = new MenuBarPanel();
-		MenuBar = (JPanel) ((MenuBarPanel) MenuBar)
-				.CreateMenuBarPanel("albums");
-
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.weightx = 1;
-		gbc.gridwidth = 2;
-		MainPanel.add(MenuBar, gbc);
-
-		Album3Store.DeleteAlbumButton = new JButton("Delete Album");
-		Album3Store.RenameAlbumButton = new JButton("Rename Album");
-
-		// Set up album panel with album scroll pane
-
-		JPanel albumPanel = new JPanel();
-
-		GridBagLayout scrollL = new GridBagLayout();
-		GridBagConstraints scrollc = new GridBagConstraints();
-
-		JPanel innerPanel = new JPanel();
-		innerPanel.setBorder(new EtchedBorder());
-		innerPanel.setLayout(scrollL);
-		JScrollPane albumScroll = new JScrollPane(innerPanel);
-		albumScroll.setVisible(true);
-		albumScroll
-				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		albumScroll.setLayout(new ScrollPaneLayout());
-		albumPanel.setLayout(new BorderLayout());
-		albumPanel.setPreferredSize(new Dimension(300, 545));
-
-		// Add elements to albumPanel
-		List<FancyPanel> albumThumbnails = new ArrayList<FancyPanel>();
+		Album3Store.albumsArray = new ArrayList<>();
+		Album3Store.algbc = new GridBagConstraints();
+		Album3Store.algbl = new GridBagLayout();
+		Album3Store.errLabel = new JLabel(
+				"Error: Album with that name already exists.");
 
 		for (album a : PhotoAlbum.backend.getUser(Login1State.user).getAlbums()) {
 
-			FancyPanel temp = new FancyPanel();
-			temp.setLayout(new GridBagLayout());
-			GridBagConstraints gbc = new GridBagConstraints();
-
+			// Create temp JPanel
+			JPanel temp = new JPanel();
+			temp.setLayout(Album3Store.algbl);
+			temp.setBackground(Color.WHITE);
 			temp.setPreferredSize(new Dimension(170, 200));
 			temp.setBorder(new EtchedBorder());
 			temp.setVisible(true);
 
-			// mice
-			temp.addMouseListener(new MouseAdapter() {
-
-				@Override
-				public void mousePressed(MouseEvent e) {
-
-					// resetColors();
-					for (FancyPanel f : albumThumbnails) {
-
-						f.setBackground(Color.WHITE);
-						innerPanel.revalidate();
-						innerPanel.repaint();
-					}
-
-					Album3Store.RenameAlbumButton.setEnabled(true);
-					Album3Store.DeleteAlbumButton.setEnabled(true);
-
-					temp.setBackground(Color.LIGHT_GRAY);
-					innerPanel.revalidate();
-					innerPanel.repaint();
-
-				}
-
-				@Override
-				public void mouseReleased(MouseEvent e) {
-					// setBackground(background);
-				}
-			});
-
-			JLabel albumN = new JLabel(a.getName());
-
-			// set photo in album
+			// Build temp's information
 			if (a.getPhotos().size() == 0) {
 				ImageIcon noPhoto = new ImageIcon("docs/NoPhotos.png");
-				gbc.gridx = 0;
-				gbc.gridy = 0;
-
-				JLabel label = new JLabel("", noPhoto, JLabel.CENTER);
-				temp.add(label, gbc);
+				Album3Store.algbc.gridx = 0;
+				Album3Store.algbc.gridy = 0;
+				JLabel photo = new JLabel("", noPhoto, JLabel.CENTER);
+				temp.add(photo, Album3Store.algbc);
+			} else {
+				// here we would read in the actual thumb nail
 			}
-			gbc.gridx = 0;
-			gbc.gridy = 1;
-			temp.add(albumN, gbc);
 
-			JLabel numPhotos = new JLabel("Number of photos: "
+			// Add the name of the album to the temp JPanel
+			Album3Store.albumName = new JLabel(a.getName());
+			Album3Store.algbc.gridx = 0;
+			Album3Store.algbc.gridy = 1;
+			temp.add(Album3Store.albumName, Album3Store.algbc);
+
+			// Add the number of photos
+			Album3Store.numPhotos = new JLabel("Number of photos: "
 					+ Integer.toString(a.getPhotos().size()));
-			gbc.gridx = 0;
-			gbc.gridy = 2;
-			temp.add(numPhotos, gbc);
+			Album3Store.algbc.gridx = 0;
+			Album3Store.algbc.gridy = 2;
+			temp.add(Album3Store.numPhotos, Album3Store.algbc);
 
-			// Find earliest and latest
-			ArrayList<photo> photoList = a.getPhotos();
-			JLabel dates = new JLabel();
+			// Get the earliest and latest date, add to temp jpanel
+			photoList = a.getPhotos();
+			Album3Store.dates = new JLabel();
 
 			if (photoList.size() == 0) {
-				dates.setText("From: -- To: --");
+				Album3Store.dates.setText("From: -- To: --");
 			} else {
 
 				String earliest = photoList.get(0).getCalendar();
@@ -189,398 +219,402 @@ public class Album3State extends PhotoAlbumState {
 					}
 
 				}
-				dates.setText("From: " + earliest + " To: " + latest);
+				Album3Store.dates.setText("From: " + earliest + " To: "
+						+ latest);
 			}
 
-			gbc.gridx = 0;
-			gbc.gridy = 3;
-			temp.add(dates, gbc);
+			// Add dates to temp
+			Album3Store.algbc.gridx = 0;
+			Album3Store.algbc.gridy = 3;
+			temp.add(Album3Store.dates, Album3Store.algbc);
 
-			albumThumbnails.add((FancyPanel) temp);
-		}
+			// Add temp to the albumsArray
+			Album3Store.albumsArray.add(temp);
 
-		// makes sure we lay out 3 thumbnails per row
+			// Organize albums in albumPanel: 3 albums per row
+			Album3Store.scrollConstraints = new GridBagConstraints();
+			Album3Store.rowCount = 0;
+			Album3Store.columnCount = 0;
 
-		for (JPanel j : albumThumbnails) {
+			for (JPanel j : Album3Store.albumsArray) {
 
-			scrollc.gridx = columnCount;
-			scrollc.gridy = rowCount;
+				Album3Store.scrollConstraints.gridx = Album3Store.columnCount;
+				Album3Store.scrollConstraints.gridy = Album3Store.rowCount;
 
-			if (columnCount == 2) {
-				rowCount += 1;
-				columnCount = 0;
-			} else {
-				columnCount++;
-			}
-			innerPanel.add(j, scrollc);
-		}
-
-		albumPanel.add(albumScroll, BorderLayout.CENTER);
-
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		gbc.weightx = .8;
-		gbc.weighty = 1;
-		gbc.gridwidth = 1;
-		albumPanel.setBorder(new EtchedBorder());
-		albumPanel.setVisible(true);
-		MainPanel.add(albumPanel, gbc);
-
-		// Set up button panel on the right
-		JPanel ButtonsPanel = new JPanel();
-		GridBagConstraints buttongbc = new GridBagConstraints();
-		GridBagLayout buttongbl = new GridBagLayout();
-
-		ButtonsPanel.setLayout(buttongbl);
-
-		// ButtonsPanel.setBorder(new EtchedBorder());
-		ButtonsPanel.setPreferredSize(new Dimension(300, 545));
-
-		Album3Store.AddAlbumButton = new JButton("Add Album");
-		Album3Store.AddAlbumButton.setVisible(true);
-		// AddAlbumButton.setPreferredSize(new Dimension(140, 40));
-		buttongbc.gridx = 0;
-		ButtonsPanel.add(Album3Store.AddAlbumButton, buttongbc);
-
-		Album3Store.RenameAlbumButton.setVisible(true);
-		Album3Store.RenameAlbumButton.setEnabled(false);
-		// RenameAlbumButton.setPreferredSize(new Dimension(140, 40));
-		buttongbc.gridx = 1;
-		buttongbc.weightx = 0.5;
-		ButtonsPanel.add(Album3Store.RenameAlbumButton, buttongbc);
-
-		Album3Store.DeleteAlbumButton.setVisible(true);
-		Album3Store.DeleteAlbumButton.setEnabled(false);
-
-		// DeleteAlbumButton listener
-
-		Album3Store.DeleteAlbumButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				FancyPanel temp = new FancyPanel();
-
-				for (FancyPanel f : albumThumbnails) {
-
-					if (f.getBackground().equals(Color.LIGHT_GRAY)) {
-						temp = f;
-						break;
-					}
+				if (Album3Store.columnCount == 2) {
+					Album3Store.rowCount += 1;
+					Album3Store.columnCount = 0;
+				} else {
+					Album3Store.columnCount++;
 				}
 
-				// get jlabel with albumname
-				Component[] components = temp.getComponents();		
-					String text = ((JLabel) components[1]).getText();
-				PhotoAlbum.backend.getUser(Login1State.user).removeAlbum(text);
-				
-				System.out.println("removing " + text);
-				/////////////////////////////////////////////////////
-				innerPanel.remove(temp);
-				
-				//////////////////////////////////////////////////////////////////////
+				j.setBackground(Color.WHITE);
+				j.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mousePressed(MouseEvent e) {
 
-				pa.revalidate();
-				pa.repaint();
+						for (JPanel f : Album3Store.albumsArray) {
+							f.setBackground(Color.WHITE);
+						}
 
+						Album3Store.RenameAlbumButton.setEnabled(true);
+						Album3Store.DeleteAlbumButton.setEnabled(true);
+						j.setBackground(Color.LIGHT_GRAY);
+						Album3Store.pa.revalidate();
+						Album3Store.pa.repaint();
+					}
+
+				});
+
+				Album3Store.innerPanel.add(j, Album3Store.scrollConstraints);
 			}
-		});
 
-		// DeleteAlbumButton.setPreferredSize(new Dimension(140, 40));
-		buttongbc.gridx = 2;
-		buttongbc.weightx = 0.5;
-		ButtonsPanel.add(Album3Store.DeleteAlbumButton, buttongbc);
+			// Add albumScroll and albumPanel to mainpanel
+			Album3Store.albumPanel.add(Album3Store.albumScroll,
+					BorderLayout.CENTER);
+			Album3Store.gbc.gridx = 0;
+			Album3Store.gbc.gridy = 1;
+			Album3Store.gbc.weightx = .8;
+			Album3Store.gbc.weighty = 1;
+			Album3Store.gbc.gridwidth = 1;
+			Album3Store.albumPanel.setBorder(new EtchedBorder());
+			Album3Store.albumPanel.setVisible(true);
+			Album3Store.MainPanel.add(Album3Store.albumPanel, Album3Store.gbc);
 
-		// add filler for under the buttons
-		JPanel fillerPanel = new JPanel();
-		buttongbc.gridx = 0;
-		buttongbc.gridy = 1;
-		buttongbc.weighty = 1;
-		buttongbc.weightx = 1;
-		buttongbc.fill = GridBagConstraints.BOTH;
-		// buttongbc.gridheight = 20;
-		buttongbc.gridwidth = 3;
-		// fillerPanel.setBorder(new EtchedBorder());
-		ButtonsPanel.add(fillerPanel, buttongbc);
+			Album3Store.pa.revalidate();
+			Album3Store.pa.repaint();
 
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		gbc.weightx = .2;
-		gbc.weighty = 1;
-		albumPanel.setBorder(new EtchedBorder());
-		albumPanel.setVisible(true);
+		}
 
-		MainPanel.add(ButtonsPanel, gbc);
+	}
 
-		// Put main panel in jframe
-		MainPanel.setVisible(true);
-		pa.add(MainPanel, gbc);
-		pa.setVisible(true);
+	public void AddListeners() {
 
-		// Check for when AddAlbumButton selected
+		Album3Store.CancelAlbum = new JButton("Cancel");
+		Album3Store.CreateAlbum = new JButton("Create");
+		Album3Store.RenameAlbum = new JButton("Rename");
+		Album3Store.RenameCancel = new JButton("Cancel");
+		Album3Store.AlbumField = new JTextField();
 
+		// Event listener for Add Album Button
 		Album3Store.AddAlbumButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				GridBagLayout fillergbl = new GridBagLayout();
-				GridBagConstraints fillergbc = new GridBagConstraints();
-				fillerPanel.setLayout(fillergbl);
-				fillergbc.insets = new Insets(10, 10, 10, 10);
+				// Create GBL & GBC for filler panel
+				Album3Store.filgbl = new GridBagLayout();
+				Album3Store.filgbc = new GridBagConstraints();
+				Album3Store.fillerPanel.setLayout(Album3Store.filgbl);
+				Album3Store.filgbc.insets = new Insets(10, 10, 10, 10);
 
-				fillergbc.fill = GridBagConstraints.HORIZONTAL;
-				fillergbc.gridx = 0;
-				fillergbc.gridy = 0;
+				// Hide other buttons
+				Album3Store.RenameAlbumButton.setEnabled(false);
+				Album3Store.DeleteAlbumButton.setEnabled(false);
 
-				// Adding album
-				JLabel AlbumName = new JLabel("Album Name:");
-				fillerPanel.add(AlbumName, fillergbc);
+				// Create AlbumName field
+				Album3Store.AlbumName = new JLabel("Album Name:");
+				Album3Store.AlbumField.setVisible(true);
+				Album3Store.filgbc.fill = GridBagConstraints.HORIZONTAL;
+				Album3Store.filgbc.gridx = 0;
+				Album3Store.filgbc.gridy = 0;
+				Album3Store.fillerPanel.add(Album3Store.AlbumName,
+						Album3Store.filgbc);
 
-				fillergbc.fill = GridBagConstraints.HORIZONTAL;
-				fillergbc.weightx = .5;
-				fillergbc.gridx = 1;
-				fillergbc.gridy = 0;
-				JTextField AlbumField = new JTextField();
-				AlbumField.setSize(new Dimension(50, 20));
-				fillerPanel.add(AlbumField, fillergbc);
+				// Create AlbumName field
+				Album3Store.filgbc.fill = GridBagConstraints.HORIZONTAL;
+				Album3Store.filgbc.weightx = .5;
+				Album3Store.filgbc.gridx = 1;
+				Album3Store.filgbc.gridy = 0;
+				Album3Store.AlbumField.setSize(new Dimension(50, 20));
+				Album3Store.fillerPanel.add(Album3Store.AlbumField,
+						Album3Store.filgbc);
 
-				fillergbc.fill = GridBagConstraints.HORIZONTAL;
-				fillergbc.weightx = .5;
-				fillergbc.gridwidth = 1;
-				fillergbc.gridx = 0;
-				fillergbc.gridy = 1;
-				buttongbc.fill = GridBagConstraints.HORIZONTAL;
-				JButton CreateAlbum = new JButton("Create");
-				CreateAlbum.setEnabled(false);
-				fillerPanel.add(CreateAlbum, fillergbc);
+				// Create 'Create' Button
+				Album3Store.filgbc.fill = GridBagConstraints.HORIZONTAL;
+				Album3Store.filgbc.weightx = .5;
+				Album3Store.filgbc.gridwidth = 1;
+				Album3Store.filgbc.gridx = 0;
+				Album3Store.filgbc.gridy = 1;
+				Album3Store.CreateAlbum.setEnabled(false);
+				Album3Store.CreateAlbum.setVisible(true);
+				Album3Store.fillerPanel.add(Album3Store.CreateAlbum,
+						Album3Store.filgbc);
 
-				buttongbc.fill = GridBagConstraints.HORIZONTAL;
-				fillergbc.weighty = 1;
-				fillergbc.weightx = .5;
-				fillergbc.gridx = 1;
-				fillergbc.gridwidth = 1;
-				fillergbc.gridy = 1;
-				JButton CancelAlbum = new JButton("Cancel");
-				fillerPanel.add(CancelAlbum, fillergbc);
+				// Create 'Cancel' Button
+				Album3Store.filgbc.weighty = 1;
+				Album3Store.filgbc.weightx = .5;
+				Album3Store.filgbc.gridx = 1;
+				Album3Store.filgbc.gridwidth = 1;
+				Album3Store.filgbc.gridy = 1;
+				Album3Store.CancelAlbum.setVisible(true);
+				Album3Store.fillerPanel.add(Album3Store.CancelAlbum,
+						Album3Store.filgbc);
 
-				JPanel fillerbottom = new JPanel();
+				// Create whitespace filler panel
+				Album3Store.fillerbottom = new JPanel();
+				Album3Store.filgbc.gridy = 2;
+				Album3Store.filgbc.gridx = 0;
+				Album3Store.filgbc.weightx = 1;
+				Album3Store.filgbc.weighty = 1;
+				Album3Store.filgbc.gridwidth = 2;
+				Album3Store.fillerbottom.setPreferredSize(new Dimension(190,
+						350));
+				Album3Store.filgbc.fill = GridBagConstraints.BOTH;
+				Album3Store.fillerPanel.add(Album3Store.fillerbottom,
+						Album3Store.filgbc);
 
-				fillergbc.gridy = 2;
-				fillergbc.gridx = 0;
-				fillergbc.weightx = 1;
-				fillergbc.weighty = 1;
-				fillergbc.gridwidth = 2;
-				fillerbottom.setPreferredSize(new Dimension(190, 350));
-				fillergbc.fill = GridBagConstraints.BOTH;
-				fillerPanel.add(fillerbottom, fillergbc);
-
-				Album3Store.AddAlbumButton.setEnabled(false);
-				pa.revalidate();
-
-				// add event listener for when text is entered into label
-				AlbumField.addKeyListener(new KeyListener() {
-
+				// Event listener for when text is entered into AlbumField
+				Album3Store.AlbumField.addKeyListener(new KeyListener() {
 					@Override
 					public void keyTyped(KeyEvent event) {
-						if (!AlbumField.getText().equals("")) {
-							CreateAlbum.setEnabled(true);
+						if (!Album3Store.AlbumField.getText().equals("")) {
+							Album3Store.CreateAlbum.setEnabled(true);
 						} else {
-							CreateAlbum.setEnabled(false);
+							Album3Store.CreateAlbum.setEnabled(false);
 						}
 					}
 
 					@Override
 					public void keyReleased(KeyEvent event) {
-						if (!AlbumField.getText().equals("")) {
-							CreateAlbum.setEnabled(true);
+						if (!Album3Store.AlbumField.getText().equals("")) {
+							Album3Store.CreateAlbum.setEnabled(true);
 						} else {
-							CreateAlbum.setEnabled(false);
+							Album3Store.CreateAlbum.setEnabled(false);
 						}
 					}
 
 					@Override
 					public void keyPressed(KeyEvent event) {
-						if (!AlbumField.getText().equals("")) {
-							CreateAlbum.setEnabled(true);
+						if (!Album3Store.AlbumField.getText().equals("")) {
+							Album3Store.CreateAlbum.setEnabled(true);
 						} else {
-							CreateAlbum.setEnabled(false);
+							Album3Store.CreateAlbum.setEnabled(false);
 						}
 					}
 				});
 
-				// Check for when Create is clicked
+				Album3Store.pa.revalidate();
+				Album3Store.pa.repaint();
 
-				CreateAlbum.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
+			}
+		});
 
-						PhotoAlbum.backend.getUser(Login1State.user).addAlbum(
-								AlbumField.getText());
+		// Event listener for Cancel Album Button
+		Album3Store.CancelAlbum.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 
-						AlbumField.setVisible(false);
-						AlbumName.setVisible(false);
-						CancelAlbum.setVisible(false);
-						CreateAlbum.setVisible(false);
-						Album3Store.AddAlbumButton.setEnabled(true);
-						fillerbottom.setVisible(false);
+				// Set buttons to be enabled if a panel is selected
+				if (panelSelected()) {
+					Album3Store.RenameAlbumButton.setEnabled(true);
+					Album3Store.DeleteAlbumButton.setEnabled(true);
+				} else {
+					Album3Store.RenameAlbumButton.setEnabled(false);
+					Album3Store.DeleteAlbumButton.setEnabled(false);
+				}
 
-						// Add new album to scroll pane to jpanel
+				Album3Store.AlbumField.setText("");
+				Album3Store.errLabel.setVisible(false);
+				Album3Store.AlbumField.setVisible(false);
+				Album3Store.AlbumName.setVisible(false);
+				Album3Store.CancelAlbum.setVisible(false);
+				Album3Store.CreateAlbum.setVisible(false);
+				Album3Store.AddAlbumButton.setEnabled(true);
+				Album3Store.fillerbottom.setVisible(false);
 
-						// Add elements to albumPanel
-						List<FancyPanel> albumThumbnails = new ArrayList<FancyPanel>();
+			}
+		});
 
-						for (album a : PhotoAlbum.backend.getUser(
-								Login1State.user).getAlbums()) {
+		// Event listener for Create Album Button
+		Album3Store.CreateAlbum.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 
-							FancyPanel temp = new FancyPanel();
-							temp.setLayout(new GridBagLayout());
-							GridBagConstraints gbc = new GridBagConstraints();
+				Album3Store.errLabel.setVisible(false);
 
-							temp.setPreferredSize(new Dimension(170, 200));
-							temp.setBorder(new EtchedBorder());
-							temp.setVisible(true);
+				if (PhotoAlbum.backend.getUser(Login1State.user).getAlbum(
+						Album3Store.AlbumField.getText()) != null) {
 
-							// mice
-							temp.addMouseListener(new MouseAdapter() {
+					addAlbumError();
 
-								@Override
-								public void mousePressed(MouseEvent e) {
+				} else {
 
-									// resetColors();
-									for (FancyPanel f : albumThumbnails) {
+					PhotoAlbum.backend.getUser(Login1State.user).addAlbum(
+							Album3Store.AlbumField.getText());
 
-										f.setBackground(Color.WHITE);
-										innerPanel.revalidate();
-										innerPanel.repaint();
-									}
+					Album3State.instance = null;
+					PhotoAlbumStore.newAlbum3State.enter();
+				}
 
-									Album3Store.RenameAlbumButton.setEnabled(true);
-									Album3Store.DeleteAlbumButton.setEnabled(true);
+			}
+		});
 
-									temp.setBackground(Color.LIGHT_GRAY);
-									innerPanel.revalidate();
-									innerPanel.repaint();
+		// Event listener for Delete Album Button
+		Album3Store.DeleteAlbumButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 
-								}
+				PhotoAlbum.backend.getUser(Login1State.user).removeAlbum(
+						getSelectedAlbum());
 
-								@Override
-								public void mouseReleased(MouseEvent e) {
-									// setBackground(background);
-								}
-							});
+				NewAlbum3State.instance = null;
+				PhotoAlbumStore.newAlbum3State.enter();
 
-							JLabel albumN = new JLabel(a.getName());
+			}
+		});
 
-							// set photo in album
-							if (a.getPhotos().size() == 0) {
-								ImageIcon noPhoto = new ImageIcon("docs/NoPhotos.png");
-								gbc.gridx = 0;
-								gbc.gridy = 0;
+		// Event listener for Rename Album Button
+		Album3Store.RenameAlbumButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 
-								JLabel label = new JLabel("", noPhoto, JLabel.CENTER);
-								temp.add(label, gbc);
-							}
-							gbc.gridx = 0;
-							gbc.gridy = 1;
-							temp.add(albumN, gbc);
+				// PhotoAlbum.backend.getUser(Login1State.user).getAlbum(Album3Store.AlbumField.getText()).;
+				// Create GBL & GBC for filler panel
+				Album3Store.filgbl = new GridBagLayout();
+				Album3Store.filgbc = new GridBagConstraints();
+				Album3Store.fillerPanel.setLayout(Album3Store.filgbl);
+				Album3Store.filgbc.insets = new Insets(10, 10, 10, 10);
+				Album3Store.AlbumField.setVisible(true);
 
-							JLabel numPhotos = new JLabel("Number of photos: "
-									+ Integer.toString(a.getPhotos().size()));
-							gbc.gridx = 0;
-							gbc.gridy = 2;
-							temp.add(numPhotos, gbc);
+				// Hide add album
+				Album3Store.AddAlbumButton.setEnabled(false);
 
-							// Find earliest and latest
-							ArrayList<photo> photoList = a.getPhotos();
-							JLabel dates = new JLabel();
+				// Create AlbumName field
+				Album3Store.AlbumName = new JLabel("New Album Name:");
+				Album3Store.filgbc.fill = GridBagConstraints.HORIZONTAL;
+				Album3Store.filgbc.gridx = 0;
+				Album3Store.filgbc.gridy = 0;
+				Album3Store.fillerPanel.add(Album3Store.AlbumName,
+						Album3Store.filgbc);
 
-							if (photoList.size() == 0) {
-								dates.setText("From: -- To: --");
-							} else {
+				// Create AlbumName field
+				Album3Store.filgbc.fill = GridBagConstraints.HORIZONTAL;
+				Album3Store.filgbc.weightx = .5;
+				Album3Store.filgbc.gridx = 1;
+				Album3Store.filgbc.gridy = 0;
+				Album3Store.AlbumField.setSize(new Dimension(50, 20));
+				Album3Store.fillerPanel.add(Album3Store.AlbumField,
+						Album3Store.filgbc);
 
-								String earliest = photoList.get(0).getCalendar();
-								String latest = photoList.get(0).getCalendar();
-								for (photo p : photoList) {
-									if (p.getCalendar().compareTo(earliest) < 0) {
-										earliest = p.getCalendar();
-									}
-									if (p.getCalendar().compareTo(latest) > 0) {
-										latest = p.getCalendar();
-									}
+				// Create 'Rename' Button
+				Album3Store.filgbc.fill = GridBagConstraints.HORIZONTAL;
+				Album3Store.filgbc.weightx = .5;
+				Album3Store.filgbc.gridwidth = 1;
+				Album3Store.filgbc.gridx = 0;
+				Album3Store.filgbc.gridy = 1;
+				Album3Store.RenameAlbum.setEnabled(false);
+				Album3Store.RenameAlbum.setText("Rename");
+				Album3Store.RenameAlbum.setVisible(true);
+				Album3Store.fillerPanel.add(Album3Store.RenameAlbum,
+						Album3Store.filgbc);
 
-								}
-								dates.setText("From: " + earliest + " To: " + latest);
-							}
+				// Create 'Cancel' Button
+				Album3Store.filgbc.weighty = 1;
+				Album3Store.filgbc.weightx = .5;
+				Album3Store.filgbc.gridx = 1;
+				Album3Store.filgbc.gridwidth = 1;
+				Album3Store.filgbc.gridy = 1;
+				Album3Store.RenameCancel.setVisible(true);
+				Album3Store.fillerPanel.add(Album3Store.RenameCancel,
+						Album3Store.filgbc);
 
-							gbc.gridx = 0;
-							gbc.gridy = 3;
-							temp.add(dates, gbc);
+				// Create whitespace filler panel
+				Album3Store.fillerbottom = new JPanel();
+				Album3Store.filgbc.gridy = 2;
+				Album3Store.filgbc.gridx = 0;
+				Album3Store.filgbc.weightx = 1;
+				Album3Store.filgbc.weighty = 1;
+				Album3Store.filgbc.gridwidth = 2;
+				Album3Store.fillerbottom.setPreferredSize(new Dimension(190,
+						350));
+				Album3Store.filgbc.fill = GridBagConstraints.BOTH;
+				Album3Store.fillerPanel.add(Album3Store.fillerbottom,
+						Album3Store.filgbc);
 
-							albumThumbnails.add((FancyPanel) temp);
+				// Event listener for when text is entered into AlbumField
+				Album3Store.AlbumField.addKeyListener(new KeyListener() {
+					@Override
+					public void keyTyped(KeyEvent event) {
+						if (!Album3Store.AlbumField.getText().equals("")) {
+							Album3Store.RenameAlbum.setEnabled(true);
+						} else {
+							Album3Store.RenameAlbum.setEnabled(false);
 						}
+					}
 
-						innerPanel.removeAll();
-						rowCount = 0;
-						columnCount = 0;
-
-						for (JPanel j : albumThumbnails) {
-
-							scrollc.gridx = columnCount;
-							scrollc.gridy = rowCount;
-
-							if (columnCount == 2) {
-								rowCount += 1;
-								columnCount = 0;
-							} else {
-								columnCount++;
-							}
-							innerPanel.add(j, scrollc);
+					@Override
+					public void keyReleased(KeyEvent event) {
+						if (!Album3Store.AlbumField.getText().equals("")) {
+							Album3Store.RenameAlbum.setEnabled(true);
+						} else {
+							Album3Store.RenameAlbum.setEnabled(false);
 						}
-						pa.revalidate();
+					}
 
+					@Override
+					public void keyPressed(KeyEvent event) {
+						if (!Album3Store.AlbumField.getText().equals("")) {
+							Album3Store.RenameAlbum.setEnabled(true);
+						} else {
+							Album3Store.RenameAlbum.setEnabled(false);
+						}
 					}
 				});
 
-				// Check for when Cancel is clicked
-				CancelAlbum.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
+				Album3Store.pa.revalidate();
+				Album3Store.pa.repaint();
+			}
+		});
 
-						AlbumField.setVisible(false);
-						AlbumName.setVisible(false);
-						CancelAlbum.setVisible(false);
-						CreateAlbum.setVisible(false);
-						Album3Store.AddAlbumButton.setEnabled(true);
-						fillerbottom.setVisible(false);
+		// Event listener for RenameAlbum Button
+		Album3Store.RenameAlbum.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 
-					}
-				});
+				PhotoAlbum.backend.getUser(Login1State.user).renameAlbum(
+						getSelectedAlbum(), Album3Store.AlbumField.getText());
+
+				NewAlbum3State.instance = null;
+				PhotoAlbumStore.newAlbum3State.enter();
+
+			}
+		});
+
+		// Event listener for RenameCancel Button
+		Album3Store.RenameCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				Album3Store.RenameAlbumButton.setEnabled(true);
+				Album3Store.DeleteAlbumButton.setEnabled(true);
+
+				NewAlbum3State.instance = null;
+				PhotoAlbumStore.newAlbum3State.enter();
+
 			}
 		});
 
 	}
 
-	// Processes events to move to other states
-	public PhotoAlbumState processEvent(String button) {
+	public String getSelectedAlbum() {
 
-		instance = null;
-
-		if (button.equals("create")) {
-
-			PhotoAlbumStore.album3State.enter();
-			return PhotoAlbumStore.album3State;
-		}
-
-		if (button.equals("cancel")) {
-			PhotoAlbumStore.album3State.enter();
-			return PhotoAlbumStore.album3State;
+		for (JPanel j : Album3Store.albumsArray) {
+			if (j.getBackground() == Color.LIGHT_GRAY) {
+				return ((JLabel) j.getComponent(1)).getText();
+			}
 		}
 
 		return null;
 	}
 
-	class FancyPanel extends JPanel {
+	// Puts an error when trying to add an album that already exists
+	public void addAlbumError() {
 
-		FancyPanel() {
+		Album3Store.errLabel.setVisible(true);
+		Album3Store.errLabel.setForeground(Color.red);
+		Album3Store.bgbc.gridy = 2;
+		Album3Store.bgbc.gridx = 0;
+		Album3Store.bgbc.weighty = 1;
+		Album3Store.bgbc.weightx = 1;
+		Album3Store.bgbc.fill = GridBagConstraints.BOTH;
+		Album3Store.bgbc.gridwidth = 3;
+		Album3Store.ButtonsPanel.add(Album3Store.errLabel, Album3Store.bgbc);
 
-			this.setBackground(Color.white);
-
-		}
+		Album3Store.pa.revalidate();
+		Album3Store.pa.repaint();
 	}
 
 	public static Album3State getInstance() {
@@ -588,6 +622,17 @@ public class Album3State extends PhotoAlbumState {
 			instance = new Album3State();
 		}
 		return instance;
+	}
+
+	public boolean panelSelected() {
+
+		for (JPanel j : Album3Store.albumsArray) {
+			if (j.getBackground() == Color.LIGHT_GRAY) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	@Override

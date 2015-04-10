@@ -193,8 +193,8 @@ public class Login1State extends PhotoAlbumState {
 			// go to standard view, state 3
 
 			Login1State.instance = null;
-			PhotoAlbumStore.newAlbum3State.enter();
-			return PhotoAlbumStore.newAlbum3State;
+			PhotoAlbumStore.album3State.enter();
+			return PhotoAlbumStore.album3State;
 		}
 
 		return null;
