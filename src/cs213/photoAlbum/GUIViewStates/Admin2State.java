@@ -166,10 +166,10 @@ public class Admin2State extends PhotoAlbumState {
 
 		Admin2Store.pa.add(Admin2Store.MainPanel, Admin2Store.gbc);
 
-		AddListeners();
+	//	AddListeners();
 
 	}
-
+/*
 	public void AddListeners() {
 
 		Admin2Store.Add = new JButton("Add");
@@ -375,7 +375,7 @@ public class Admin2State extends PhotoAlbumState {
 
 
 	}
-
+*/
 
 
 

@@ -25,10 +25,9 @@ public class Login1State extends PhotoAlbumState {
 	 */
 	private static Login1State instance = null;
 
-	
-	//Holds who is logged in
+	// Holds who is logged in
 	public static String user = null;
-	
+
 	// Create panels for default login state
 	private JPanel topPanel = new JPanel();
 	private JPanel bottomPanel = new JPanel();
@@ -39,7 +38,7 @@ public class Login1State extends PhotoAlbumState {
 
 	JPanel buttonPanel = new JPanel();
 	JPanel usernamePanel = new JPanel();
-	
+
 	private GridBagLayout gbLayout = new GridBagLayout();
 	private GridBagConstraints gbConstraints = new GridBagConstraints();
 
@@ -63,7 +62,7 @@ public class Login1State extends PhotoAlbumState {
 		// Add components to mainPanel, add mainPanel
 
 		bottomPanel.setLayout(new BorderLayout());
-		
+
 		welcomeLabel.setText("Welcome to PhotoAlbum34");
 		welcomeLabel.setFont(new Font("Serif", Font.ITALIC, 50));
 		topPanel.add(welcomeLabel, BorderLayout.CENTER);
@@ -74,14 +73,14 @@ public class Login1State extends PhotoAlbumState {
 		submitButton.setPreferredSize(new Dimension(200, 40));
 		submitButton.setEnabled(false);
 		submitButton.setVisible(true);
-		
+
 		buttonPanel.add(submitButton);
 		buttonPanel.setBorder(new EmptyBorder(10, 0, 30, 0));
 		buttonPanel.setVisible(true);
-		
+
 		usernameLabel.setText("Username:");
 		usernameLabel.setVisible(true);
-		
+
 		usernamePanel.setVisible(true);
 		usernamePanel.add(usernameLabel, BorderLayout.EAST);
 		usernamePanel.add(usernameField, BorderLayout.WEST);
@@ -120,11 +119,11 @@ public class Login1State extends PhotoAlbumState {
 
 		bottomPanel.setVisible(true);
 		pa.add(bottomPanel, gbConstraints);
-		
+
 		pa.getContentPane().repaint();
-		
+
 		usernameField.setText("");
-		
+
 		// add event listener for when text is entered into textarea
 		usernameField.addKeyListener(new KeyListener() {
 
@@ -156,7 +155,7 @@ public class Login1State extends PhotoAlbumState {
 			}
 		});
 
-		// add event listener for when submit button is pressed
+		//Add event listener for when submit button is pressed
 		submitButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -166,13 +165,13 @@ public class Login1State extends PhotoAlbumState {
 
 					errorLabel.setVisible(false);
 					user = usernameField.getText();
-					
+
 					processEvent();
 
 					// Entered name not valid, tell user the error
 				} else {
 					errorLabel.setVisible(true);
-					// refresh jframe
+					// refresh JFrame
 					pa.revalidate();
 					pa.repaint();
 				}
@@ -185,12 +184,13 @@ public class Login1State extends PhotoAlbumState {
 	// Processes events to move to other states
 	public PhotoAlbumState processEvent() {
 
-		// JButton b = (JButton) lastEvent.getSource();
-
 		if (usernameField.getText().equalsIgnoreCase("admin")) {
-			// go to admin view, state 2
-		} else {
+
+			Login1State.instance = null;
+			PhotoAlbumStore.admin2State.enter();
+
 			// go to standard view, state 3
+		} else {
 
 			Login1State.instance = null;
 			PhotoAlbumStore.album3State.enter();
