@@ -52,7 +52,7 @@ public class Login1State extends PhotoAlbumState {
 
 		// Grab current JFrame
 		Frame[] frames = Frame.getFrames();
-		PhotoAlbum pa = (PhotoAlbum) frames[0];
+		final PhotoAlbum pa = (PhotoAlbum) frames[0];
 
 		// Clear items from that state
 		pa.getContentPane().removeAll();
