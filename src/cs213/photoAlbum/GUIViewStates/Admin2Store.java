@@ -2,12 +2,17 @@ package cs213.photoAlbum.GUIViewStates;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+
+import cs213.photoAlbum.model.User;
 
 public class Admin2Store {
 	
@@ -20,8 +25,10 @@ public class Admin2Store {
 	static JPanel UserPanel;
 	static JLabel UserLabel;
 	static JScrollPane UserScroll;
+	static DefaultListModel<User> listModel;
+	static JList<User> UserList;
+	static ArrayList<User> database;
 	static JPanel innerPanel;
-	
 	
 	//JPanels for the button Panel
 	static JPanel ButtonsPanel;
@@ -46,5 +53,8 @@ public class Admin2Store {
 	static JTextField IDField;
 	static JButton Add;
 	static JButton Cancel;
+	
+	static JLabel errLabel;
+	
 	
 }

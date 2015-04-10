@@ -107,4 +107,9 @@ public class backend implements java.io.Serializable, Ibackend{
 		
 	}
 
+	public void addUser(String ID, String Name) {
+		User newUser = new User(ID, Name);
+		database.put(newUser.getId(),  newUser);
+	}
+
 }
