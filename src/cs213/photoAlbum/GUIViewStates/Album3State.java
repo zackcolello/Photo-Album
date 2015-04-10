@@ -455,14 +455,13 @@ public class Album3State extends PhotoAlbumState {
 
 				Album3State.instance = null;
 				PhotoAlbumStore.album3State.enter();
-
+				
 			}
 		});
 
 		// Event listener for Rename Album Button
 		Album3Store.RenameAlbumButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				// PhotoAlbum.backend.getUser(Login1State.user).getAlbum(Album3Store.AlbumField.getText()).;
 				// Create GBL & GBC for filler panel
 				Album3Store.filgbl = new GridBagLayout();
