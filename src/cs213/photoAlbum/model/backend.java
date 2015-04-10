@@ -47,6 +47,12 @@ public class backend implements java.io.Serializable, Ibackend{
 		database.put(newUser.getId(), newUser);
 	}
 
+	public void addUser(String ID, String Name){
+		
+		User newUser = new User(ID, Name);
+		database.put(newUser.getId(), newUser);
+	}
+	
 	/* (non-Javadoc)
 	 * @see cs213.photoAlbum.model.Ibackend#removeUser(java.lang.String)
 	 */
