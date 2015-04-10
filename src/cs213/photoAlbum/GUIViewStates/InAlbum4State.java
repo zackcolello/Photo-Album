@@ -12,6 +12,7 @@ public class InAlbum4State extends PhotoAlbumState {
 	PhotoAlbumState processEvent() {
 		// TODO Auto-generated method stub
 		return null;
+		
 	}
 
 }

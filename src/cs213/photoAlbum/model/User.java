@@ -215,6 +215,7 @@ public class User implements java.io.Serializable, IUser {
 	}
 	
 	public String toString(){
+		
 		return "ID: "+id+"  -  User: "+fullName;
 	}
 
