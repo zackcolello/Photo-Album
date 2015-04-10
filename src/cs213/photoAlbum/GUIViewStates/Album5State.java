@@ -27,13 +27,12 @@ import javax.swing.event.ListSelectionListener;
 
 import cs213.photoAlbum.model.album;
 import cs213.photoAlbum.model.photo;
+import cs213.photoAlbum.model.tag;
 
 public class Album5State extends PhotoAlbumState {
 
 	static Album5State instance = null;
 
-
-	
 	@Override
 	void enter() {
 
@@ -44,12 +43,6 @@ public class Album5State extends PhotoAlbumState {
 		Album5Store.pa.getContentPane().repaint();
 		Album5Store.pa.getContentPane().revalidate();
 
-		
-		//Store a current Photo, so we know when we are flipping through photos
-		if(Album5Store.currentPhoto != null && Album5Store.currentAlbum.getPhotos().size() != 0){
-			Album5Store.currentPhoto = Album5Store.currentAlbum.getPhotos().get(0);
-		}
-		
 		// Create constraints, add to main panel
 		Album5Store.gbl = new GridBagLayout();
 		Album5Store.gbc = new GridBagConstraints();
@@ -76,7 +69,6 @@ public class Album5State extends PhotoAlbumState {
 		Album5Store.OuterPhotoPanel.setVisible(true);
 		Album5Store.OuterPhotoPanel.setPreferredSize(new Dimension(200, 545));
 		Album5Store.MainPanel.add(Album5Store.OuterPhotoPanel, Album5Store.gbc);
-
 		// Add tags panel to main panel
 		Album5Store.TagsPanel = new JPanel();
 		Album5Store.gbc.gridx = 1;
@@ -99,26 +91,20 @@ public class Album5State extends PhotoAlbumState {
 		Album5Store.OuterPhotoPanel.add(Album5Store.leftButton,
 				Album5Store.ppgbc);
 
-		// Add image panel to OuterPhotoPanel
-		try {
-			Album5Store.photo = Album5Store.currentPhoto.getPhoto();
-		} catch (Exception ex) {
-			//Album5Store.photo = new ImageIcon("docs/NoPhotos.png");
-		}
-		Album5Store.ImageLabel = new JLabel("", Album5Store.photo,
-				JLabel.CENTER);
+		// Store a current Photo, so we know when we are flipping through photos
+		Album5Store.photo = Album5Store.currentPhoto.getPhoto();
 
-		// Set image size if very large
-		if (Album5Store.photo.getIconHeight() > 400 || Album5Store.photo.getIconWidth() > 400) {
+		// Set image size to fit PhotoPanel if very large
+		if (Album5Store.photo.getIconHeight() > 400
+				|| Album5Store.photo.getIconWidth() > 400) {
 			Image image = Album5Store.photo.getImage();
 			Image newimg = image.getScaledInstance(400, 400,
 					java.awt.Image.SCALE_SMOOTH);
 			Album5Store.photo = new ImageIcon(newimg);
 		}
 
-			Album5Store.ImageLabel = new JLabel("", Album5Store.currentPhoto.getPhoto(),
-					JLabel.CENTER);
-		
+		Album5Store.ImageLabel = new JLabel("", Album5Store.photo,
+				JLabel.CENTER);
 
 		// Create image panel with photo
 		Album5Store.ImagePanel = new JPanel();
@@ -139,6 +125,17 @@ public class Album5State extends PhotoAlbumState {
 		Album5Store.OuterPhotoPanel.add(Album5Store.rightButton,
 				Album5Store.ppgbc);
 
+		// Set visibility of left and right buttons depending on where you are
+		// in the album
+		if (Album5Store.currentAlbum.getPhotos().indexOf(
+				Album5Store.currentPhoto) == 0) {
+			Album5Store.leftButton.setEnabled(false);
+		} else if (Album5Store.currentAlbum.getPhotos().indexOf(
+				Album5Store.currentPhoto) == Album5Store.currentAlbum
+				.getPhotos().size() - 1) {
+			Album5Store.rightButton.setEnabled(false);
+		}
+
 		// Add ImageInfoPanel underneath the photo
 		Album5Store.ImageInfoPanel = new JPanel();
 		Album5Store.ppgbc.gridx = 0;
@@ -156,7 +153,8 @@ public class Album5State extends PhotoAlbumState {
 		Album5Store.iigbc.gridy = 0;
 		Album5Store.iigbc.gridwidth = 1;
 		Font font = new Font("Garamond", Font.BOLD, 15);
-		Album5Store.caption = new JLabel("Caption here!", SwingConstants.CENTER);
+		Album5Store.caption = new JLabel(Album5Store.currentPhoto.getCaption(),
+				SwingConstants.CENTER);
 		// Album5Store.caption.setBorder(new EtchedBorder());
 		Album5Store.caption.setPreferredSize(new Dimension(330, 25));
 		Album5Store.caption.setFont(font);
@@ -188,12 +186,11 @@ public class Album5State extends PhotoAlbumState {
 		Album5Store.TagsPanel.add(Album5Store.tagsLabel, Album5Store.tgbc);
 
 		// Add tag JScrollPane
-		if (Album5Store.TagsArr == null) {
-			Album5Store.TagsArr = new ArrayList<String>();
-			Album5Store.TagsArr.add("Type: Animal       Value:Puppy");
-			Album5Store.TagsArr.add("Type: Color       Value:Brown");
-			Album5Store.TagsArr.add("Type: Adjective       Value:Adorable");
+		Album5Store.TagsArr = new ArrayList<String>();
+		for (tag t : Album5Store.currentPhoto.getTag()) {
+			Album5Store.TagsArr.add(t.getType() + ": " + t.getValue());
 		}
+
 		Album5Store.list = new JList(Album5Store.TagsArr.toArray());
 		Album5Store.scrollpane = new JScrollPane(Album5Store.list);
 		Album5Store.scrollpane.setPreferredSize(new Dimension(270, 200));
@@ -247,6 +244,7 @@ public class Album5State extends PhotoAlbumState {
 		Album5Store.pa.add(Album5Store.MainPanel, Album5Store.gbc);
 		Album5Store.pa.revalidate();
 		Album5Store.pa.repaint();
+
 	}
 
 	public void AddActionListeners() {
@@ -311,7 +309,10 @@ public class Album5State extends PhotoAlbumState {
 		Album5Store.saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				// ADD CODE HERE TO OVERWRITE CAPTION
+				
+				Album5Store.currentPhoto
+				.setCaption(Album5Store.newCaptionField
+						.getText());
 
 				instance = null;
 				PhotoAlbumStore.album5State.enter();
@@ -379,11 +380,9 @@ public class Album5State extends PhotoAlbumState {
 				Album5Store.submitTag.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 
-						// TODO: ADD CODE HERE TO SUBMIT TAG
-						System.out.println("tag");
-						Album5Store.TagsArr.add("Type: "
-								+ Album5Store.typeField.getText() + "       Value: "
-								+ Album5Store.valueField.getText());
+						tag t = new tag(Album5Store.typeField.getText(),
+								Album5Store.valueField.getText());
+						Album5Store.currentPhoto.getTag().add(t);
 
 						instance = null;
 						PhotoAlbumStore.album5State.enter();
@@ -404,13 +403,69 @@ public class Album5State extends PhotoAlbumState {
 			}
 		});
 
+		// Add listener for when when right button is pressed
+		Album5Store.rightButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				// Create temp photo to find index of photo in currentAlbum
+
+				int index = 0;
+
+				for (photo p : Album5Store.currentAlbum.getPhotos()) {
+					if (p.getFileName().equals(
+							Album5Store.currentPhoto.getFileName())) {
+						index = Album5Store.currentAlbum.getPhotos().indexOf(p);
+					}
+				}
+
+				// Set current Photo to be the photo to the right of the current
+				// Photo
+				if (!(index + 1 > Album5Store.currentAlbum.getPhotos().size() - 1)) {
+					Album5Store.currentPhoto = Album5Store.currentAlbum
+							.getPhotos().get(index + 1);
+				}
+
+				instance = null;
+				PhotoAlbumStore.album5State.enter();
+
+			}
+		});
+
+		// Add listener for when when right button is pressed
+		Album5Store.leftButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				// Create temp photo to find index of photo in currentAlbum
+
+				int index = 0;
+
+				for (photo p : Album5Store.currentAlbum.getPhotos()) {
+					if (p.getFileName().equals(
+							Album5Store.currentPhoto.getFileName())) {
+						index = Album5Store.currentAlbum.getPhotos().indexOf(p);
+					}
+				}
+
+				// Set current Photo to be the photo to the left of the current
+				// Photo
+				if (index - 1 >= 0) {
+					Album5Store.currentPhoto = Album5Store.currentAlbum
+							.getPhotos().get(index - 1);
+				}
+
+				instance = null;
+				PhotoAlbumStore.album5State.enter();
+
+			}
+		});
+
 		// Add listener for when removeTag is pressed
 		Album5Store.removeTagButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				// TODO: Add code to remove from actual tag list of photo
+				Album5Store.currentPhoto.getTag().remove(
+						Album5Store.list.getSelectedIndex());
 
-				Album5Store.list.remove(Album5Store.list.getSelectedIndex());
 				instance = null;
 				PhotoAlbumStore.album5State.enter();
 
