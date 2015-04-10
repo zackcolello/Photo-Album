@@ -440,7 +440,7 @@ public class Album3State extends PhotoAlbumState {
 							Album3Store.AlbumField.getText());
 
 					Album3State.instance = null;
-					PhotoAlbumStore.newAlbum3State.enter();
+					PhotoAlbumStore.album3State.enter();
 				}
 
 			}
@@ -453,8 +453,8 @@ public class Album3State extends PhotoAlbumState {
 				PhotoAlbum.backend.getUser(Login1State.user).removeAlbum(
 						getSelectedAlbum());
 
-				NewAlbum3State.instance = null;
-				PhotoAlbumStore.newAlbum3State.enter();
+				Album3State.instance = null;
+				PhotoAlbumStore.album3State.enter();
 
 			}
 		});
@@ -568,8 +568,8 @@ public class Album3State extends PhotoAlbumState {
 				PhotoAlbum.backend.getUser(Login1State.user).renameAlbum(
 						getSelectedAlbum(), Album3Store.AlbumField.getText());
 
-				NewAlbum3State.instance = null;
-				PhotoAlbumStore.newAlbum3State.enter();
+				Album3State.instance = null;
+				PhotoAlbumStore.album3State.enter();
 
 			}
 		});
@@ -581,8 +581,8 @@ public class Album3State extends PhotoAlbumState {
 				Album3Store.RenameAlbumButton.setEnabled(true);
 				Album3Store.DeleteAlbumButton.setEnabled(true);
 
-				NewAlbum3State.instance = null;
-				PhotoAlbumStore.newAlbum3State.enter();
+				Album3State.instance = null;
+				PhotoAlbumStore.album3State.enter();
 
 			}
 		});
