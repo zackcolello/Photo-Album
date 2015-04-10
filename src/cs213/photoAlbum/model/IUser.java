@@ -120,5 +120,7 @@ public interface IUser {
 	 * @return A photo object with the given String photoName
 	 */
 	public photo getPhoto(String photoName);
+	
+	public void renameAlbum(String oldAlbumName, String newAlbumName);
 
 }

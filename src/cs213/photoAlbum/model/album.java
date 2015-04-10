@@ -87,6 +87,10 @@ public class album implements Ialbum, java.io.Serializable {
 		photo.setCaption(caption);
 	}
 	
+	public void renameAlbum(String newAlbumName){
+		name = newAlbumName;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see cs213.photoAlbum.model.Ialbum#photoExists(java.lang.String)

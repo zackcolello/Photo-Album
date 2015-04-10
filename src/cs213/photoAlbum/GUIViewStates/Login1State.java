@@ -13,16 +13,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
-
-import cs213.photoAlbum.model.User;
 
 public class Login1State extends PhotoAlbumState {
 
@@ -43,9 +37,11 @@ public class Login1State extends PhotoAlbumState {
 	private JButton submitButton = new JButton("login");
 	private JTextField usernameField = new JTextField();
 
+	JPanel buttonPanel = new JPanel();
+	JPanel usernamePanel = new JPanel();
+	
 	private GridBagLayout gbLayout = new GridBagLayout();
 	private GridBagConstraints gbConstraints = new GridBagConstraints();
-	private ActionListener listener = new PhotoAlbumController();
 
 	// Constructor
 	public Login1State() {
@@ -79,7 +75,6 @@ public class Login1State extends PhotoAlbumState {
 		submitButton.setEnabled(false);
 		submitButton.setVisible(true);
 		
-		JPanel buttonPanel = new JPanel();
 		buttonPanel.add(submitButton);
 		buttonPanel.setBorder(new EmptyBorder(10, 0, 30, 0));
 		buttonPanel.setVisible(true);
@@ -87,7 +82,6 @@ public class Login1State extends PhotoAlbumState {
 		usernameLabel.setText("Username:");
 		usernameLabel.setVisible(true);
 		
-		JPanel usernamePanel = new JPanel();
 		usernamePanel.setVisible(true);
 		usernamePanel.add(usernameLabel, BorderLayout.EAST);
 		usernamePanel.add(usernameField, BorderLayout.WEST);
@@ -128,6 +122,8 @@ public class Login1State extends PhotoAlbumState {
 		pa.add(bottomPanel, gbConstraints);
 		
 		pa.getContentPane().repaint();
+		
+		usernameField.setText("");
 		
 		// add event listener for when text is entered into textarea
 		usernameField.addKeyListener(new KeyListener() {
@@ -171,12 +167,7 @@ public class Login1State extends PhotoAlbumState {
 					errorLabel.setVisible(false);
 					user = usernameField.getText();
 					
-					if (usernameField.getText().equalsIgnoreCase("admin")) {
-						// go to state 2, admin view
-						processEvent("admin");
-					} else {
-						processEvent("nonadmin");
-					}
+					processEvent();
 
 					// Entered name not valid, tell user the error
 				} else {
@@ -192,14 +183,16 @@ public class Login1State extends PhotoAlbumState {
 	}
 
 	// Processes events to move to other states
-	public PhotoAlbumState processEvent(String button) {
+	public PhotoAlbumState processEvent() {
 
 		// JButton b = (JButton) lastEvent.getSource();
 
-		if (usernameLabel.getText().equalsIgnoreCase("admin")) {
+		if (usernameField.getText().equalsIgnoreCase("admin")) {
 			// go to admin view, state 2
 		} else {
 			// go to standard view, state 3
+
+			Login1State.instance = null;
 			PhotoAlbumStore.newAlbum3State.enter();
 			return PhotoAlbumStore.newAlbum3State;
 		}

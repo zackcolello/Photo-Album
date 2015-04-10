@@ -590,4 +590,10 @@ public class Album3State extends PhotoAlbumState {
 		return instance;
 	}
 
+	@Override
+	PhotoAlbumState processEvent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
