@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PhotoAlbumController implements ActionListener{
+	
+	
 
 	protected PhotoAlbumState currentState;
 	
