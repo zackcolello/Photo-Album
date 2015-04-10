@@ -443,7 +443,6 @@ public class Admin2State extends PhotoAlbumState {
 			}
 		});
 
-
 	}
 
 

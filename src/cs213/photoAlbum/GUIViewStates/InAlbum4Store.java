@@ -49,6 +49,7 @@ static PhotoAlbum pa;
 	static GridBagConstraints algbc;
 	static JLabel albumName;
 	
+	
 	//For getting the dates of the photos
 	//static ArrayList<photo> photoList;
 	static JLabel numPhotos;

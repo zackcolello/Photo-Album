@@ -30,7 +30,6 @@ public class Admin2Store {
 	static ArrayList<User> database;
 	static JPanel innerPanel;
 	
-	
 	//JPanels for the button Panel
 	static JPanel ButtonsPanel;
 	static JPanel fillerPanel;
