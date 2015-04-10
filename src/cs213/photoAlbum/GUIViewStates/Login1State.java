@@ -193,8 +193,13 @@ public class Login1State extends PhotoAlbumState {
 		} else {
 
 			Login1State.instance = null;
-			PhotoAlbumStore.album3State.enter();
-			return PhotoAlbumStore.album3State;
+			
+			//Just for now while testing state 5
+			PhotoAlbumStore.album5State.enter();
+			return PhotoAlbumStore.album5State;
+			
+			//PhotoAlbumStore.album3State.enter();
+			//return PhotoAlbumStore.album3State;
 		}
 
 		return null;
