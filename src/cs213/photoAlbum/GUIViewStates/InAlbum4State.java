@@ -6,14 +6,18 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.MenuBar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -24,21 +28,22 @@ import javax.swing.ScrollPaneLayout;
 import javax.swing.border.EtchedBorder;
 
 import cs213.photoAlbum.model.album;
+import cs213.photoAlbum.model.photo;
 
 public class InAlbum4State extends PhotoAlbumState {
 
 	static InAlbum4State instance = null;
 
-
-
 	public void enter() {
 		// Grab current JFrame and remove all the things
 		Frame[] frames = Frame.getFrames();
-		
+
 		InAlbum4Store.pa = (PhotoAlbum) frames[0];
-		
+
 		System.out.println(Login1State.user);
-		InAlbum4Store.DestAlbums = PhotoAlbum.backend.getUser(Login1State.user).getAlbums();
+		InAlbum4Store.DestAlbums = PhotoAlbum.backend.getUser(Login1State.user)
+				.getAlbums();
+		System.out.println(InAlbum4Store.DestAlbums);
 
 		InAlbum4Store.pa.getContentPane().removeAll();
 		InAlbum4Store.pa.getContentPane().repaint();
@@ -53,14 +58,13 @@ public class InAlbum4State extends PhotoAlbumState {
 
 		// Create top Menu Bar
 		JPanel MenuBar = new MenuBarPanel();
-		MenuBar =(JPanel) ((MenuBarPanel) MenuBar)
-				.CreateMenuBarPanel("Photo");
+		MenuBar = (JPanel) ((MenuBarPanel) MenuBar).CreateMenuBarPanel("Photo");
 		InAlbum4Store.gbc.fill = GridBagConstraints.HORIZONTAL;
 		InAlbum4Store.gbc.gridx = 0;
 		InAlbum4Store.gbc.gridy = 0;
 		InAlbum4Store.gbc.weightx = 1;
 		InAlbum4Store.gbc.gridwidth = 2;
-		InAlbum4Store.gbc.anchor=GridBagConstraints.NORTH;
+		InAlbum4Store.gbc.anchor = GridBagConstraints.NORTH;
 		InAlbum4Store.MainPanel.add(MenuBar, InAlbum4Store.gbc);
 
 		// Create album panel of the screen
@@ -75,13 +79,13 @@ public class InAlbum4State extends PhotoAlbumState {
 		InAlbum4Store.photoScroll = new JScrollPane(InAlbum4Store.innerPanel);
 		InAlbum4Store.photoScroll.setVisible(true);
 		InAlbum4Store.photoScroll
-		.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		InAlbum4Store.photoScroll.setLayout(new ScrollPaneLayout());
 		InAlbum4Store.photoScroll.setVisible(true);
 		InAlbum4Store.photoPanel.setLayout(new BorderLayout());
 		InAlbum4Store.photoPanel.setPreferredSize(new Dimension(50, 540));
-		InAlbum4Store.photoPanel
-		.add(InAlbum4Store.photoScroll, BorderLayout.CENTER);
+		InAlbum4Store.photoPanel.add(InAlbum4Store.photoScroll,
+				BorderLayout.CENTER);
 
 		// Add photoPanel to mainPanel
 		InAlbum4Store.gbc.gridx = 0;
@@ -91,7 +95,8 @@ public class InAlbum4State extends PhotoAlbumState {
 		InAlbum4Store.photoPanel.setBorder(new EtchedBorder());
 		InAlbum4Store.photoPanel.setVisible(true);
 
-		InAlbum4Store.MainPanel.add(InAlbum4Store.photoPanel, InAlbum4Store.gbc);
+		InAlbum4Store.MainPanel
+				.add(InAlbum4Store.photoPanel, InAlbum4Store.gbc);
 
 		// Create Buttons Panel
 		InAlbum4Store.ButtonsPanel = new JPanel();
@@ -101,24 +106,24 @@ public class InAlbum4State extends PhotoAlbumState {
 		InAlbum4Store.bgbl = new GridBagLayout();
 		InAlbum4Store.ButtonsPanel.setLayout(InAlbum4Store.bgbl);
 
-		// Add Album Button
+		// Add Photo Button
 		InAlbum4Store.AddPhotoButton = new JButton("Add Photo");
 		InAlbum4Store.bgbc.gridx = 0;
 		InAlbum4Store.bgbc.gridy = 0;
 		InAlbum4Store.ButtonsPanel.add(InAlbum4Store.AddPhotoButton,
 				InAlbum4Store.bgbc);
 
-		// Rename Album Button
-		InAlbum4Store.MovePhotoButton = new JButton("MOve Album");
+		// Move Photo Button
+		InAlbum4Store.MovePhotoButton = new JButton("Move Photo");
 		InAlbum4Store.bgbc.gridx = 1;
 		InAlbum4Store.bgbc.gridy = 0;
 		InAlbum4Store.bgbc.weightx = 0.6;
-		InAlbum4Store.MovePhotoButton.setEnabled(true);
+		InAlbum4Store.MovePhotoButton.setEnabled(false);
 		InAlbum4Store.ButtonsPanel.add(InAlbum4Store.MovePhotoButton,
 				InAlbum4Store.bgbc);
 
-		// Delete Album Button
-		InAlbum4Store.DeletePhotoButton = new JButton("Delete Album");
+		// Delete Photo Button
+		InAlbum4Store.DeletePhotoButton = new JButton("Delete Photo");
 		InAlbum4Store.bgbc.gridx = 2;
 		InAlbum4Store.bgbc.gridy = 0;
 		InAlbum4Store.bgbc.weightx = 0.5;
@@ -134,7 +139,8 @@ public class InAlbum4State extends PhotoAlbumState {
 		InAlbum4Store.bgbc.weightx = 1;
 		InAlbum4Store.bgbc.fill = GridBagConstraints.BOTH;
 		InAlbum4Store.bgbc.gridwidth = 3;
-		InAlbum4Store.ButtonsPanel.add(InAlbum4Store.fillerPanel, InAlbum4Store.bgbc);
+		InAlbum4Store.ButtonsPanel.add(InAlbum4Store.fillerPanel,
+				InAlbum4Store.bgbc);
 
 		// Add buttons panel to main panel
 		InAlbum4Store.gbc.gridx = 1;
@@ -143,22 +149,137 @@ public class InAlbum4State extends PhotoAlbumState {
 		InAlbum4Store.gbc.weighty = 1;
 		InAlbum4Store.photoPanel.setBorder(new EtchedBorder());
 		InAlbum4Store.photoPanel.setVisible(true);
-		InAlbum4Store.MainPanel.add(InAlbum4Store.ButtonsPanel, InAlbum4Store.gbc);
+		InAlbum4Store.MainPanel.add(InAlbum4Store.ButtonsPanel,
+				InAlbum4Store.gbc);
 
 		// Add MainPanel to pa
 		InAlbum4Store.pa.add(InAlbum4Store.MainPanel, InAlbum4Store.gbc);
 
 		// Build the list of photo Albums to put in the photoPanel list
-		//fillphotoPanel();
+		fillphotoPanel();
 
 		// Add all the listeners
 		addListeners();
 
 	}
 
+	public void fillphotoPanel() {
 
+		InAlbum4Store.PhotosArray = new ArrayList<>();
+		InAlbum4Store.phgbc = new GridBagConstraints();
+		InAlbum4Store.phgbl = new GridBagLayout();
 
-	public void addListeners(){
+		if (!PhotoAlbum.backend.getUser(Login1State.user).getAlbum("album1")
+				.getPhotos().isEmpty()) {
+
+			for (photo p : PhotoAlbum.backend.getUser(Login1State.user)
+					.getAlbum("album1").getPhotos()) {
+
+				// Create temp JPanel
+				JPanel temp = new JPanel();
+				temp.setLayout(InAlbum4Store.phgbl);
+				temp.setBackground(Color.WHITE);
+				temp.setPreferredSize(new Dimension(170, 200));
+				temp.setBorder(new EtchedBorder());
+				temp.setVisible(true);
+
+				// Build temp's information
+
+				ImageIcon icon;
+				Image image = p.getPhoto().getImage();
+				Image newimg = image.getScaledInstance(125, 125,
+						java.awt.Image.SCALE_SMOOTH);
+				icon = new ImageIcon(newimg);
+
+				InAlbum4Store.phgbc.gridx = 0;
+				InAlbum4Store.phgbc.gridy = 0;
+				InAlbum4Store.phgbc.gridheight = 1;
+				InAlbum4Store.phgbc.gridwidth = 1;
+				JLabel photo = new JLabel("", icon, JLabel.CENTER);
+				temp.add(photo, InAlbum4Store.phgbc);
+
+				// Add the path of the photo to the temp JPanel
+				InAlbum4Store.PhotoName = new JLabel(p.getFileName());
+				InAlbum4Store.phgbc.gridx = 0;
+				InAlbum4Store.phgbc.gridy = 1;
+				temp.add(InAlbum4Store.PhotoName, InAlbum4Store.phgbc);
+
+				// Add the caption of the photo to the temp JPanel
+				InAlbum4Store.photoCaption = new JLabel(p.getCaption());
+				InAlbum4Store.phgbc.gridx = 0;
+				InAlbum4Store.phgbc.gridy = 2;
+				temp.add(InAlbum4Store.photoCaption, InAlbum4Store.phgbc);
+
+				// Add the date of photos
+				InAlbum4Store.Date = new JLabel(p.getCalendar());
+				InAlbum4Store.phgbc.gridx = 0;
+				InAlbum4Store.phgbc.gridy = 3;
+				temp.add(InAlbum4Store.Date, InAlbum4Store.phgbc);
+
+				// Add temp to the PhotosArray
+				InAlbum4Store.PhotosArray.add(temp);
+
+				// Organize albums in albumPanel: 3 albums per row
+				InAlbum4Store.scrollConstraints = new GridBagConstraints();
+				InAlbum4Store.rowCount = 0;
+				InAlbum4Store.columnCount = 0;
+
+				for (JPanel j : InAlbum4Store.PhotosArray) {
+
+					InAlbum4Store.scrollConstraints.gridx = InAlbum4Store.columnCount;
+					InAlbum4Store.scrollConstraints.gridy = InAlbum4Store.rowCount;
+
+					if (InAlbum4Store.columnCount == 2) {
+						InAlbum4Store.rowCount += 1;
+						InAlbum4Store.columnCount = 0;
+					} else {
+						InAlbum4Store.columnCount++;
+					}
+
+					j.setBackground(Color.WHITE);
+					j.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mousePressed(MouseEvent e) {
+
+							for (JPanel f : InAlbum4Store.PhotosArray) {
+								f.setBackground(Color.WHITE);
+							}
+
+							InAlbum4Store.MovePhotoButton.setEnabled(true);
+							InAlbum4Store.DeletePhotoButton.setEnabled(true);
+							j.setBackground(Color.LIGHT_GRAY);
+							InAlbum4Store.pa.revalidate();
+							InAlbum4Store.pa.repaint();
+						}
+
+					});
+
+					InAlbum4Store.innerPanel.add(j,
+							InAlbum4Store.scrollConstraints);
+				}
+
+				// Add albumScroll and albumPanel to mainpanel
+				InAlbum4Store.photoPanel.add(InAlbum4Store.photoScroll,
+						BorderLayout.CENTER);
+				InAlbum4Store.gbc.gridx = 0;
+				InAlbum4Store.gbc.gridy = 1;
+				InAlbum4Store.gbc.weightx = .8;
+				InAlbum4Store.gbc.weighty = 1;
+				InAlbum4Store.gbc.gridwidth = 1;
+				InAlbum4Store.photoPanel.setBorder(new EtchedBorder());
+				InAlbum4Store.photoPanel.setVisible(true);
+				InAlbum4Store.MainPanel.add(InAlbum4Store.photoPanel,
+						InAlbum4Store.gbc);
+
+				InAlbum4Store.pa.revalidate();
+				InAlbum4Store.pa.repaint();
+
+			}
+		}
+
+	}
+
+	public void addListeners() {
 
 		InAlbum4Store.CancelPhoto = new JButton("Cancel");
 		InAlbum4Store.AddPhoto = new JButton("Add");
@@ -166,9 +287,9 @@ public class InAlbum4State extends PhotoAlbumState {
 		InAlbum4Store.Move = new JButton("Move");
 		InAlbum4Store.PhotoField = new JTextField();
 		InAlbum4Store.CaptionField = new JTextField();
-		//InAlbum4Store.DestAlbums = new JComboBox<album>((
+		// InAlbum4Store.DestAlbums = new JComboBox<album>((
 
-		// Event listener for Add Album Button
+		// Event listener for Add Photo Button
 		InAlbum4Store.AddPhotoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -199,7 +320,6 @@ public class InAlbum4State extends PhotoAlbumState {
 				InAlbum4Store.PhotoField.setSize(new Dimension(50, 20));
 				InAlbum4Store.fillerPanel.add(InAlbum4Store.PhotoField,
 						InAlbum4Store.filgbc);
-
 
 				// Create Caption field
 				InAlbum4Store.Caption = new JLabel("Photo Caption:");
@@ -253,11 +373,13 @@ public class InAlbum4State extends PhotoAlbumState {
 				InAlbum4Store.fillerPanel.add(InAlbum4Store.fillerbottom,
 						InAlbum4Store.filgbc);
 
-				// Event listener for when text is entered into AlbumField
+				// Event listener for when text is entered into PhotoField
 				InAlbum4Store.PhotoField.addKeyListener(new KeyListener() {
 					@Override
 					public void keyTyped(KeyEvent event) {
-						if ((!InAlbum4Store.PhotoField.getText().equals(""))&&(!InAlbum4Store.CaptionField.getText().equals(""))) {
+						if ((!InAlbum4Store.PhotoField.getText().equals(""))
+								&& (!InAlbum4Store.CaptionField.getText()
+										.equals(""))) {
 							InAlbum4Store.AddPhoto.setEnabled(true);
 						} else {
 							InAlbum4Store.AddPhoto.setEnabled(false);
@@ -266,7 +388,9 @@ public class InAlbum4State extends PhotoAlbumState {
 
 					@Override
 					public void keyReleased(KeyEvent event) {
-						if ((!InAlbum4Store.PhotoField.getText().equals(""))&&(!InAlbum4Store.CaptionField.getText().equals(""))) {
+						if ((!InAlbum4Store.PhotoField.getText().equals(""))
+								&& (!InAlbum4Store.CaptionField.getText()
+										.equals(""))) {
 							InAlbum4Store.AddPhoto.setEnabled(true);
 						} else {
 							InAlbum4Store.AddPhoto.setEnabled(false);
@@ -275,7 +399,9 @@ public class InAlbum4State extends PhotoAlbumState {
 
 					@Override
 					public void keyPressed(KeyEvent event) {
-						if ((!InAlbum4Store.PhotoField.getText().equals(""))&&(!InAlbum4Store.CaptionField.getText().equals(""))) {
+						if ((!InAlbum4Store.PhotoField.getText().equals(""))
+								&& (!InAlbum4Store.CaptionField.getText()
+										.equals(""))) {
 							InAlbum4Store.AddPhoto.setEnabled(true);
 						} else {
 							InAlbum4Store.AddPhoto.setEnabled(false);
@@ -285,7 +411,9 @@ public class InAlbum4State extends PhotoAlbumState {
 				InAlbum4Store.CaptionField.addKeyListener(new KeyListener() {
 					@Override
 					public void keyTyped(KeyEvent event) {
-						if ((!InAlbum4Store.PhotoField.getText().equals(""))&&(!InAlbum4Store.CaptionField.getText().equals(""))) {
+						if ((!InAlbum4Store.PhotoField.getText().equals(""))
+								&& (!InAlbum4Store.CaptionField.getText()
+										.equals(""))) {
 							InAlbum4Store.AddPhoto.setEnabled(true);
 						} else {
 							InAlbum4Store.AddPhoto.setEnabled(false);
@@ -294,7 +422,9 @@ public class InAlbum4State extends PhotoAlbumState {
 
 					@Override
 					public void keyReleased(KeyEvent event) {
-						if ((!InAlbum4Store.PhotoField.getText().equals(""))&&(!InAlbum4Store.CaptionField.getText().equals(""))) {
+						if ((!InAlbum4Store.PhotoField.getText().equals(""))
+								&& (!InAlbum4Store.CaptionField.getText()
+										.equals(""))) {
 							InAlbum4Store.AddPhoto.setEnabled(true);
 						} else {
 							InAlbum4Store.AddPhoto.setEnabled(false);
@@ -303,7 +433,9 @@ public class InAlbum4State extends PhotoAlbumState {
 
 					@Override
 					public void keyPressed(KeyEvent event) {
-						if ((!InAlbum4Store.PhotoField.getText().equals(""))&&(!InAlbum4Store.CaptionField.getText().equals(""))) {
+						if ((!InAlbum4Store.PhotoField.getText().equals(""))
+								&& (!InAlbum4Store.CaptionField.getText()
+										.equals(""))) {
 							InAlbum4Store.AddPhoto.setEnabled(true);
 						} else {
 							InAlbum4Store.AddPhoto.setEnabled(false);
@@ -317,7 +449,7 @@ public class InAlbum4State extends PhotoAlbumState {
 			}
 		});
 
-		// Event listener for Cancel Album Button
+		// Event listener for Cancel Photo Button
 		InAlbum4Store.CancelPhoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -331,9 +463,11 @@ public class InAlbum4State extends PhotoAlbumState {
 				}
 
 				InAlbum4Store.PhotoField.setText("");
-				InAlbum4Store.AddErrLabel.setVisible(false);
+				// InAlbum4Store.AddErrLabel.setVisible(false);
 				InAlbum4Store.PhotoField.setVisible(false);
 				InAlbum4Store.PhotoName.setVisible(false);
+				InAlbum4Store.CaptionField.setVisible(false);
+				InAlbum4Store.Caption.setVisible(false);
 				InAlbum4Store.CancelPhoto.setVisible(false);
 				InAlbum4Store.AddPhoto.setVisible(false);
 				InAlbum4Store.AddPhotoButton.setEnabled(true);
@@ -342,54 +476,119 @@ public class InAlbum4State extends PhotoAlbumState {
 			}
 		});
 
-		// Event listener for Create Album Button
+		// Event listener for addPhoto Button
 		InAlbum4Store.AddPhoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				/*InAlbum4Store.MoveErrLabel.setVisible(false);
+				// InAlbum4Store.MoveErrLabel.setVisible(false);
 
-					if (PhotoAlbum.backend.getUser(Login1State.user).getAlbum(
-							InAlbum4Store.AlbumField.getText()) != null) {
+				if (PhotoAlbum.backend.getUser(Login1State.user)
+						.getAlbum("album1")
+						.getPhoto(InAlbum4Store.PhotoField.getText()) != null) {
+					addAlbumError();
 
-						addAlbumError();
+				} else {
+					if (PhotoAlbum.backend.getUser(Login1State.user)
+							.photoExists(InAlbum4Store.PhotoField.getText())) {
+
+						PhotoAlbum.backend
+								.getUser(Login1State.user)
+								.getPhoto(InAlbum4Store.PhotoField.getText())
+								.setCount(
+										PhotoAlbum.backend
+												.getUser(Login1State.user)
+												.getPhoto(
+														InAlbum4Store.PhotoField
+																.getText())
+												.getCount() + 1);
+
+						// add photo to album
+						PhotoAlbum.backend
+								.getUser(Login1State.user)
+								.getAlbum("album1")
+								.addPhoto(
+										PhotoAlbum.backend.getUser(
+												Login1State.user).getPhoto(
+												InAlbum4Store.PhotoField
+														.getText()));
 
 					} else {
+						photo newPhoto = new photo(InAlbum4Store.PhotoField
+								.getText(), InAlbum4Store.CaptionField
+								.getText());
+						PhotoAlbum.backend.getUser(Login1State.user)
+								.addUserPhoto(
+										InAlbum4Store.PhotoField.getText(),
+										InAlbum4Store.CaptionField.getText());
+						PhotoAlbum.backend.getUser(Login1State.user)
+								.getAlbum("album1").addPhoto(newPhoto);
 
-						PhotoAlbum.backend.getUser(Login1State.user).addAlbum(
-								InAlbum4Store.AlbumField.getText());
-
-						Album3State.instance = null;
-						PhotoAlbumStore.album3State.enter();
+						InAlbum4State.instance = null;
+						PhotoAlbumStore.inalbum4State.enter();
 					}
-				 */
-				System.out.println("click");
+
+				}
 
 			}
+
 		});
 
-		/*		// Event listener for Delete Album Button
-			InAlbum4Store.DeleteAlbumButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+		// Event listener for Delete Photo Button
+		InAlbum4Store.DeletePhotoButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 
-					PhotoAlbum.backend.getUser(Login1State.user).removeAlbum(
-							getSelectedAlbum());
+				System.out.println(PhotoAlbum.backend.getUser(Login1State.user)
+										.getPhoto(getSelectedPhoto())
+										.getCount());
+				PhotoAlbum.backend
+						.getUser(Login1State.user)
+						.getPhoto(InAlbum4Store.PhotoField.getText())
+						.setCount(
+								(PhotoAlbum.backend.getUser(Login1State.user)
+										.getPhoto(getSelectedPhoto())
+										.getCount()) - 1);
 
-					Album3State.instance = null;
-					PhotoAlbumStore.album3State.enter();
+				if (PhotoAlbum.backend.getUser(Login1State.user)
+						.getPhoto(getSelectedPhoto()).getCount() == 0) {
+					PhotoAlbum.backend
+							.getUser(Login1State.user)
+							.getUserPhotos()
+							.remove(PhotoAlbum.backend
+									.getUser(Login1State.user).getPhoto(
+											getSelectedPhoto()));
 
 				}
-			});
-		 */
-		// Event listener for Rename Album Button
+
+				PhotoAlbum.backend
+						.getUser(Login1State.user)
+						.getAlbum("album1")
+						.removePhoto(
+								PhotoAlbum.backend.getUser(Login1State.user)
+										.getAlbum("album1")
+										.getPhoto(getSelectedPhoto()));
+
+				InAlbum4State.instance = null;
+				PhotoAlbumStore.inalbum4State.enter();
+
+			}
+
+		});
+
+		// Event listener for Move Photo Button
 		InAlbum4Store.MovePhotoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				InAlbum4Store.DestAlbums= PhotoAlbum.backend.getUser(Login1State.user).getAlbums();
+
+				InAlbum4Store.DestAlbums = PhotoAlbum.backend.getUser(
+						Login1State.user).getAlbums();
 				InAlbum4Store.DestAlbumsBox = new JComboBox<album>();
-				
-				for(album a: InAlbum4Store.DestAlbums){
-					InAlbum4Store.DestAlbumsBox.addItem(a);
+
+				if (!InAlbum4Store.DestAlbums.isEmpty()) {
+					for (album a : InAlbum4Store.DestAlbums) {
+						System.out.println(a);
+					}
 				}
+
+				InAlbum4Store.filgbc = new GridBagConstraints();
 				InAlbum4Store.filgbc.fill = GridBagConstraints.HORIZONTAL;
 				InAlbum4Store.filgbc.weightx = .5;
 				InAlbum4Store.filgbc.gridwidth = 2;
@@ -443,39 +642,48 @@ public class InAlbum4State extends PhotoAlbumState {
 				InAlbum4Store.filgbc.fill = GridBagConstraints.BOTH;
 				InAlbum4Store.fillerPanel.add(InAlbum4Store.fillerbottom,
 						InAlbum4Store.filgbc);
+
 			}
-
-
 		});
+
 	}
 
+	private void addAlbumError() {
+		// TODO Auto-generated method stub
 
-public boolean panelSelected() {
+	}
 
-	for (JPanel j : InAlbum4Store.PhotosArray) {
-		if (j.getBackground() == Color.LIGHT_GRAY) {
-			return true;
+	public boolean panelSelected() {
+
+		for (JPanel j : InAlbum4Store.PhotosArray) {
+			if (j.getBackground() == Color.LIGHT_GRAY) {
+				return true;
+			}
 		}
+
+		return false;
 	}
 
-	return false;
-}
-
-public static InAlbum4State getInstance() {
-	if (instance == null) {
-		instance = new InAlbum4State();
+	private String getSelectedPhoto() {
+		for (JPanel j : InAlbum4Store.PhotosArray) {
+			if (j.getBackground() == Color.LIGHT_GRAY) {
+				System.out.println();
+				return ((JLabel) j.getComponent(1)).getText();
+			}
+		}
+		;
+		return null;
 	}
-	return instance;
-}
 
-
-
-PhotoAlbumState processEvent() {
-	if (instance == null) {
-		instance = new InAlbum4State();
+	public static InAlbum4State getInstance() {
+		if (instance == null) {
+			instance = new InAlbum4State();
+		}
+		return instance;
 	}
-	return instance;
-}
 
+	PhotoAlbumState processEvent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
-

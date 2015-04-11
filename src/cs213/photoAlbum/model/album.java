@@ -105,5 +105,8 @@ public class album implements Ialbum, java.io.Serializable {
 		
 		return false;
 	}
+	public String toString(){
+		return name;
+	}
 
 }
