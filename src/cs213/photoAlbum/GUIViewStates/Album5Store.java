@@ -13,13 +13,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import cs213.photoAlbum.model.album;
+import cs213.photoAlbum.model.photo;
 
 public class Album5Store  {
 	
 	//PhotoAlbum
 	static PhotoAlbum pa;
 	//Store album and photo we are looking at
-	static cs213.photoAlbum.model.photo currentPhoto;
+	static photo currentPhoto;
 	static album currentAlbum;
 	
 	
@@ -53,7 +54,7 @@ public class Album5Store  {
 	static JPanel TagsPanel;
 	static JLabel tagsLabel;
 	static JPanel tags;
-	static JList list;
+	static JList<String> list;
 	static ArrayList<String> TagsArr;
 	static JScrollPane scrollpane;
 	static JButton addTagButton;

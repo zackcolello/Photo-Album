@@ -18,6 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import cs213.photoAlbum.model.User;
+
 public class Login1State extends PhotoAlbumState {
 
 	/**
@@ -52,6 +54,10 @@ public class Login1State extends PhotoAlbumState {
 		// Grab current JFrame
 		Frame[] frames = Frame.getFrames();
 		final PhotoAlbum pa = (PhotoAlbum) frames[0];
+		
+		for(User u: PhotoAlbum.backend.returnList()){
+			System.out.println(u);
+		}
 
 		// Clear items from that state
 		pa.getContentPane().removeAll();
@@ -194,9 +200,10 @@ public class Login1State extends PhotoAlbumState {
 
 			Login1State.instance = null;
 			
-			//Just for now while testing state 5
-			PhotoAlbumStore.album5State.enter();
-			return PhotoAlbumStore.album5State;
+			//Just for now while testing state 4
+			//InAlbum4Store.albumName = "Things";
+			PhotoAlbumStore.album3State.enter();
+			return PhotoAlbumStore.album3State;
 			
 			//PhotoAlbumStore.album3State.enter();
 			//return PhotoAlbumStore.album3State;

@@ -47,7 +47,7 @@ public class photo implements java.io.Serializable, Iphoto {
 	/**
 	 * Holds the count of how many albums the photo belongs to
 	 */
-	private int count;
+	private int count=0;
 
 	// Holds actual ImageIcon of photo
 	private ImageIcon photo;
@@ -217,5 +217,9 @@ public class photo implements java.io.Serializable, Iphoto {
 	
 	public void setPhoto(ImageIcon newP){
 		photo = newP;
+	}
+	
+	public String toString(){
+		return fileName;
 	}
 }

@@ -5,10 +5,14 @@ import java.awt.GridBagLayout;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+
+import cs213.photoAlbum.model.album;
+import cs213.photoAlbum.model.photo;
 
 public class InAlbum4Store {
 
@@ -16,17 +20,20 @@ static PhotoAlbum pa;
 	
 	static JPanel MainPanel;
 	
+	//album reference to know where it is in
+	static String albumName;
+	
 	//JPanels for the album Panel
-	static JPanel albumPanel;
+	static JPanel photoPanel;
 	static JPanel innerPanel;
-	static JScrollPane albumScroll;
+	static JScrollPane photoScroll;
 	
 	//JPanels for the button Panel
 	static JPanel ButtonsPanel;
 	static JPanel fillerPanel;
-	static JButton DeleteAlbumButton;
-	static JButton RenameAlbumButton;
-	static JButton AddAlbumButton;
+	static JButton DeletePhotoButton;
+	static JButton MovePhotoButton;
+	static JButton AddPhotoButton;
 	
 	static GridBagLayout gbl;
 	static GridBagConstraints gbc;
@@ -36,32 +43,46 @@ static PhotoAlbum pa;
 	//For when AddAlbum Button is clicked
 	static GridBagLayout filgbl;
 	static GridBagConstraints filgbc;
-	static JLabel AlbumName;
+	static JLabel PhotoPath;
+	static JPanel filler;
+	static JTextField PhotoField;
+	static JLabel Caption;
+	static JTextField CaptionField;
+	static JButton AddPhoto;
+	static JButton CancelPhoto;
+	
 	static JPanel fillerbottom;
-	static JTextField AlbumField;
-	static JButton CreateAlbum;
-	static JButton CancelAlbum;
+	//For When MovePhot is clicked
+	static JLabel Dest;
+	static ArrayList<album> DestAlbums;
+	static JComboBox<album> DestAlbumsBox;
+	static JButton Move;
+	static JButton CancelMove;
+	static String Album;
+	
 	
 	//For filling in the album Panel
-	static ArrayList<JPanel> albumsArray;
+	static ArrayList<JPanel> PhotosArray;
 	static JPanel temp;
-	static GridBagLayout algbl;
-	static GridBagConstraints algbc;
-	static JLabel albumName;
+	static GridBagLayout phgbl;
+	static GridBagConstraints phgbc;
+	static JLabel PhotoName;
+	static String Destination;
 	
 	
 	//For getting the dates of the photos
 	//static ArrayList<photo> photoList;
-	static JLabel numPhotos;
-	static JLabel dates;
+	static JLabel photoCaption;
+	static JLabel Date;
 	static GridBagConstraints scrollConstraints;
 	static int rowCount;
 	static int columnCount;
 	
-	//For renameAlbumButton
-	static JButton RenameAlbum;
-	static JButton RenameCancel;
-	static JLabel errLabel;
+
+	static JLabel MoveErrLabel;
+	static JLabel AddErrLabel;
+	
+	static ArrayList<photo> Photos;
 	
 
 }

@@ -13,14 +13,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
-public class MenuBarPanel extends JPanel{
+public class MenuBarPanel extends JPanel {
 
 	JButton logoutButton = new JButton("Logout");
-	JButton backButton = new JButton("Back");
-	
-	public MenuBarPanel(){
+	JButton homeButton = new JButton("Home");
+	String[] searchType = { "Search:", "By Date", "By Tag" };
+	JComboBox<String> searchBox = new JComboBox<String>(searchType);
+
+	public MenuBarPanel() {
 	}
-	
+
 	public JPanel CreateMenuBarPanel(String location) {
 
 		JPanel MenuBar = new JPanel();
@@ -28,15 +30,15 @@ public class MenuBarPanel extends JPanel{
 		GridBagConstraints gbc = new GridBagConstraints();
 		MenuBar.setLayout(gbl);
 
-		//Add back button
+		// Add back button
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		MenuBar.add(backButton);
-		
-		//Add white space
+		MenuBar.add(homeButton);
+
+		// Add white space
 		JPanel whiteSpacePanel = new JPanel();
-		//whiteSpacePanel.setBorder(new EtchedBorder(EtchedBorder.RAISED));
+		// whiteSpacePanel.setBorder(new EtchedBorder(EtchedBorder.RAISED));
 		whiteSpacePanel.setPreferredSize(new Dimension(275, 2));
 		whiteSpacePanel.setVisible(true);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -53,9 +55,6 @@ public class MenuBarPanel extends JPanel{
 
 		MenuBar.add(locationLabel, gbc);
 
-		String[] searchType = { "Search:", "By Date", "By Tag" };
-		JComboBox<String> searchBox = new JComboBox<String>(searchType);
-
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 3;
 		gbc.gridy = 0;
@@ -69,23 +68,51 @@ public class MenuBarPanel extends JPanel{
 
 		MenuBar.add(logoutButton, gbc);
 
-		//Do not want a back button for the first album screen
-		if(location.equals("Albums")){
-			backButton.setVisible(false);
+		// Do not want a back button for the first album screen
+		if (location.equals("Albums")) {
+			homeButton.setVisible(false);
 		}
-		
+
 		// Event listeners for buttons
 		logoutButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				PhotoAlbumStore.login1State.enter();
-				//processEvent();
-				
+
 			}
 		});
 
+		// Event listener for comboBox
+		searchBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if (searchBox.getSelectedItem().toString().equals("By Date")) {
+
+					
+					
+					// Go to state 6
+					PhotoAlbumStore.searchDate6State.enter();
+					PhotoAlbumStore.searchDate6State.enter();
+
+				} else if (searchBox.getSelectedItem().toString()
+						.equals("By Tag")) {
+
+					// Go to state 7
+				}
+
+			}
+		});
+
+		homeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				PhotoAlbumStore.album3State.enter();
+				
+			}
+		});
+		
 		return MenuBar;
 
 	}
@@ -96,6 +123,17 @@ public class MenuBarPanel extends JPanel{
 
 			PhotoAlbumStore.login1State.enter();
 			return PhotoAlbumStore.login1State;
+		}
+
+		if (searchBox.getSelectedItem().toString().equals("By Date")) {
+
+			// Go to state 6
+			PhotoAlbumStore.searchDate6State.enter();
+			return PhotoAlbumStore.searchDate6State;
+
+		} else if (searchBox.getSelectedItem().toString().equals("By Tag")) {
+
+			// Go to state 7
 		}
 
 		return null;
