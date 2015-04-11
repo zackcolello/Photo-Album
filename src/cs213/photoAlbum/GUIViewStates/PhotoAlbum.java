@@ -91,6 +91,9 @@ public class PhotoAlbum extends JFrame {
 			File f = new File("data" + File.separator + "data.dat");
 
 		}
+		for(User u: PhotoAlbum.backend.returnList()){
+			System.out.println(u);
+		}
 
 		photoAlbumGUI.addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
