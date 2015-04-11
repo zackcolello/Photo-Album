@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -184,7 +185,19 @@ public class Album3State extends PhotoAlbumState {
 				JLabel photo = new JLabel("", noPhoto, JLabel.CENTER);
 				temp.add(photo, Album3Store.algbc);
 			} else {
-				// here we would read in the actual thumb nail
+				
+				//Grab thumbnail of first photo
+				ImageIcon thumbnail = a.getPhotos().get(0).getPhoto();
+				Album3Store.algbc.gridx = 0;
+				Album3Store.algbc.gridy = 0;
+				
+				Image image = thumbnail.getImage();
+				Image newimg = image.getScaledInstance(100, 100,
+						java.awt.Image.SCALE_SMOOTH);
+				thumbnail = new ImageIcon(newimg);
+				
+				JLabel photo = new JLabel("", thumbnail, JLabel.CENTER);
+				temp.add(photo, Album3Store.algbc);
 			}
 
 			// Add the name of the album to the temp JPanel
@@ -253,6 +266,18 @@ public class Album3State extends PhotoAlbumState {
 					@Override
 					public void mousePressed(MouseEvent e) {
 
+						//Go to InAlbum4state on double click
+						if (e.getClickCount() == 2){
+					     
+							//Get album name from the jpanel
+							InAlbum4Store.albumName = getSelectedAlbum();
+							
+							System.out.println("Setting album to: " + InAlbum4Store.albumName);
+							Album3State.instance = null;
+							PhotoAlbumStore.inalbum4State.enter();
+							
+						}else{
+						
 						for (JPanel f : Album3Store.albumsArray) {
 							f.setBackground(Color.WHITE);
 						}
@@ -262,6 +287,7 @@ public class Album3State extends PhotoAlbumState {
 						j.setBackground(Color.LIGHT_GRAY);
 						Album3Store.pa.revalidate();
 						Album3Store.pa.repaint();
+					    }
 					}
 
 				});

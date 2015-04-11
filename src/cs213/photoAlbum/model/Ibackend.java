@@ -38,9 +38,10 @@ public interface Ibackend {
 	 */
 	public abstract void addUser(User newUser);
 	
-	
 	public abstract void addUser(String ID, String Name);
 
+	
+	
 	/**
 	 * Removes an instance of User with given id from the hashMap
 	 * @param id String that represents a User's id
