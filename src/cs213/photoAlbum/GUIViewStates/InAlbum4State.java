@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -168,6 +169,10 @@ public class InAlbum4State extends PhotoAlbumState {
 		InAlbum4Store.PhotosArray = new ArrayList<>();
 		InAlbum4Store.phgbc = new GridBagConstraints();
 		InAlbum4Store.phgbl = new GridBagLayout();
+		InAlbum4Store.AddErrLabel = new JLabel(
+				"Error: Cannot add Photo to this Album");
+		InAlbum4Store.MoveErrLabel = new JLabel(
+				"Error: Cannot move Photo to Destination Album");
 
 		if (!PhotoAlbum.backend.getUser(Login1State.user).getAlbum("album1")
 				.getPhotos().isEmpty()) {
@@ -302,6 +307,7 @@ public class InAlbum4State extends PhotoAlbumState {
 				// Hide other buttons
 				InAlbum4Store.MovePhotoButton.setEnabled(false);
 				InAlbum4Store.DeletePhotoButton.setEnabled(false);
+				InAlbum4Store.AddPhotoButton.setEnabled(false);
 
 				// Create PhotoName field
 				InAlbum4Store.PhotoName = new JLabel("Path to Photo:");
@@ -323,7 +329,7 @@ public class InAlbum4State extends PhotoAlbumState {
 
 				// Create Caption field
 				InAlbum4Store.Caption = new JLabel("Photo Caption:");
-				InAlbum4Store.PhotoField.setVisible(true);
+				InAlbum4Store.CaptionField.setVisible(true);
 				InAlbum4Store.filgbc.fill = GridBagConstraints.HORIZONTAL;
 				InAlbum4Store.filgbc.gridx = 0;
 				InAlbum4Store.filgbc.gridy = 1;
@@ -335,7 +341,7 @@ public class InAlbum4State extends PhotoAlbumState {
 				InAlbum4Store.filgbc.weightx = .5;
 				InAlbum4Store.filgbc.gridx = 1;
 				InAlbum4Store.filgbc.gridy = 1;
-				InAlbum4Store.PhotoField.setSize(new Dimension(50, 20));
+				InAlbum4Store.CaptionField.setSize(new Dimension(50, 20));
 				InAlbum4Store.fillerPanel.add(InAlbum4Store.CaptionField,
 						InAlbum4Store.filgbc);
 
@@ -463,7 +469,8 @@ public class InAlbum4State extends PhotoAlbumState {
 				}
 
 				InAlbum4Store.PhotoField.setText("");
-				// InAlbum4Store.AddErrLabel.setVisible(false);
+				InAlbum4Store.CaptionField.setText("");
+				InAlbum4Store.AddErrLabel.setVisible(false);
 				InAlbum4Store.PhotoField.setVisible(false);
 				InAlbum4Store.PhotoName.setVisible(false);
 				InAlbum4Store.CaptionField.setVisible(false);
@@ -481,54 +488,66 @@ public class InAlbum4State extends PhotoAlbumState {
 			public void actionPerformed(ActionEvent e) {
 
 				// InAlbum4Store.MoveErrLabel.setVisible(false);
+				File f = new File(InAlbum4Store.PhotoField.getText());
+				if (f.exists() && !f.isDirectory()) {
 
-				if (PhotoAlbum.backend.getUser(Login1State.user)
-						.getAlbum("album1")
-						.getPhoto(InAlbum4Store.PhotoField.getText()) != null) {
-					addAlbumError();
-
-				} else {
 					if (PhotoAlbum.backend.getUser(Login1State.user)
-							.photoExists(InAlbum4Store.PhotoField.getText())) {
+							.getAlbum("album1")
+							.getPhoto(InAlbum4Store.PhotoField.getText()) != null) {
 
-						PhotoAlbum.backend
-								.getUser(Login1State.user)
-								.getPhoto(InAlbum4Store.PhotoField.getText())
-								.setCount(
-										PhotoAlbum.backend
-												.getUser(Login1State.user)
-												.getPhoto(
-														InAlbum4Store.PhotoField
-																.getText())
-												.getCount() + 1);
-
-						// add photo to album
-						PhotoAlbum.backend
-								.getUser(Login1State.user)
-								.getAlbum("album1")
-								.addPhoto(
-										PhotoAlbum.backend.getUser(
-												Login1State.user).getPhoto(
-												InAlbum4Store.PhotoField
-														.getText()));
+						addPhotoError();
 
 					} else {
-						photo newPhoto = new photo(InAlbum4Store.PhotoField
-								.getText(), InAlbum4Store.CaptionField
-								.getText());
-						PhotoAlbum.backend.getUser(Login1State.user)
-								.addUserPhoto(
-										InAlbum4Store.PhotoField.getText(),
-										InAlbum4Store.CaptionField.getText());
-						PhotoAlbum.backend.getUser(Login1State.user)
-								.getAlbum("album1").addPhoto(newPhoto);
+						if (PhotoAlbum.backend
+								.getUser(Login1State.user)
+								.photoExists(InAlbum4Store.PhotoField.getText())) {
 
-						InAlbum4State.instance = null;
-						PhotoAlbumStore.inalbum4State.enter();
+							PhotoAlbum.backend
+									.getUser(Login1State.user)
+									.getPhoto(
+											InAlbum4Store.PhotoField.getText())
+									.setCount(
+											PhotoAlbum.backend
+													.getUser(Login1State.user)
+													.getPhoto(
+															InAlbum4Store.PhotoField
+																	.getText())
+													.getCount() + 1);
+
+							// add photo to album
+							PhotoAlbum.backend
+									.getUser(Login1State.user)
+									.getAlbum("album1")
+									.addPhoto(
+											PhotoAlbum.backend.getUser(
+													Login1State.user).getPhoto(
+													InAlbum4Store.PhotoField
+															.getText()));
+
+						} else {
+							photo newPhoto = new photo(InAlbum4Store.PhotoField
+									.getText(), InAlbum4Store.CaptionField
+									.getText());
+							System.out.println(PhotoAlbum.backend.getUser(
+									Login1State.user).addUserPhoto(
+									InAlbum4Store.PhotoField.getText(),
+									InAlbum4Store.CaptionField.getText()));
+							PhotoAlbum.backend.getUser(Login1State.user)
+									.getAlbum("album1").addPhoto(newPhoto);
+							PhotoAlbum.backend
+							.getUser(Login1State.user)
+							.getPhoto(
+									InAlbum4Store.PhotoField.getText())
+							.setCount(1);
+
+							InAlbum4State.instance = null;
+							PhotoAlbumStore.inalbum4State.enter();
+						}
+
 					}
-
+				}else{
+					addPhotoError();
 				}
-
 			}
 
 		});
@@ -537,16 +556,22 @@ public class InAlbum4State extends PhotoAlbumState {
 		InAlbum4Store.DeletePhotoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				System.out.println(PhotoAlbum.backend.getUser(Login1State.user)
-										.getPhoto(getSelectedPhoto())
-										.getCount());
+				for (photo p : PhotoAlbum.backend.getUser(Login1State.user)
+						.getUserPhotos()) {
+					System.out.println(p + " " + p.getCount());
+
+				}
+
 				PhotoAlbum.backend
 						.getUser(Login1State.user)
-						.getPhoto(InAlbum4Store.PhotoField.getText())
+						.getPhoto(getSelectedPhoto())
 						.setCount(
-								(PhotoAlbum.backend.getUser(Login1State.user)
+								PhotoAlbum.backend.getUser(Login1State.user)
 										.getPhoto(getSelectedPhoto())
-										.getCount()) - 1);
+										.getCount() - 1);
+
+				System.out.println(PhotoAlbum.backend.getUser(Login1State.user)
+						.getPhoto(getSelectedPhoto()));
 
 				if (PhotoAlbum.backend.getUser(Login1State.user)
 						.getPhoto(getSelectedPhoto()).getCount() == 0) {
@@ -576,21 +601,26 @@ public class InAlbum4State extends PhotoAlbumState {
 
 		// Event listener for Move Photo Button
 		InAlbum4Store.MovePhotoButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
 
+			public void actionPerformed(ActionEvent e) {
+				InAlbum4Store.MovePhotoButton.setEnabled(false);
+				InAlbum4Store.DeletePhotoButton.setEnabled(false);
+				InAlbum4Store.AddPhotoButton.setEnabled(false);
+				
 				InAlbum4Store.DestAlbums = PhotoAlbum.backend.getUser(
 						Login1State.user).getAlbums();
 				InAlbum4Store.DestAlbumsBox = new JComboBox<album>();
 
 				if (!InAlbum4Store.DestAlbums.isEmpty()) {
 					for (album a : InAlbum4Store.DestAlbums) {
-						System.out.println(a);
+						InAlbum4Store.DestAlbumsBox.addItem(a);
+						;
 					}
 				}
 
 				InAlbum4Store.filgbc = new GridBagConstraints();
 				InAlbum4Store.filgbc.fill = GridBagConstraints.HORIZONTAL;
-				InAlbum4Store.filgbc.weightx = .5;
+				InAlbum4Store.filgbc.weightx = 1;
 				InAlbum4Store.filgbc.gridwidth = 2;
 				InAlbum4Store.filgbc.gridx = 0;
 				InAlbum4Store.filgbc.gridy = 0;
@@ -600,11 +630,12 @@ public class InAlbum4State extends PhotoAlbumState {
 						InAlbum4Store.filgbc);
 				// Create 'ComboBox' Button
 
-				InAlbum4Store.filgbc.fill = GridBagConstraints.HORIZONTAL;
-				InAlbum4Store.filgbc.weightx = .5;
+				// InAlbum4Store.filgbc.fill = GridBagConstraints.HORIZONTAL;
+				InAlbum4Store.filgbc.weightx = 1;
 				InAlbum4Store.filgbc.gridwidth = 2;
 				InAlbum4Store.filgbc.gridx = 0;
 				InAlbum4Store.filgbc.gridy = 1;
+				InAlbum4Store.DestAlbumsBox.setSelectedIndex(-1);
 				InAlbum4Store.DestAlbumsBox.setVisible(true);
 
 				InAlbum4Store.fillerPanel.add(InAlbum4Store.DestAlbumsBox,
@@ -615,8 +646,9 @@ public class InAlbum4State extends PhotoAlbumState {
 				InAlbum4Store.filgbc.weightx = .5;
 				InAlbum4Store.filgbc.gridx = 0;
 				InAlbum4Store.filgbc.gridwidth = 1;
-				InAlbum4Store.filgbc.gridy = 1;
+				InAlbum4Store.filgbc.gridy = 2;
 				InAlbum4Store.Move.setVisible(true);
+				InAlbum4Store.Move.setEnabled(false);
 				InAlbum4Store.fillerPanel.add(InAlbum4Store.Move,
 						InAlbum4Store.filgbc);
 
@@ -625,7 +657,7 @@ public class InAlbum4State extends PhotoAlbumState {
 				InAlbum4Store.filgbc.weightx = .5;
 				InAlbum4Store.filgbc.gridx = 1;
 				InAlbum4Store.filgbc.gridwidth = 1;
-				InAlbum4Store.filgbc.gridy = 1;
+				InAlbum4Store.filgbc.gridy = 2;
 				InAlbum4Store.CancelMove.setVisible(true);
 				InAlbum4Store.fillerPanel.add(InAlbum4Store.CancelMove,
 						InAlbum4Store.filgbc);
@@ -643,14 +675,123 @@ public class InAlbum4State extends PhotoAlbumState {
 				InAlbum4Store.fillerPanel.add(InAlbum4Store.fillerbottom,
 						InAlbum4Store.filgbc);
 
+				InAlbum4Store.DestAlbumsBox
+						.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								InAlbum4Store.Move.setEnabled(true);
+								InAlbum4Store.Destination = InAlbum4Store.DestAlbumsBox
+										.getSelectedItem().toString();
+
+							}
+
+						});
+
+				InAlbum4Store.Move.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+
+						if (PhotoAlbum.backend.getUser(Login1State.user)
+								.getAlbum(InAlbum4Store.Destination)
+								.getPhoto(getSelectedPhoto()) == null) {
+
+							PhotoAlbum.backend
+									.getUser(Login1State.user)
+									.getAlbum(InAlbum4Store.Destination)
+									.addPhoto(
+											PhotoAlbum.backend
+													.getUser(Login1State.user)
+													.getAlbum(
+															InAlbum4Store.Destination)
+													.getPhoto(
+															getSelectedPhoto()));
+
+							PhotoAlbum.backend
+									.getUser(Login1State.user)
+									.getAlbum("album1")
+									.removePhoto(
+											PhotoAlbum.backend
+													.getUser(Login1State.user)
+													.getAlbum("album1")
+													.getPhoto(
+															getSelectedPhoto()));
+							InAlbum4State.instance = null;
+							PhotoAlbumStore.inalbum4State.enter();
+
+						} else {
+							movePhotoError();
+
+						}
+						
+					
+					}
+
+				});
+
+				InAlbum4Store.CancelMove
+						.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+
+								if (panelSelected()) {
+									InAlbum4Store.MovePhotoButton
+											.setEnabled(true);
+									InAlbum4Store.DeletePhotoButton
+											.setEnabled(true);
+								} else {
+									InAlbum4Store.MovePhotoButton
+											.setEnabled(false);
+									InAlbum4Store.DeletePhotoButton
+											.setEnabled(false);
+								}
+
+								InAlbum4Store.MoveErrLabel.setVisible(false);
+								InAlbum4Store.DestAlbumsBox.setVisible(false);
+								InAlbum4Store.Dest.setVisible(false);
+								InAlbum4Store.CancelMove.setVisible(false);
+								InAlbum4Store.Move.setVisible(false);
+								InAlbum4Store.AddPhotoButton.setEnabled(true);
+								InAlbum4Store.fillerbottom.setVisible(false);
+
+							}
+
+						});
+
+				InAlbum4Store.pa.revalidate();
+				InAlbum4Store.pa.repaint();
+
 			}
 		});
 
 	}
 
-	private void addAlbumError() {
-		// TODO Auto-generated method stub
+	private void addPhotoError() {
+		InAlbum4Store.AddErrLabel.setVisible(true);
+		InAlbum4Store.AddErrLabel.setForeground(Color.red);
+		InAlbum4Store.bgbc.gridy = 2;
+		InAlbum4Store.bgbc.gridx = 0;
+		InAlbum4Store.bgbc.weighty = 1;
+		InAlbum4Store.bgbc.weightx = 1;
+		InAlbum4Store.bgbc.fill = GridBagConstraints.BOTH;
+		InAlbum4Store.bgbc.gridwidth = 3;
+		InAlbum4Store.ButtonsPanel.add(InAlbum4Store.AddErrLabel,
+				InAlbum4Store.bgbc);
 
+		InAlbum4Store.pa.revalidate();
+		InAlbum4Store.pa.repaint();
+	}
+
+	private void movePhotoError() {
+		InAlbum4Store.MoveErrLabel.setVisible(true);
+		InAlbum4Store.MoveErrLabel.setForeground(Color.red);
+		InAlbum4Store.bgbc.gridy = 2;
+		InAlbum4Store.bgbc.gridx = 0;
+		InAlbum4Store.bgbc.weighty = 1;
+		InAlbum4Store.bgbc.weightx = 1;
+		InAlbum4Store.bgbc.fill = GridBagConstraints.BOTH;
+		InAlbum4Store.bgbc.gridwidth = 3;
+		InAlbum4Store.ButtonsPanel.add(InAlbum4Store.MoveErrLabel,
+				InAlbum4Store.bgbc);
+
+		InAlbum4Store.pa.revalidate();
+		InAlbum4Store.pa.repaint();
 	}
 
 	public boolean panelSelected() {

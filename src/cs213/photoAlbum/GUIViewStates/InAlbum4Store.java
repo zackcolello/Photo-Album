@@ -55,6 +55,7 @@ static PhotoAlbum pa;
 	static JComboBox<album> DestAlbumsBox;
 	static JButton Move;
 	static JButton CancelMove;
+	static String Album;
 	
 	
 	//For filling in the album Panel
@@ -63,6 +64,7 @@ static PhotoAlbum pa;
 	static GridBagLayout phgbl;
 	static GridBagConstraints phgbc;
 	static JLabel PhotoName;
+	static String Destination;
 	
 	
 	//For getting the dates of the photos
