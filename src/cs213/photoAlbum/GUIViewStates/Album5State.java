@@ -43,7 +43,6 @@ public class Album5State extends PhotoAlbumState {
 		Album5Store.pa.getContentPane().repaint();
 		Album5Store.pa.getContentPane().revalidate();
 
-		
 		// Create constraints, add to main panel
 		Album5Store.gbl = new GridBagLayout();
 		Album5Store.gbc = new GridBagConstraints();
@@ -89,13 +88,12 @@ public class Album5State extends PhotoAlbumState {
 		// Add left button to OuterPhotoPanel
 		Album5Store.leftButton = new JButton("<<");
 		Album5Store.leftButton.setPreferredSize(new Dimension(60, 160));
-		
-		
+
 		Album5Store.OuterPhotoPanel.add(Album5Store.leftButton,
 				Album5Store.ppgbc);
 
 		// Store a current Photo, so we know when we are flipping through photos
-		//System.out.println(Album5Store.currentPhoto);
+		// System.out.println(Album5Store.currentPhoto);
 		Album5Store.photo = Album5Store.currentPhoto.getPhoto();
 
 		// Set image size to fit PhotoPanel if very large
@@ -242,21 +240,24 @@ public class Album5State extends PhotoAlbumState {
 		Album5Store.fillerPanel.setBorder(new EtchedBorder());
 		Album5Store.TagsPanel.add(Album5Store.fillerPanel, Album5Store.tgbc);
 
-		//check if left button should be enabled or not
-		for(int i = 0; i < Album5Store.currentAlbum.getPhotos().size(); i++){
-			if(Album5Store.currentAlbum.getPhotos().get(0).getFileName().equals(Album5Store.currentPhoto.getFileName())){
+		// check if left button should be enabled or not
+		for (int i = 0; i < Album5Store.currentAlbum.getPhotos().size(); i++) {
+			if (Album5Store.currentAlbum.getPhotos().get(0).getFileName()
+					.equals(Album5Store.currentPhoto.getFileName())) {
 				Album5Store.leftButton.setEnabled(false);
 			}
 		}
-		
-		//check if right button should be enabled or not
-				for(int i = 0; i < Album5Store.currentAlbum.getPhotos().size(); i++){
-					if(Album5Store.currentAlbum.getPhotos().get(Album5Store.currentAlbum.getPhotos().size()-1).getFileName().equals(Album5Store.currentPhoto.getFileName())){
-						Album5Store.rightButton.setEnabled(false);
-					}
-				}
-		
-		
+
+		// check if right button should be enabled or not
+		for (int i = 0; i < Album5Store.currentAlbum.getPhotos().size(); i++) {
+			if (Album5Store.currentAlbum.getPhotos()
+					.get(Album5Store.currentAlbum.getPhotos().size() - 1)
+					.getFileName()
+					.equals(Album5Store.currentPhoto.getFileName())) {
+				Album5Store.rightButton.setEnabled(false);
+			}
+		}
+
 		AddActionListeners();
 
 		// Add the main panel to the Photo Album object
@@ -328,10 +329,12 @@ public class Album5State extends PhotoAlbumState {
 		Album5Store.saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				
-				Album5Store.currentPhoto
-				.setCaption(Album5Store.newCaptionField
-						.getText());
+				PhotoAlbum.backend.getUser(Login1State.user)
+						.getPhoto(Album5Store.currentPhoto.getFileName())
+						.setCaption(Album5Store.newCaptionField.getText());
+
+			//	Album5Store.currentPhoto.setCaption(Album5Store.newCaptionField
+				//		.getText());
 
 				instance = null;
 				PhotoAlbumStore.album5State.enter();
@@ -437,8 +440,6 @@ public class Album5State extends PhotoAlbumState {
 					}
 				}
 
-
-				
 				// Set current Photo to be the photo to the right of the current
 				// Photo
 				if (!(index + 1 > Album5Store.currentAlbum.getPhotos().size() - 1)) {
@@ -458,13 +459,13 @@ public class Album5State extends PhotoAlbumState {
 
 				// Create temp photo to find index of photo in currentAlbum
 
-				//check if left button should be enabled or not
-				if(Album5Store.currentAlbum.getPhotos().indexOf(Album5Store.currentPhoto) == 0){
-					//first photo, disable left button
+				// check if left button should be enabled or not
+				if (Album5Store.currentAlbum.getPhotos().indexOf(
+						Album5Store.currentPhoto) == 0) {
+					// first photo, disable left button
 					Album5Store.leftButton.setEnabled(false);
 				}
-				
-				
+
 				int index = 0;
 
 				for (photo p : Album5Store.currentAlbum.getPhotos()) {
