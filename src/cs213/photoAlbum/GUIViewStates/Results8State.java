@@ -16,6 +16,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -40,7 +41,7 @@ public class Results8State extends PhotoAlbumState {
 		Frame[] frames = Frame.getFrames();
 
 		Results8Store.pa = (PhotoAlbum) frames[0];
-
+		Results8Store.PhotosArray=new ArrayList<JPanel>();
 		Results8Store.pa.getContentPane().removeAll();
 		Results8Store.pa.getContentPane().repaint();
 		Results8Store.pa.getContentPane().revalidate();
@@ -148,6 +149,8 @@ public class Results8State extends PhotoAlbumState {
 
 		Results8Store.CreateErrLabel = new JLabel(
 				"Error: Unable to Create New Albume with this Name");
+		
+		System.out.println(Results8Store.results);
 		if (!Results8Store.results.isEmpty()) {
 
 			for (photo p : Results8Store.results) {
