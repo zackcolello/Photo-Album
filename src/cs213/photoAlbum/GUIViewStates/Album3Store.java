@@ -55,6 +55,7 @@ public class Album3Store{
 	//static ArrayList<photo> photoList;
 	static JLabel numPhotos;
 	static JLabel dates;
+	static JLabel dates2;
 	static GridBagConstraints scrollConstraints;
 	static int rowCount;
 	static int columnCount;

@@ -2,8 +2,8 @@ package cs213.photoAlbum.GUIViewStates;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -216,7 +216,10 @@ public class Album3State extends PhotoAlbumState {
 			// Get the earliest and latest date, add to temp jpanel
 			photoList = a.getPhotos();
 			Album3Store.dates = new JLabel();
-
+			Album3Store.dates2 = new JLabel();
+			Album3Store.dates.setFont(new Font("Serif", Font.PLAIN, 12));
+			Album3Store.dates2.setFont(new Font("Serif", Font.PLAIN, 12));
+			
 			if (photoList.size() == 0) {
 				Album3Store.dates.setText("From: -- To: --");
 			} else {
@@ -232,14 +235,17 @@ public class Album3State extends PhotoAlbumState {
 					}
 
 				}
-				Album3Store.dates.setText("From: " + earliest + " To: "
-						+ latest);
+				Album3Store.dates.setText("From: " + earliest);
+				Album3Store.dates2.setText(" To: " + latest);
 			}
 
 			// Add dates to temp
 			Album3Store.algbc.gridx = 0;
 			Album3Store.algbc.gridy = 3;
 			temp.add(Album3Store.dates, Album3Store.algbc);
+			Album3Store.algbc.gridx = 0;
+			Album3Store.algbc.gridy = 4;
+			temp.add(Album3Store.dates2, Album3Store.algbc);
 
 			// Add temp to the albumsArray
 			Album3Store.albumsArray.add(temp);
@@ -272,7 +278,6 @@ public class Album3State extends PhotoAlbumState {
 							//Get album name from the jpanel
 							InAlbum4Store.albumName = getSelectedAlbum();
 							
-							System.out.println("Setting album to: " + InAlbum4Store.albumName);
 							Album3State.instance = null;
 							PhotoAlbumStore.inalbum4State.enter();
 							
