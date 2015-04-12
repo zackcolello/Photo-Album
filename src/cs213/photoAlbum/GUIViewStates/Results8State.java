@@ -31,6 +31,8 @@ import cs213.photoAlbum.model.album;
 import cs213.photoAlbum.model.photo;
 
 public class Results8State extends PhotoAlbumState {
+	
+	static Results8State instance = null;
 
 	@Override
 	void enter() {
@@ -426,6 +428,13 @@ public class Results8State extends PhotoAlbumState {
 		}
 
 		return false;
+	}
+	
+	public static Results8State getInstance() {
+		if (instance == null) {
+			instance = new Results8State();
+		}
+		return instance;
 	}
 
 	@Override
