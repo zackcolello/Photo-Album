@@ -17,6 +17,11 @@ import cs213.photoAlbum.model.backend;
 import cs213.photoAlbum.model.photo;
 import cs213.photoAlbum.model.tag;
 
+/**
+ * 
+ * @author Zack Colello
+ *
+ */
 public class PhotoAlbum extends JFrame {
 
 	/**

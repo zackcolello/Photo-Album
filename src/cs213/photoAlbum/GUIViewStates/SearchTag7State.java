@@ -28,6 +28,11 @@ import javax.swing.event.ListSelectionListener;
 
 import cs213.photoAlbum.model.tag;
 
+/**
+ * 
+ * @author Zack Colello
+ *
+ */
 public class SearchTag7State extends PhotoAlbumState {
 
 	private static SearchTag7State instance = null;

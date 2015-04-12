@@ -18,6 +18,11 @@ import javax.swing.border.EtchedBorder;
 
 import cs213.photoAlbum.control.Controller;
 
+/**
+ * 
+ * @author Zack Colello
+ *
+ */
 public class SearchDate6State extends PhotoAlbumState {
 
 	static SearchDate6State instance = null;

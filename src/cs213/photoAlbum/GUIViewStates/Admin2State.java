@@ -27,6 +27,11 @@ import javax.swing.event.ListSelectionListener;
 
 import cs213.photoAlbum.model.User;
 
+/**
+ * 
+ * @author Anna Genke
+ *
+ */
 public class Admin2State extends PhotoAlbumState {
 
 	private static Admin2State instance = null;
@@ -316,7 +321,7 @@ public class Admin2State extends PhotoAlbumState {
 				Admin2Store.fillerPanel.add(Admin2Store.fillerbottom,
 						Admin2Store.filgbc);
 				
-				Admin2Store.errLabel = new JLabel("Error, User already Exists with that ID");
+				Admin2Store.errLabel = new JLabel("Error, User already exists");
 
 
 				// Event listener for when text is entered into NameField

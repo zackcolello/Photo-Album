@@ -30,7 +30,11 @@ import cs213.photoAlbum.model.album;
 import cs213.photoAlbum.model.photo;
 
 //make the album jpanels an instance with getInstance.
-
+/**
+ * 
+ * @author Zack Colello
+ *
+ */
 public class Album3State extends PhotoAlbumState {
 
 	public ArrayList<photo> photoList;

@@ -32,6 +32,11 @@ import javax.swing.border.EtchedBorder;
 import cs213.photoAlbum.model.album;
 import cs213.photoAlbum.model.photo;
 
+/**
+ * 
+ * @author Anna Genke
+ *
+ */
 public class InAlbum4State extends PhotoAlbumState {
 
 	static InAlbum4State instance = null;

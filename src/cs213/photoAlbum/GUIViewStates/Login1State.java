@@ -20,6 +20,11 @@ import javax.swing.border.EmptyBorder;
 
 import cs213.photoAlbum.model.User;
 
+/**
+ * 
+ * @author Zack Colello
+ *
+ */
 public class Login1State extends PhotoAlbumState {
 
 	/**
