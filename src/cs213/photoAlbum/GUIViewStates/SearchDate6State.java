@@ -14,6 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
+import cs213.photoAlbum.control.Controller;
+
 public class SearchDate6State extends PhotoAlbumState {
 
 	static SearchDate6State instance = null;
@@ -186,17 +188,58 @@ public class SearchDate6State extends PhotoAlbumState {
 
 		SearchDate6Store.cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+					
+				}
 
-				// Takes user to previous state
-
-			}
+			
 		});
 
 		SearchDate6Store.submitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				// Takes user to state 8, results of search
-
+				String month1=null;
+				switch ((String)SearchDate6Store.startMonth.getSelectedItem()){
+					case("January"): month1="01";
+					case("Feburary"): month1="02";
+					case("March"): month1="03";
+					case("April"): month1="04";
+					case("May"): month1="05";
+					case("June"): month1="06";
+					case("July"): month1="07";
+					case("August"): month1="08";
+					case("September"): month1="09";
+					case("October"): month1="10";
+					case("November"): month1="11";
+					case("Deccember"): month1="12";
+				}
+				
+				String month2=null;
+				switch ((String)SearchDate6Store.startMonth.getSelectedItem()){
+					case("January"): month2="01";
+					case("Feburary"): month2="02";
+					case("March"): month2="03";
+					case("April"): month2="04";
+					case("May"): month2="05";
+					case("June"): month2="06";
+					case("July"): month2="07";
+					case("August"): month2="08";
+					case("September"): month2="09";
+					case("October"): month2="10";
+					case("November"): month2="11";
+					case("Deccember"): month2="12";
+				}
+					
+				String startdate=month1+"\\"+SearchDate6Store.startDay+"\\"+SearchDate6Store.startYear+"-00:00:00";
+				String enddate=month2+"\\"+SearchDate6Store.endDay+"\\"+SearchDate6Store.endYear+"-00:00:00";
+				
+				Results8Store.results=PhotoAlbum.controller.getPhotosByDate(Login1State.user, startdate, enddate);
+				
+	
+				
+				SearchDate6State.instance=null;
+				PhotoAlbumStore.results8State.enter();
+				
 			}
 		});
 
