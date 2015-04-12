@@ -19,7 +19,7 @@ public class Results8Store {
 static PhotoAlbum pa;
 
 	//album reference to know where it is in
-	static ArrayList<photo> results=new ArrayList<photo>();
+	static ArrayList<photo> results;
 	
 	
 	static JPanel MainPanel;

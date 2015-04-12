@@ -32,7 +32,7 @@ import cs213.photoAlbum.model.album;
 import cs213.photoAlbum.model.photo;
 
 public class Results8State extends PhotoAlbumState {
-
+	
 	static Results8State instance = null;
 
 	@Override
@@ -41,7 +41,7 @@ public class Results8State extends PhotoAlbumState {
 		Frame[] frames = Frame.getFrames();
 
 		Results8Store.pa = (PhotoAlbum) frames[0];
-
+		Results8Store.PhotosArray=new ArrayList<JPanel>();
 		Results8Store.pa.getContentPane().removeAll();
 		Results8Store.pa.getContentPane().repaint();
 		Results8Store.pa.getContentPane().revalidate();
@@ -144,17 +144,16 @@ public class Results8State extends PhotoAlbumState {
 
 	public void fillphotoPanel() {
 
-		Results8Store.PhotosArray = new ArrayList<JPanel>();
-
 		Results8Store.phgbc = new GridBagConstraints();
 		Results8Store.phgbl = new GridBagLayout();
 
 		Results8Store.CreateErrLabel = new JLabel(
 				"Error: Unable to Create New Albume with this Name");
+		
+		System.out.println(Results8Store.results);
 		if (!Results8Store.results.isEmpty()) {
 
 			for (photo p : Results8Store.results) {
-
 				JPanel temp = new JPanel();
 				temp.setLayout(Results8Store.phgbl);
 				temp.setBackground(Color.WHITE);
@@ -175,16 +174,22 @@ public class Results8State extends PhotoAlbumState {
 				JLabel photo = new JLabel("", icon, JLabel.CENTER);
 				temp.add(photo, Results8Store.phgbc);
 
+				// Add the path of the photo to the temp JPanel
+				Results8Store.PhotoName = new JLabel(p.getFileName());
+				Results8Store.phgbc.gridx = 0;
+				Results8Store.phgbc.gridy = 1;
+				temp.add(Results8Store.PhotoName, Results8Store.phgbc);
+
 				// Add the caption of the photo to the temp JPanel
 				Results8Store.photoCaption = new JLabel(p.getCaption());
 				Results8Store.phgbc.gridx = 0;
-				Results8Store.phgbc.gridy = 1;
+				Results8Store.phgbc.gridy = 2;
 				temp.add(Results8Store.photoCaption, Results8Store.phgbc);
 
 				// Add the date of photos
 				Results8Store.Date = new JLabel(p.getCalendar());
 				Results8Store.phgbc.gridx = 0;
-				Results8Store.phgbc.gridy = 2;
+				Results8Store.phgbc.gridy = 3;
 				temp.add(Results8Store.Date, Results8Store.phgbc);
 
 				// Add temp to the PhotosArray
@@ -246,7 +251,7 @@ public class Results8State extends PhotoAlbumState {
 
 			}
 
-		} else {
+		}else{
 			Results8Store.NewResultsAlbum.setEnabled(false);
 		}
 	}
@@ -385,15 +390,13 @@ public class Results8State extends PhotoAlbumState {
 				if (PhotoAlbum.backend.getUser(Login1State.user).albumExists(
 						Results8Store.AlbumName.getText())) {
 					CreateError();
-				} else if (Results8Store.results.isEmpty()) {
+				} else if(Results8Store.results.isEmpty()){
 					CreateError();
-				} else {
+				}else{
 					PhotoAlbum.backend.getUser(Login1State.user).addAlbum(
 							Results8Store.AlbumName.getText());
-					for (photo p : Results8Store.results) {
-						PhotoAlbum.backend.getUser(Login1State.user)
-								.getAlbum(Results8Store.AlbumName.getText())
-								.addPhoto(p);
+					for(photo p: Results8Store.results){
+						PhotoAlbum.backend.getUser(Login1State.user).getAlbum(Results8Store.AlbumName.getText()).addPhoto(p);
 					}
 				}
 
@@ -429,7 +432,7 @@ public class Results8State extends PhotoAlbumState {
 
 		return false;
 	}
-
+	
 	public static Results8State getInstance() {
 		if (instance == null) {
 			instance = new Results8State();
