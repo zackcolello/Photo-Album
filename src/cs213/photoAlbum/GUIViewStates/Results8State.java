@@ -280,7 +280,7 @@ public class Results8State extends PhotoAlbumState {
 				Results8Store.NewAlbum.setVisible(true);
 				Results8Store.filgbc.fill = GridBagConstraints.HORIZONTAL;
 				Results8Store.filgbc.gridx = 0;
-				Results8Store.filgbc.gridy = 1;
+				Results8Store.filgbc.gridy = 0;
 				Results8Store.fillerPanel.add(Results8Store.NewAlbum,
 						Results8Store.filgbc);
 
@@ -288,7 +288,6 @@ public class Results8State extends PhotoAlbumState {
 				Results8Store.filgbc.fill = GridBagConstraints.HORIZONTAL;
 				Results8Store.filgbc.gridx = 0;
 				Results8Store.filgbc.gridy = 1;
-				Results8Store.AlbumName.setSize(new Dimension(50, 20));
 				Results8Store.fillerPanel.add(Results8Store.AlbumName,
 						Results8Store.filgbc);
 
@@ -299,6 +298,7 @@ public class Results8State extends PhotoAlbumState {
 				Results8Store.filgbc.gridx = 0;
 				Results8Store.filgbc.gridy = 2;
 				Results8Store.CreateAlbum.setVisible(true);
+				Results8Store.CreateAlbum.setEnabled(false);
 				Results8Store.fillerPanel.add(Results8Store.CreateAlbum,
 						Results8Store.filgbc);
 
@@ -320,9 +320,20 @@ public class Results8State extends PhotoAlbumState {
 				Results8Store.filgbc.weighty = 1;
 				Results8Store.filgbc.gridwidth = 2;
 				Results8Store.fillerbottom.setPreferredSize(new Dimension(190,
-						350));
+						300));
 				Results8Store.filgbc.fill = GridBagConstraints.BOTH;
 				Results8Store.fillerPanel.add(Results8Store.fillerbottom,
+						Results8Store.filgbc);
+				
+				Results8Store.filgbc.fill = GridBagConstraints.HORIZONTAL;
+				Results8Store.filgbc.weightx = .5;
+				Results8Store.filgbc.gridwidth = 1;
+				Results8Store.filgbc.gridx = 0;
+				Results8Store.filgbc.gridy = 4;
+				
+				Results8Store.CreateErrLabel.setVisible(false);
+				
+				Results8Store.fillerPanel.add(Results8Store.CreateErrLabel,
 						Results8Store.filgbc);
 
 				// Event listener for when text is entered into PhotoField
@@ -378,6 +389,7 @@ public class Results8State extends PhotoAlbumState {
 
 				Results8Store.CancelAlbum.setVisible(false);
 				Results8Store.CreateAlbum.setVisible(false);
+				Results8Store.NewAlbum.setVisible(false);
 				Results8Store.NewResultsAlbum.setEnabled(true);
 				Results8Store.fillerbottom.setVisible(false);
 
@@ -398,7 +410,16 @@ public class Results8State extends PhotoAlbumState {
 					for(photo p: Results8Store.results){
 						PhotoAlbum.backend.getUser(Login1State.user).getAlbum(Results8Store.AlbumName.getText()).addPhoto(p);
 					}
+					Results8Store.CancelAlbum.setVisible(false);
+					Results8Store.CreateAlbum.setVisible(false);
+					Results8Store.AlbumName.setText("");
+					Results8Store.AlbumName.setVisible(false);
+					Results8Store.CreateErrLabel.setVisible(false);
+					Results8Store.NewAlbum.setVisible(false);
+					Results8Store.fillerbottom.setVisible(false);
 				}
+				
+				
 
 			}
 		});
@@ -408,18 +429,11 @@ public class Results8State extends PhotoAlbumState {
 	private void CreateError() {
 		Results8Store.CreateErrLabel.setVisible(true);
 		Results8Store.CreateErrLabel.setForeground(Color.red);
-		Results8Store.bgbc.gridy = 2;
-		Results8Store.bgbc.gridx = 0;
-		Results8Store.bgbc.weighty = 1;
-		Results8Store.bgbc.weightx = 1;
-		Results8Store.bgbc.fill = GridBagConstraints.BOTH;
-		Results8Store.bgbc.gridwidth = 3;
-		Results8Store.ButtonsPanel.add(Results8Store.CreateErrLabel,
-				Results8Store.bgbc);
+		
 
-		Results8Store.pa.revalidate();
+		//Results8Store.pa.revalidate();
 
-		Results8Store.pa.repaint();
+		//Results8Store.pa.repaint();
 	}
 
 	public boolean panelSelected() {
