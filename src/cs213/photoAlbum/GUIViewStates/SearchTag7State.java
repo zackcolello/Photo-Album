@@ -379,6 +379,9 @@ public class SearchTag7State extends PhotoAlbumState {
 					PhotoAlbum.backend.addUser(SearchTag7Store.typeField.getText(),
 							SearchTag7Store.valueField.getText());
 					SearchTag7State.instance = null;
+					
+					
+					
 					PhotoAlbumStore.searchTag7State.enter();
 				}
 
