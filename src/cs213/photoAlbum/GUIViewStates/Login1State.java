@@ -55,10 +55,6 @@ public class Login1State extends PhotoAlbumState {
 		Frame[] frames = Frame.getFrames();
 		final PhotoAlbum pa = (PhotoAlbum) frames[0];
 		
-		for(User u: PhotoAlbum.backend.returnList()){
-			System.out.println(u);
-		}
-
 		// Clear items from that state
 		pa.getContentPane().removeAll();
 		pa.getContentPane().repaint();
