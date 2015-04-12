@@ -22,12 +22,13 @@ public class SearchTag7Store {
 	static JPanel MainPanel;
 
 	// JPanels for the list Tags Panel
+	static JPanel TagLabelPanel;
 	static JPanel TagListPanel;
 	static JLabel TagLabel;
 	static JScrollPane TagScroll;
-	static DefaultListModel<User> listModel;
-	static JList<User> TagList;
-	static ArrayList<tag> TagArrList;
+	static DefaultListModel<String> listModel;
+	static JList<String> TagList;
+	static ArrayList<String> TagArrList;
 	static JPanel innerPanel;
 
 	// JPanels for the button Panel
@@ -35,6 +36,7 @@ public class SearchTag7Store {
 	static JPanel fillerPanel;
 	static JButton removeTagButton;
 	static JButton addTagButton;
+	static JPanel QueryPanel;
 
 	static GridBagLayout gbl;
 	static GridBagConstraints gbc;
@@ -50,6 +52,7 @@ public class SearchTag7Store {
 	static JTextField typeField;
 	static JTextField valueField;
 	static JButton SearchButton;
+	static JButton submitButton;
 	static JButton cancelButton;
 
 	static JLabel errLabel;
