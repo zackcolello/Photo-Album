@@ -1,5 +1,6 @@
 package cs213.photoAlbum.GUIViewStates;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -12,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
 import cs213.photoAlbum.control.Controller;
@@ -21,7 +23,7 @@ public class SearchDate6State extends PhotoAlbumState {
 	static SearchDate6State instance = null;
 
 	void enter() {
-
+		
 		// Grab current JFrame and remove all the things
 		Frame[] frames = Frame.getFrames();
 		SearchDate6Store.pa = (PhotoAlbum) frames[0];
@@ -76,67 +78,139 @@ public class SearchDate6State extends PhotoAlbumState {
 		SearchDate6Store.DatesPanel = new JPanel();
 		SearchDate6Store.DatesPanel.setLayout(SearchDate6Store.dgbl);
 		SearchDate6Store.DatesPanel.setBorder(new EtchedBorder());
-		SearchDate6Store.DatesPanel.setPreferredSize(new Dimension(650, 70));
+		SearchDate6Store.DatesPanel.setPreferredSize(new Dimension(650, 120));
 		SearchDate6Store.DatesPanel.setVisible(true);
 
 		// Fill in Dates Panel with labels
 		SearchDate6Store.dgbc = new GridBagConstraints();
 		SearchDate6Store.dgbl = new GridBagLayout();
-		SearchDate6Store.dgbc.gridx = 0;
+
+		JLabel infoLabel = new JLabel(
+				"          Month             Day          Year               Hour            Minute         Second");
+		SearchDate6Store.dgbc.gridx = 1;
 		SearchDate6Store.dgbc.gridy = 0;
+		SearchDate6Store.dgbc.gridwidth = 7;
+		infoLabel.setVisible(true);
+		SearchDate6Store.DatesPanel.add(infoLabel, SearchDate6Store.dgbc);
+
+		// Fill in top row
+		SearchDate6Store.dgbc.gridx = 0;
+		SearchDate6Store.dgbc.gridy = 1;
+		SearchDate6Store.dgbc.gridwidth = 1;
 		SearchDate6Store.startDate = new JLabel("Start Date:");
 		SearchDate6Store.startDate.setVisible(true);
 		SearchDate6Store.DatesPanel.add(SearchDate6Store.startDate,
 				SearchDate6Store.dgbc);
 
 		// Create JComboBoxes
-		String[] months = { "Month:", "January", "February", "March", "April",
-				"May", "June", "July", "August", "September", "October",
-				"November" };
+		String[] months = { "January", "February", "March", "April", "May",
+				"June", "July", "August", "September", "October", "November" };
 		SearchDate6Store.startMonth = new JComboBox<String>(months);
 		SearchDate6Store.dgbc.gridx = 1;
-		SearchDate6Store.dgbc.gridy = 0;
+		SearchDate6Store.dgbc.gridy = 1;
 		SearchDate6Store.startMonth.setVisible(true);
 		SearchDate6Store.DatesPanel.add(SearchDate6Store.startMonth,
 				SearchDate6Store.dgbc);
-		String[] days = { "Day:", "01", "02", "03", "04", "05", "06", "07", "08", "09",
+		String[] days = { "01", "02", "03", "04", "05", "06", "07", "08", "09",
 				"10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
 				"20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
 				"30", "31" };
 		SearchDate6Store.startDay = new JComboBox<String>(days);
 		SearchDate6Store.dgbc.gridx = 2;
-		SearchDate6Store.dgbc.gridy = 0;
+		SearchDate6Store.dgbc.gridy = 1;
 		SearchDate6Store.DatesPanel.add(SearchDate6Store.startDay,
 				SearchDate6Store.dgbc);
-		String[] years = { "Year:", "2015", "2014", "2013", "2012", "2011",
-				"2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003",
-				"2002", "2001", "2000" };
+		String[] years = { "2015", "2014", "2013", "2012", "2011", "2010",
+				"2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002",
+				"2001", "2000" };
 		SearchDate6Store.startYear = new JComboBox<String>(years);
 		SearchDate6Store.dgbc.gridx = 3;
-		SearchDate6Store.dgbc.gridy = 0;
+		SearchDate6Store.dgbc.gridy = 1;
 		SearchDate6Store.DatesPanel.add(SearchDate6Store.startYear,
+				SearchDate6Store.dgbc);
+		SearchDate6Store.dash = new JLabel("-");
+		SearchDate6Store.dgbc.gridx = 4;
+		SearchDate6Store.dgbc.gridy = 1;
+		SearchDate6Store.DatesPanel.add(SearchDate6Store.dash,
+				SearchDate6Store.dgbc);
+		String[] hours = { "00", "01", "02", "03", "04", "05", "06", "07",
+				"08", "09", "10", "11", "12", "13", "14", "15", "16", "17",
+				"18", "19", "20", "21", "22", "23" };
+		SearchDate6Store.startHour = new JComboBox<String>(hours);
+		SearchDate6Store.dgbc.gridx = 5;
+		SearchDate6Store.dgbc.gridy = 1;
+		SearchDate6Store.DatesPanel.add(SearchDate6Store.startHour,
+				SearchDate6Store.dgbc);
+		String[] minute = { "01", "02", "03", "04", "05", "06", "07", "08",
+				"09", "10", "11", "12", "13", "14", "15", "16", "17", "18",
+				"19", "20", "21", "22", "23", "24", "25", "26", "27", "28",
+				"29", "30", "31", "32", "33", "34", "35", "36", "37", "38",
+				"39", "40", "44", "42", "43", "44", "45", "46", "47", "48",
+				"49", "50", "51", "52", "53", "54", "55", "56", "57", "58",
+				"59", "60" };
+		SearchDate6Store.startMinute = new JComboBox<String>(minute);
+		SearchDate6Store.dgbc.gridx = 6;
+		SearchDate6Store.dgbc.gridy = 1;
+		SearchDate6Store.DatesPanel.add(SearchDate6Store.startMinute,
+				SearchDate6Store.dgbc);
+		String[] second = { "01", "02", "03", "04", "05", "06", "07", "08",
+				"09", "10", "11", "12", "13", "14", "15", "16", "17", "18",
+				"19", "20", "21", "22", "23", "24", "25", "26", "27", "28",
+				"29", "30", "31", "32", "33", "34", "35", "36", "37", "38",
+				"39", "40", "44", "42", "43", "44", "45", "46", "47", "48",
+				"49", "50", "51", "52", "53", "54", "55", "56", "57", "58",
+				"59", "60" };
+		SearchDate6Store.startSecond = new JComboBox<String>(second);
+		SearchDate6Store.dgbc.gridx = 7;
+		SearchDate6Store.dgbc.gridy = 1;
+		SearchDate6Store.DatesPanel.add(SearchDate6Store.startSecond,
 				SearchDate6Store.dgbc);
 
 		SearchDate6Store.endDate = new JLabel("End Date:");
 		SearchDate6Store.dgbc.gridx = 0;
-		SearchDate6Store.dgbc.gridy = 1;
+		SearchDate6Store.dgbc.gridy = 2;
 		SearchDate6Store.DatesPanel.add(SearchDate6Store.endDate,
 				SearchDate6Store.dgbc);
+
 		// Create JComboBoxes for end Date
 		SearchDate6Store.endMonth = new JComboBox<String>(months);
 		SearchDate6Store.dgbc.gridx = 1;
-		SearchDate6Store.dgbc.gridy = 1;
+		SearchDate6Store.dgbc.gridy = 2;
 		SearchDate6Store.DatesPanel.add(SearchDate6Store.endMonth,
 				SearchDate6Store.dgbc);
 		SearchDate6Store.endDay = new JComboBox<String>(days);
 		SearchDate6Store.dgbc.gridx = 2;
-		SearchDate6Store.dgbc.gridy = 1;
+		SearchDate6Store.dgbc.gridy = 2;
 		SearchDate6Store.DatesPanel.add(SearchDate6Store.endDay,
 				SearchDate6Store.dgbc);
 		SearchDate6Store.endYear = new JComboBox<String>(years);
 		SearchDate6Store.dgbc.gridx = 3;
-		SearchDate6Store.dgbc.gridy = 1;
+		SearchDate6Store.dgbc.gridy = 2;
 		SearchDate6Store.DatesPanel.add(SearchDate6Store.endYear,
+				SearchDate6Store.dgbc);
+
+		SearchDate6Store.dash = new JLabel("-");
+		SearchDate6Store.dgbc.gridx = 4;
+		SearchDate6Store.dgbc.gridy = 2;
+		SearchDate6Store.DatesPanel.add(SearchDate6Store.dash,
+				SearchDate6Store.dgbc);
+
+		SearchDate6Store.endHour = new JComboBox<String>(hours);
+		SearchDate6Store.dgbc.gridx = 5;
+		SearchDate6Store.dgbc.gridy = 2;
+		SearchDate6Store.DatesPanel.add(SearchDate6Store.endHour,
+				SearchDate6Store.dgbc);
+
+		SearchDate6Store.endMinute = new JComboBox<String>(minute);
+		SearchDate6Store.dgbc.gridx = 6;
+		SearchDate6Store.dgbc.gridy = 2;
+		SearchDate6Store.DatesPanel.add(SearchDate6Store.endMinute,
+				SearchDate6Store.dgbc);
+
+		SearchDate6Store.endSecond = new JComboBox<String>(second);
+		SearchDate6Store.dgbc.gridx = 7;
+		SearchDate6Store.dgbc.gridy = 2;
+		SearchDate6Store.DatesPanel.add(SearchDate6Store.endSecond,
 				SearchDate6Store.dgbc);
 
 		SearchDate6Store.LowerPanel.add(SearchDate6Store.DatesPanel,
@@ -188,92 +262,244 @@ public class SearchDate6State extends PhotoAlbumState {
 
 		SearchDate6Store.cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-					
-				}
 
-			
+			}
+
 		});
 
 		SearchDate6Store.submitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String month = (String)SearchDate6Store.startMonth.getSelectedItem();
-				String month1=null;
-				 System.out.println(month);
-				switch ((String)SearchDate6Store.startMonth.getSelectedItem()){
-					case("January"): month1="01";
+				String month = (String) SearchDate6Store.startMonth
+						.getSelectedItem();
+				String month1 = null;
+				System.out.println(month);
+				switch ((String) SearchDate6Store.startMonth.getSelectedItem()) {
+				case ("January"):
+					month1 = "01";
 					break;
-					case("Feburary"): month1="02";
+				case ("February"):
+					month1 = "02";
 					break;
-					case("March"): month1="03";
+				case ("March"):
+					month1 = "03";
 					break;
-					case("April"): month1="04";
+				case ("April"):
+					month1 = "04";
 					break;
-					case("May"): month1="05";
+				case ("May"):
+					month1 = "05";
 					break;
-					case("June"): month1="06";
+				case ("June"):
+					month1 = "06";
 					break;
-					case("July"): month1="07";
+				case ("July"):
+					month1 = "07";
 					break;
-					case("August"): month1="08";
+				case ("August"):
+					month1 = "08";
 					break;
-					case("September"): month1="09";
+				case ("September"):
+					month1 = "09";
 					break;
-					case("October"): month1="10";
+				case ("October"):
+					month1 = "10";
 					break;
-					case("November"): month1="11";
+				case ("November"):
+					month1 = "11";
 					break;
-					case("Deccember"): month1="12";
+				case ("December"):
+					month1 = "12";
 					break;
 				}
-				
-				String month2=null;
-				 month = (String)SearchDate6Store.endMonth.getSelectedItem();
-				 System.out.println(month);
-				switch (month){
-					case("January"): month2="01";
+
+				String month2 = null;
+				month = (String) SearchDate6Store.endMonth.getSelectedItem();
+				System.out.println(month);
+				switch (month) {
+				case ("January"):
+					month2 = "01";
 					break;
-					case("Feburary"): month2="02";
+				case ("February"):
+					month2 = "02";
 					break;
-					case("March"): month2="03";
+				case ("March"):
+					month2 = "03";
 					break;
-				
-					case("April"): month2="04";
+				case ("April"):
+					month2 = "04";
 					break;
-					case("May"): month2="05";
+				case ("May"):
+					month2 = "05";
 					break;
-					case("June"): month2="06";
+				case ("June"):
+					month2 = "06";
 					break;
-					case("July"): month2="07";
+				case ("July"):
+					month2 = "07";
 					break;
-					case("August"): month2="08";
+				case ("August"):
+					month2 = "08";
 					break;
-					case("September"): month2="09";
+				case ("September"):
+					month2 = "09";
 					break;
-					case("October"): month2="10";
+				case ("October"):
+					month2 = "10";
 					break;
-					case("November"): month2="11";
+				case ("November"):
+					month2 = "11";
 					break;
-					case("Deccember"): month2="12";
+				case ("December"):
+					month2 = "12";
 					break;
-					
+
 				}
-					
-				String startdate=month1+"/"+SearchDate6Store.startDay.getSelectedItem()+"/"+SearchDate6Store.startYear.getSelectedItem()+"-00:00:00";
-				String enddate=month2+"/"+SearchDate6Store.endDay.getSelectedItem()+"/"+SearchDate6Store.endYear.getSelectedItem()+"-00:00:00";
-				
+
+				String startdate = month1 + "/"
+						+ SearchDate6Store.startDay.getSelectedItem() + "/"
+						+ SearchDate6Store.startYear.getSelectedItem() + "-"
+						+ SearchDate6Store.startHour.getSelectedItem() + ":"
+						+ SearchDate6Store.startMinute.getSelectedItem() + ":"
+						+ SearchDate6Store.startSecond.getSelectedItem();
+
+				String enddate = month2 + "/"
+						+ SearchDate6Store.endDay.getSelectedItem() + "/"
+						+ SearchDate6Store.endYear.getSelectedItem() + "-"
+						+ SearchDate6Store.endHour.getSelectedItem() + ":"
+						+ SearchDate6Store.endMinute.getSelectedItem() + ":"
+						+ SearchDate6Store.endSecond.getSelectedItem();
+
 				System.out.println(startdate);
 				System.out.println(enddate);
-				
-				Results8Store.results=PhotoAlbum.controller.getPhotosByDate(Login1State.user, startdate, enddate);
-				
-				PhotoAlbum.controller.getPhotosByDate(Login1State.user, startdate, enddate);
-				
-				SearchDate6State.instance=null;
-				PhotoAlbumStore.results8State.enter();
-				
+
+				// Sanity check for month
+				if (!validDateCheck()) {
+					// put error label
+					SearchDate6Store.errLabel = new JLabel("Error: Invalid Date.", SwingConstants.CENTER);
+					SearchDate6Store.errLabel.setForeground(Color.red);
+					SearchDate6Store.errLabel.setPreferredSize(new Dimension(200, 20));
+					SearchDate6Store.dgbc.gridx = 0;
+					SearchDate6Store.dgbc.gridy = 3;
+					SearchDate6Store.dgbc.gridwidth = 7;
+					SearchDate6Store.errLabel.setVisible(true);
+					SearchDate6Store.DatesPanel.add(
+							SearchDate6Store.errLabel, SearchDate6Store.dgbc);
+
+					SearchDate6Store.pa.revalidate();
+					SearchDate6Store.pa.repaint();
+					
+				} else {
+
+					Results8Store.results = PhotoAlbum.controller
+							.getPhotosByDate(Login1State.user, startdate,
+									enddate);
+
+					PhotoAlbum.controller.getPhotosByDate(Login1State.user,
+							startdate, enddate);
+
+					SearchDate6State.instance = null;
+					PhotoAlbumStore.results8State.enter();
+				}
 			}
 		});
+
+	}
+
+	public boolean validDateCheck() {
+
+		switch (SearchDate6Store.startMonth.getSelectedItem().toString()) {
+		case ("January"):
+			return true;
+		case ("February"):
+			System.out.println(Integer.parseInt(SearchDate6Store.startDay.getSelectedItem()
+					.toString()));
+			if (Integer.parseInt(SearchDate6Store.startDay.getSelectedItem()
+					.toString()) > 28) {
+				return false;
+			}
+			break;
+		case ("March"):
+			return true;
+		case ("April"):
+			if (Integer.parseInt(SearchDate6Store.startDay.getSelectedItem()
+					.toString()) > 30) {
+				return false;
+			}
+		case ("May"):
+
+			return true;
+		case ("June"):
+			if (Integer.parseInt(SearchDate6Store.startDay.getSelectedItem()
+					.toString()) > 30) {
+				return false;
+			}
+		case ("July"):
+			return true;
+		case ("August"):
+			return true;
+		case ("September"):
+			if (Integer.parseInt(SearchDate6Store.startDay.getSelectedItem()
+					.toString()) > 30) {
+				return false;
+			}
+		case ("October"):
+			return true;
+		case ("November"):
+			if (Integer.parseInt(SearchDate6Store.startDay.getSelectedItem()
+					.toString()) > 30) {
+				return false;
+			}
+		case ("December"):
+			return true;
+		}
+		
+		switch (SearchDate6Store.endMonth.getSelectedItem().toString()) {
+		case ("January"):
+			return true;
+		case ("February"):
+			System.out.println(Integer.parseInt(SearchDate6Store.endDay.getSelectedItem()
+					.toString()));
+			if (Integer.parseInt(SearchDate6Store.endDay.getSelectedItem()
+					.toString()) > 28) {
+				return false;
+			}
+			break;
+		case ("March"):
+			return true;
+		case ("April"):
+			if (Integer.parseInt(SearchDate6Store.endDay.getSelectedItem()
+					.toString()) > 30) {
+				return false;
+			}
+		case ("May"):
+
+			return true;
+		case ("June"):
+			if (Integer.parseInt(SearchDate6Store.endDay.getSelectedItem()
+					.toString()) > 30) {
+				return false;
+			}
+		case ("July"):
+			return true;
+		case ("August"):
+			return true;
+		case ("September"):
+			if (Integer.parseInt(SearchDate6Store.endDay.getSelectedItem()
+					.toString()) > 30) {
+				return false;
+			}
+		case ("October"):
+			return true;
+		case ("November"):
+			if (Integer.parseInt(SearchDate6Store.endDay.getSelectedItem()
+					.toString()) > 30) {
+				return false;
+			}
+		case ("December"):
+			return true;
+		}
+
+		return true;
 
 	}
 

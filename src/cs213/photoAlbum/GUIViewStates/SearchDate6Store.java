@@ -34,6 +34,14 @@ public class SearchDate6Store {
 	static JComboBox<String> endDay;
 	static JComboBox<String> startYear;
 	static JComboBox<String> endYear;
+	static JLabel dash;
+	static JComboBox<String> startHour;
+	static JComboBox<String> startMinute;
+	static JComboBox<String> startSecond;
+	static JComboBox<String> endHour;
+	static JComboBox<String> endMinute;
+	static JComboBox<String> endSecond;
+	static JLabel errLabel;
 	
 	//lowerPanel grid bag
 	static GridBagLayout lpgbl;
