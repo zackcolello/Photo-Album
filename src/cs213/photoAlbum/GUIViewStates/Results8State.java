@@ -150,7 +150,6 @@ public class Results8State extends PhotoAlbumState {
 		Results8Store.CreateErrLabel = new JLabel(
 				"Error: Unable to Create New Albume with this Name");
 		
-		System.out.println(Results8Store.results);
 		if (!Results8Store.results.isEmpty()) {
 
 			for (photo p : Results8Store.results) {
