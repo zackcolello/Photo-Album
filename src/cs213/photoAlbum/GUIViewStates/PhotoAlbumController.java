@@ -3,6 +3,12 @@ package cs213.photoAlbum.GUIViewStates;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
+/**
+ * 
+ * @author Zack Colello
+ *
+ */
 public class PhotoAlbumController implements ActionListener{
 	
 	

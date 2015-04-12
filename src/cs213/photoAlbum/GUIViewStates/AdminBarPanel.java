@@ -12,6 +12,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
+/**
+ * 
+ * @author Anna Genke
+ *
+ */
 public class AdminBarPanel extends JPanel {
 	
 

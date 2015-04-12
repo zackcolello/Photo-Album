@@ -14,6 +14,11 @@ import javax.swing.JTextField;
 
 import cs213.photoAlbum.model.User;
 
+/**
+ * 
+ * @author Anna Genke
+ *
+ */
 public class Admin2Store {
 	
 	static PhotoAlbum pa;

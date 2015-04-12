@@ -8,6 +8,11 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * 
+ * @author Anna Genke
+ *
+ */
 public class SearchDate6Store {
 
 	// PhotoAlbum

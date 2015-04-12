@@ -15,6 +15,11 @@ import javax.swing.JTextField;
 import cs213.photoAlbum.model.album;
 import cs213.photoAlbum.model.photo;
 
+/**
+ * 
+ * @author Zack Colello
+ *
+ */
 public class Album5Store  {
 	
 	//PhotoAlbum

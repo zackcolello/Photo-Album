@@ -4,7 +4,11 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JFrame;
 
-
+/**
+ * 
+ * @author Anna Genke
+ *
+ */
 public abstract class PhotoAlbumState {
 
 	//Enter the state

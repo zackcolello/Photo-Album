@@ -13,6 +13,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
+/**
+ * 
+ * @author Zack Colello
+ *
+ */
 public class MenuBarPanel extends JPanel {
 
 	JButton logoutButton = new JButton("Logout");

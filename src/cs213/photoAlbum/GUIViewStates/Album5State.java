@@ -29,6 +29,11 @@ import cs213.photoAlbum.model.album;
 import cs213.photoAlbum.model.photo;
 import cs213.photoAlbum.model.tag;
 
+/**
+ * 
+ * @author Zack Colello
+ *
+ */
 public class Album5State extends PhotoAlbumState {
 
 	static Album5State instance = null;

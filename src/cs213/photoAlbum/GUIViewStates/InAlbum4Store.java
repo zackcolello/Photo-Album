@@ -14,6 +14,11 @@ import javax.swing.JTextField;
 import cs213.photoAlbum.model.album;
 import cs213.photoAlbum.model.photo;
 
+/**
+ * 
+ * @author Anna Genke
+ *
+ */
 public class InAlbum4Store {
 
 static PhotoAlbum pa;

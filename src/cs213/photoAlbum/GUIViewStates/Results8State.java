@@ -31,6 +31,11 @@ import javax.swing.border.EtchedBorder;
 import cs213.photoAlbum.model.album;
 import cs213.photoAlbum.model.photo;
 
+/** 
+ * 
+ * @author Anna Genke
+ *
+ */
 public class Results8State extends PhotoAlbumState {
 	
 	static Results8State instance = null;

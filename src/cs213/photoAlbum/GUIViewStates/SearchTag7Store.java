@@ -15,6 +15,11 @@ import javax.swing.JTextField;
 import cs213.photoAlbum.model.User;
 import cs213.photoAlbum.model.tag;
 
+/**
+ * 
+ * @author Anna Genke
+ *
+ */
 public class SearchTag7Store {
 
 	static PhotoAlbum pa;
