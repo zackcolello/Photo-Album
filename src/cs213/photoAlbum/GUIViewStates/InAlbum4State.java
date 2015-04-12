@@ -248,8 +248,11 @@ public class InAlbum4State extends PhotoAlbumState {
 						@Override
 						public void mousePressed(MouseEvent e) {
 							if (e.getClickCount()==2){
-								System.out.println("click-click");
-							}
+								Album5Store.currentPhoto = PhotoAlbum.backend.getUser(Login1State.user).getPhoto(getSelectedPhoto());
+								Album5Store.currentAlbum = (album) PhotoAlbum.backend.getUser(Login1State.user).getAlbum(InAlbum4Store.albumName);
+								InAlbum4State.instance = null;
+								PhotoAlbumStore.album5State.enter();
+							}else{
 							for (JPanel f : InAlbum4Store.PhotosArray) {
 								f.setBackground(Color.WHITE);
 							}
@@ -259,6 +262,7 @@ public class InAlbum4State extends PhotoAlbumState {
 							j.setBackground(Color.LIGHT_GRAY);
 							InAlbum4Store.pa.revalidate();
 							InAlbum4Store.pa.repaint();
+						}
 						}
 
 					});
@@ -516,8 +520,7 @@ public class InAlbum4State extends PhotoAlbumState {
 												PhotoAlbum.backend
 														.getUser(Login1State.user)
 														.getPhoto(
-																InAlbum4Store.PhotoField
-																		.getText())
+																f.getCanonicalPath())
 														.getCount() + 1);
 
 								// add photo to album
@@ -533,8 +536,7 @@ public class InAlbum4State extends PhotoAlbumState {
 								PhotoAlbumStore.inalbum4State.enter();
 
 							} else {
-								photo newPhoto = new photo(InAlbum4Store.PhotoField
-										.getText(), InAlbum4Store.CaptionField
+								photo newPhoto = new photo(f.getCanonicalPath(), InAlbum4Store.CaptionField
 										.getText());
 								System.out.println(PhotoAlbum.backend.getUser(
 										Login1State.user).addUserPhoto(
