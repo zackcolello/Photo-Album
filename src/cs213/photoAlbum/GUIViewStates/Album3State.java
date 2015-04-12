@@ -385,6 +385,16 @@ public class Album3State extends PhotoAlbumState {
 				Album3Store.fillerPanel.add(Album3Store.CancelAlbum,
 						Album3Store.filgbc);
 
+				Album3Store.errLabel.setVisible(false);
+				Album3Store.errLabel.setForeground(Color.red);
+				Album3Store.filgbc.gridy = 2;
+				Album3Store.filgbc.gridx = 0;
+				Album3Store.filgbc.weighty = 1;
+				Album3Store.filgbc.weightx = 1;
+				Album3Store.filgbc.fill = GridBagConstraints.BOTH;
+				Album3Store.filgbc.gridwidth = 3;
+				Album3Store.fillerPanel.add(Album3Store.errLabel, Album3Store.filgbc);
+				
 				// Create whitespace filler panel
 				Album3Store.fillerbottom = new JPanel();
 				Album3Store.filgbc.gridy = 2;
@@ -639,14 +649,7 @@ public class Album3State extends PhotoAlbumState {
 	public void addAlbumError() {
 
 		Album3Store.errLabel.setVisible(true);
-		Album3Store.errLabel.setForeground(Color.red);
-		Album3Store.bgbc.gridy = 2;
-		Album3Store.bgbc.gridx = 0;
-		Album3Store.bgbc.weighty = 1;
-		Album3Store.bgbc.weightx = 1;
-		Album3Store.bgbc.fill = GridBagConstraints.BOTH;
-		Album3Store.bgbc.gridwidth = 3;
-		Album3Store.ButtonsPanel.add(Album3Store.errLabel, Album3Store.bgbc);
+
 
 		Album3Store.pa.revalidate();
 		Album3Store.pa.repaint();
