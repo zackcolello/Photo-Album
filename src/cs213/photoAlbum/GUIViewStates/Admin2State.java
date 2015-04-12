@@ -38,6 +38,7 @@ public class Admin2State extends PhotoAlbumState {
 	public void enter(){
 		System.out.println("Admin state");
 
+		
 		// Grab current JFrame
 		Frame[] frames = Frame.getFrames();
 		Admin2Store.pa = (PhotoAlbum) frames[0];
