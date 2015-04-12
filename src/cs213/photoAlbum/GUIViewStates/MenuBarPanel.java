@@ -100,6 +100,8 @@ public class MenuBarPanel extends JPanel {
 						.equals("By Tag")) {
 
 					// Go to state 7
+					PhotoAlbumStore.searchTag7State.enter();
+					PhotoAlbumStore.searchTag7State.enter();
 				}
 
 			}
@@ -134,6 +136,8 @@ public class MenuBarPanel extends JPanel {
 		} else if (searchBox.getSelectedItem().toString().equals("By Tag")) {
 
 			// Go to state 7
+			PhotoAlbumStore.searchTag7State.enter();
+			return PhotoAlbumStore.searchTag7State;
 		}
 
 		return null;
