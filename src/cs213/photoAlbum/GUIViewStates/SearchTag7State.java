@@ -311,7 +311,6 @@ public class SearchTag7State extends PhotoAlbumState {
 					@Override
 					public void keyTyped(KeyEvent event) {
 						if (!SearchTag7Store.valueField.getText().equals("")) {
-							System.out.println("here");
 							SearchTag7Store.submitButton.setEnabled(true);
 						} else {
 							SearchTag7Store.submitButton.setEnabled(false);
