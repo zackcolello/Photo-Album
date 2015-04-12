@@ -60,6 +60,7 @@ public class Album3State extends PhotoAlbumState {
 		MenuBar = (JPanel) ((MenuBarPanel) MenuBar)
 				.CreateMenuBarPanel("Albums");
 		Album3Store.gbc.fill = GridBagConstraints.HORIZONTAL;
+		Album3Store.gbc.anchor = GridBagConstraints.NORTH;
 		Album3Store.gbc.gridx = 0;
 		Album3Store.gbc.gridy = 0;
 		Album3Store.gbc.weightx = 1;
@@ -82,7 +83,7 @@ public class Album3State extends PhotoAlbumState {
 		Album3Store.albumScroll.setLayout(new ScrollPaneLayout());
 		Album3Store.albumScroll.setVisible(true);
 		Album3Store.albumPanel.setLayout(new BorderLayout());
-		Album3Store.albumPanel.setPreferredSize(new Dimension(300, 545));
+		Album3Store.albumPanel.setPreferredSize(new Dimension(100, 200));
 		Album3Store.albumPanel
 				.add(Album3Store.albumScroll, BorderLayout.CENTER);
 
@@ -99,7 +100,7 @@ public class Album3State extends PhotoAlbumState {
 		// Create Buttons Panel
 		Album3Store.ButtonsPanel = new JPanel();
 		Album3Store.ButtonsPanel.setLayout(Album3Store.gbl);
-		Album3Store.ButtonsPanel.setPreferredSize(new Dimension(300, 545));
+		Album3Store.ButtonsPanel.setPreferredSize(new Dimension(100, 200));
 		Album3Store.bgbc = new GridBagConstraints();
 		Album3Store.bgbl = new GridBagLayout();
 		Album3Store.ButtonsPanel.setLayout(Album3Store.bgbl);
@@ -178,6 +179,9 @@ public class Album3State extends PhotoAlbumState {
 			temp.setVisible(true);
 
 			// Build temp's information
+			for(photo p: a.getPhotos()){
+				System.out.println(p);
+			}
 			if (a.getPhotos().size() == 0) {
 				ImageIcon noPhoto = new ImageIcon("docs/NoPhotos.png");
 				Album3Store.algbc.gridx = 0;
@@ -187,6 +191,7 @@ public class Album3State extends PhotoAlbumState {
 			} else {
 				
 				//Grab thumbnail of first photo
+				System.out.println(a);
 				ImageIcon thumbnail = a.getPhotos().get(0).getPhoto();
 				Album3Store.algbc.gridx = 0;
 				Album3Store.algbc.gridy = 0;
