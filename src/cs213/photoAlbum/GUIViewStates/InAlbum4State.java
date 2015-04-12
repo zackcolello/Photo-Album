@@ -257,6 +257,7 @@ public class InAlbum4State extends PhotoAlbumState {
 								f.setBackground(Color.WHITE);
 							}
 
+							
 							InAlbum4Store.MovePhotoButton.setEnabled(true);
 							InAlbum4Store.DeletePhotoButton.setEnabled(true);
 							j.setBackground(Color.LIGHT_GRAY);

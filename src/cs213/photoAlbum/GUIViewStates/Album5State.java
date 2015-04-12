@@ -43,6 +43,7 @@ public class Album5State extends PhotoAlbumState {
 		Album5Store.pa.getContentPane().repaint();
 		Album5Store.pa.getContentPane().revalidate();
 
+		
 		// Create constraints, add to main panel
 		Album5Store.gbl = new GridBagLayout();
 		Album5Store.gbc = new GridBagConstraints();
@@ -92,7 +93,7 @@ public class Album5State extends PhotoAlbumState {
 				Album5Store.ppgbc);
 
 		// Store a current Photo, so we know when we are flipping through photos
-		System.out.println(Album5Store.currentPhoto);
+		//System.out.println(Album5Store.currentPhoto);
 		Album5Store.photo = Album5Store.currentPhoto.getPhoto();
 
 		// Set image size to fit PhotoPanel if very large

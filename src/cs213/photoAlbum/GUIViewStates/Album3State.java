@@ -41,6 +41,7 @@ public class Album3State extends PhotoAlbumState {
 
 		Album3Store.albumsArray = new ArrayList<JPanel>();
 
+		
 		// Grab current JFrame and remove all the things
 		Frame[] frames = Frame.getFrames();
 		Album3Store.pa = (PhotoAlbum) frames[0];
