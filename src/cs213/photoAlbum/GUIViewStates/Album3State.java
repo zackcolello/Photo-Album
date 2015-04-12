@@ -180,9 +180,6 @@ public class Album3State extends PhotoAlbumState {
 			temp.setVisible(true);
 
 			// Build temp's information
-			for(photo p: a.getPhotos()){
-				System.out.println(p);
-			}
 			if (a.getPhotos().size() == 0) {
 				ImageIcon noPhoto = new ImageIcon("data/NoPhotos.png");
 				Album3Store.algbc.gridx = 0;
@@ -192,7 +189,6 @@ public class Album3State extends PhotoAlbumState {
 			} else {
 				
 				//Grab thumbnail of first photo
-				System.out.println(a);
 				ImageIcon thumbnail = a.getPhotos().get(0).getPhoto();
 				Album3Store.algbc.gridx = 0;
 				Album3Store.algbc.gridy = 0;
