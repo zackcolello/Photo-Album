@@ -210,6 +210,7 @@ public class InAlbum4State extends PhotoAlbumState {
 				InAlbum4Store.PhotoName = new JLabel(p.getFileName());
 				InAlbum4Store.phgbc.gridx = 0;
 				InAlbum4Store.phgbc.gridy = 1;
+				InAlbum4Store.PhotoName.setVisible(false);
 				temp.add(InAlbum4Store.PhotoName, InAlbum4Store.phgbc);
 
 				// Add the caption of the photo to the temp JPanel
