@@ -202,12 +202,12 @@ public class Login1State extends PhotoAlbumState {
 			
 			//Just for now while testing state 4
 			//InAlbum4Store.albumName = "Things";
+			//PhotoAlbumStore.results8State.enter();
+			//return PhotoAlbumStore.results8State;
+			
+			
 			PhotoAlbumStore.album3State.enter();
 			return PhotoAlbumStore.album3State;
-			
-			
-			//PhotoAlbumStore.album3State.enter();
-			//return PhotoAlbumStore.album3State;
 		}
 
 		return null;

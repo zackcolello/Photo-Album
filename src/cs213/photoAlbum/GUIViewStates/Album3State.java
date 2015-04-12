@@ -101,7 +101,7 @@ public class Album3State extends PhotoAlbumState {
 		// Create Buttons Panel
 		Album3Store.ButtonsPanel = new JPanel();
 		Album3Store.ButtonsPanel.setLayout(Album3Store.gbl);
-		Album3Store.ButtonsPanel.setPreferredSize(new Dimension(100, 540));
+		Album3Store.ButtonsPanel.setPreferredSize(new Dimension(225, 540));
 		Album3Store.bgbc = new GridBagConstraints();
 		Album3Store.bgbl = new GridBagLayout();
 		Album3Store.ButtonsPanel.setLayout(Album3Store.bgbl);

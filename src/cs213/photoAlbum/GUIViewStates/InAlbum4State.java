@@ -60,7 +60,7 @@ public class InAlbum4State extends PhotoAlbumState {
 
 		// Create top Menu Bar
 		JPanel MenuBar = new MenuBarPanel();
-		MenuBar = (JPanel) ((MenuBarPanel) MenuBar).CreateMenuBarPanel("Photo");
+		MenuBar = (JPanel) ((MenuBarPanel) MenuBar).CreateMenuBarPanel(InAlbum4Store.albumName);
 		InAlbum4Store.gbc.fill = GridBagConstraints.HORIZONTAL;
 		InAlbum4Store.gbc.gridx = 0;
 		InAlbum4Store.gbc.gridy = 0;
@@ -76,6 +76,7 @@ public class InAlbum4State extends PhotoAlbumState {
 		// set up inner Panel of album panel
 		InAlbum4Store.innerPanel.setBorder(new EtchedBorder());
 		InAlbum4Store.innerPanel.setLayout(InAlbum4Store.gbl);
+		
 
 		// Create jscrollpane for album panel
 		InAlbum4Store.photoScroll = new JScrollPane(InAlbum4Store.innerPanel);
@@ -85,7 +86,7 @@ public class InAlbum4State extends PhotoAlbumState {
 		InAlbum4Store.photoScroll.setLayout(new ScrollPaneLayout());
 		InAlbum4Store.photoScroll.setVisible(true);
 		InAlbum4Store.photoPanel.setLayout(new BorderLayout());
-		InAlbum4Store.photoPanel.setPreferredSize(new Dimension(50, 540));
+		InAlbum4Store.photoPanel.setPreferredSize(new Dimension(100, 540));
 		InAlbum4Store.photoPanel.add(InAlbum4Store.photoScroll,
 				BorderLayout.CENTER);
 
@@ -103,7 +104,7 @@ public class InAlbum4State extends PhotoAlbumState {
 		// Create Buttons Panel
 		InAlbum4Store.ButtonsPanel = new JPanel();
 		InAlbum4Store.ButtonsPanel.setLayout(InAlbum4Store.gbl);
-		InAlbum4Store.ButtonsPanel.setPreferredSize(new Dimension(50, 540));
+		InAlbum4Store.ButtonsPanel.setPreferredSize(new Dimension(120, 540));
 		InAlbum4Store.bgbc = new GridBagConstraints();
 		InAlbum4Store.bgbl = new GridBagLayout();
 		InAlbum4Store.ButtonsPanel.setLayout(InAlbum4Store.bgbl);
@@ -119,7 +120,7 @@ public class InAlbum4State extends PhotoAlbumState {
 		InAlbum4Store.MovePhotoButton = new JButton("Move Photo");
 		InAlbum4Store.bgbc.gridx = 1;
 		InAlbum4Store.bgbc.gridy = 0;
-		InAlbum4Store.bgbc.weightx = 0.6;
+		InAlbum4Store.bgbc.weightx = 1;
 		InAlbum4Store.MovePhotoButton.setEnabled(false);
 		InAlbum4Store.ButtonsPanel.add(InAlbum4Store.MovePhotoButton,
 				InAlbum4Store.bgbc);
@@ -128,7 +129,7 @@ public class InAlbum4State extends PhotoAlbumState {
 		InAlbum4Store.DeletePhotoButton = new JButton("Delete Photo");
 		InAlbum4Store.bgbc.gridx = 2;
 		InAlbum4Store.bgbc.gridy = 0;
-		InAlbum4Store.bgbc.weightx = 0.5;
+		InAlbum4Store.bgbc.weightx = 1;
 		InAlbum4Store.DeletePhotoButton.setEnabled(false);
 		InAlbum4Store.ButtonsPanel.add(InAlbum4Store.DeletePhotoButton,
 				InAlbum4Store.bgbc);
@@ -531,8 +532,7 @@ public class InAlbum4State extends PhotoAlbumState {
 										.addPhoto(
 												PhotoAlbum.backend.getUser(
 														Login1State.user).getPhoto(
-														InAlbum4Store.PhotoField
-																.getText()));
+																f.getCanonicalPath()));
 								InAlbum4State.instance = null;
 								PhotoAlbumStore.inalbum4State.enter();
 
