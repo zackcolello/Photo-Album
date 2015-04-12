@@ -83,7 +83,7 @@ public class Album3State extends PhotoAlbumState {
 		Album3Store.albumScroll.setLayout(new ScrollPaneLayout());
 		Album3Store.albumScroll.setVisible(true);
 		Album3Store.albumPanel.setLayout(new BorderLayout());
-		Album3Store.albumPanel.setPreferredSize(new Dimension(100, 200));
+		Album3Store.albumPanel.setPreferredSize(new Dimension(100, 540));
 		Album3Store.albumPanel
 				.add(Album3Store.albumScroll, BorderLayout.CENTER);
 
@@ -100,7 +100,7 @@ public class Album3State extends PhotoAlbumState {
 		// Create Buttons Panel
 		Album3Store.ButtonsPanel = new JPanel();
 		Album3Store.ButtonsPanel.setLayout(Album3Store.gbl);
-		Album3Store.ButtonsPanel.setPreferredSize(new Dimension(100, 200));
+		Album3Store.ButtonsPanel.setPreferredSize(new Dimension(100, 540));
 		Album3Store.bgbc = new GridBagConstraints();
 		Album3Store.bgbl = new GridBagLayout();
 		Album3Store.ButtonsPanel.setLayout(Album3Store.bgbl);
