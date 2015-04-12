@@ -24,6 +24,8 @@ public class Album5Store  {
 	static album currentAlbum;
 	
 	
+	
+	
 	//MainPanel and constraints
 	static GridBagLayout gbl;
 	static GridBagConstraints gbc;
