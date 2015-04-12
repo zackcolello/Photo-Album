@@ -40,7 +40,7 @@ static PhotoAlbum pa;
 	static GridBagLayout bgbl;
 	static GridBagConstraints bgbc;
 	
-	//For when AddAlbum Button is clicked
+	//For when Add Button is clicked
 	static GridBagLayout filgbl;
 	static GridBagConstraints filgbc;
 	static JLabel PhotoPath;
