@@ -55,7 +55,7 @@ public class SearchTag7State extends PhotoAlbumState {
 		// Create top Menu Bar
 		JPanel MenuBar = new MenuBarPanel();
 		MenuBar = (JPanel) ((MenuBarPanel) MenuBar)
-				.CreateMenuBarPanel("Albums");
+				.CreateMenuBarPanel("Search By Tag");
 		SearchTag7Store.gbc.fill = GridBagConstraints.HORIZONTAL;
 		SearchTag7Store.gbc.gridx = 0;
 		SearchTag7Store.gbc.gridy = 0;
@@ -84,7 +84,10 @@ public class SearchTag7State extends PhotoAlbumState {
 		SearchTag7Store.MainPanel.add(SearchTag7Store.TagLabelPanel, SearchTag7Store.gbc);
 
 		SearchTag7Store.TagListPanel = new JPanel();
+		
+		if(SearchTag7Store.listModel == null){
 		SearchTag7Store.listModel = new DefaultListModel<String>();
+		}
 		SearchTag7Store.TagArrList = new ArrayList<String>();
 		
 		for (String s : SearchTag7Store.TagArrList) {
@@ -202,10 +205,8 @@ public class SearchTag7State extends PhotoAlbumState {
 	public void AddListeners() {
 
 		SearchTag7Store.submitButton = new JButton("Submit");
-		//SearchTag7Store.cancelButton = new JButton("Cancel");
 
 		// Even listener for list selection
-
 		SearchTag7Store.TagList
 				.addListSelectionListener(new ListSelectionListener() {
 					public void valueChanged(ListSelectionEvent e) {
@@ -350,6 +351,20 @@ public class SearchTag7State extends PhotoAlbumState {
 				
 			}
 		});
+		
+		//Submit button add tag
+		SearchTag7Store.submitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				String type = SearchTag7Store.typeField.getText();
+				String value = SearchTag7Store.valueField.getText();
+				SearchTag7Store.listModel.addElement(type + ":" + value);
+				
+				SearchTag7State.instance = null;
+				PhotoAlbumStore.searchTag7State.enter();
+				
+			}
+		});
 
 		// Event listener for Create Album Button
 		SearchTag7Store.SearchButton.addActionListener(new ActionListener() {
@@ -374,7 +389,9 @@ public class SearchTag7State extends PhotoAlbumState {
 		SearchTag7Store.removeTagButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				//remove the tag here
+				String type = SearchTag7Store.typeField.getText();
+				String value = SearchTag7Store.valueField.getText();
+				SearchTag7Store.listModel.removeElement(type + ":" + value);
 				
 				PhotoAlbumStore.searchTag7State.enter();
 			}
