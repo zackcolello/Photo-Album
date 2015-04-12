@@ -184,7 +184,7 @@ public class Album3State extends PhotoAlbumState {
 				System.out.println(p);
 			}
 			if (a.getPhotos().size() == 0) {
-				ImageIcon noPhoto = new ImageIcon("docs/NoPhotos.png");
+				ImageIcon noPhoto = new ImageIcon("data/NoPhotos.png");
 				Album3Store.algbc.gridx = 0;
 				Album3Store.algbc.gridy = 0;
 				JLabel photo = new JLabel("", noPhoto, JLabel.CENTER);
