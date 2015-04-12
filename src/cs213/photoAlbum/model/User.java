@@ -10,6 +10,7 @@ import java.util.ArrayList;
  *
  */
 public class User implements java.io.Serializable, IUser {
+	
 
 	/**
 	 * Holds the id of a User

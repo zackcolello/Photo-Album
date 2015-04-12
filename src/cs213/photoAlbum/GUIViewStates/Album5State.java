@@ -43,6 +43,7 @@ public class Album5State extends PhotoAlbumState {
 		Album5Store.pa.getContentPane().repaint();
 		Album5Store.pa.getContentPane().revalidate();
 
+		
 		// Create constraints, add to main panel
 		Album5Store.gbl = new GridBagLayout();
 		Album5Store.gbc = new GridBagConstraints();

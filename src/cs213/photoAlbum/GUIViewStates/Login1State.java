@@ -205,6 +205,7 @@ public class Login1State extends PhotoAlbumState {
 			PhotoAlbumStore.album3State.enter();
 			return PhotoAlbumStore.album3State;
 			
+			
 			//PhotoAlbumStore.album3State.enter();
 			//return PhotoAlbumStore.album3State;
 		}

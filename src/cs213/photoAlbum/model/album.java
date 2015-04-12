@@ -10,6 +10,7 @@ import java.util.ArrayList;
  *
  */
 public class album implements Ialbum, java.io.Serializable {
+	
 
 	/**
 	 * Stores the name of an album for a User

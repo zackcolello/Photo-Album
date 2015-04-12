@@ -22,6 +22,7 @@ import cs213.photoAlbum.GUIViewStates.Album5Store;
  */
 public class photo implements java.io.Serializable, Iphoto {
 
+	
 	/**
 	 * Holds the file name of the photo
 	 */
