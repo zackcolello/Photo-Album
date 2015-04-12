@@ -110,6 +110,11 @@ public class MenuBarPanel extends JPanel {
 		homeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				//checks to see if we need to clear the search result view
+				if(SearchTag7Store.listModel != null){
+					SearchTag7Store.listModel.clear();
+				}
+				
 				PhotoAlbumStore.album3State.enter();
 				
 			}

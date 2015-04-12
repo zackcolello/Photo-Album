@@ -88,6 +88,7 @@ public class SearchTag7State extends PhotoAlbumState {
 		if(SearchTag7Store.listModel == null){
 		SearchTag7Store.listModel = new DefaultListModel<String>();
 		}
+		
 		SearchTag7Store.TagArrList = new ArrayList<String>();
 		
 		for (String s : SearchTag7Store.TagArrList) {
@@ -150,7 +151,7 @@ public class SearchTag7State extends PhotoAlbumState {
 		SearchTag7Store.ButtonsPanel.setLayout(SearchTag7Store.gbl);
 		SearchTag7Store.ButtonsPanel.setPreferredSize(new Dimension(300, 540));
 		SearchTag7Store.bgbc = new GridBagConstraints();
-		SearchTag7Store.ButtonsPanel.setBorder(new EtchedBorder());
+		//SearchTag7Store.ButtonsPanel.setBorder(new EtchedBorder());
 		SearchTag7Store.bgbl = new GridBagLayout();
 		SearchTag7Store.ButtonsPanel.setLayout(SearchTag7Store.bgbl);
 
@@ -183,7 +184,7 @@ public class SearchTag7State extends PhotoAlbumState {
 		SearchTag7Store.gbc.gridy = 1;
 		SearchTag7Store.gbc.weightx = .2;
 		SearchTag7Store.gbc.weighty = 1;
-		SearchTag7Store.ButtonsPanel.setBorder(new EtchedBorder());
+		//SearchTag7Store.ButtonsPanel.setBorder(new EtchedBorder());
 		SearchTag7Store.ButtonsPanel.setVisible(true);
 		SearchTag7Store.MainPanel.setBorder(new EtchedBorder());
 		SearchTag7Store.gbc.gridheight = GridBagConstraints.REMAINDER;
@@ -230,7 +231,7 @@ public class SearchTag7State extends PhotoAlbumState {
 				SearchTag7Store.filgbl = new GridBagLayout();
 				SearchTag7Store.filgbc = new GridBagConstraints();
 				SearchTag7Store.fillerPanel.setLayout(SearchTag7Store.filgbl);
-				SearchTag7Store.fillerPanel.setBorder(new EtchedBorder());
+				//SearchTag7Store.fillerPanel.setBorder(new EtchedBorder());
 				SearchTag7Store.filgbc.insets = new Insets(10, 10, 10, 10);
 
 				// Create Name field
@@ -305,7 +306,7 @@ public class SearchTag7State extends PhotoAlbumState {
 						SearchTag7Store.filgbc);
 
 				SearchTag7Store.errLabel = new JLabel(
-						"Error, User already Exists with that ID");
+						"Error: Tag already exists.");
 
 				// Event listener for when text is entered into valueField
 				SearchTag7Store.valueField.addKeyListener(new KeyListener() {
@@ -356,39 +357,22 @@ public class SearchTag7State extends PhotoAlbumState {
 		SearchTag7Store.submitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				if (SearchTag7Store.listModel.contains(SearchTag7Store.typeField.getText() + ":" + SearchTag7Store.valueField.getText())) {
+					addDubError();
+
+				} else {
+				
 				String type = SearchTag7Store.typeField.getText();
 				String value = SearchTag7Store.valueField.getText();
 				SearchTag7Store.listModel.addElement(type + ":" + value);
 				
 				SearchTag7State.instance = null;
 				PhotoAlbumStore.searchTag7State.enter();
-				
-			}
-		});
-
-		// Event listener for Create Album Button
-		SearchTag7Store.SearchButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				if (PhotoAlbum.backend.containsUser(SearchTag7Store.typeField
-						.getText())) {
-					addDubError();
-
-				} else {
-
-					PhotoAlbum.backend.addUser(SearchTag7Store.typeField.getText(),
-							SearchTag7Store.valueField.getText());
-					SearchTag7State.instance = null;
-					
-					
-					
-					PhotoAlbumStore.searchTag7State.enter();
 				}
-
 			}
 		});
 
-		// Event listener for Delete Album Button
+		// Event listener for removeTag Button
 		SearchTag7Store.removeTagButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -399,6 +383,30 @@ public class SearchTag7State extends PhotoAlbumState {
 				PhotoAlbumStore.searchTag7State.enter();
 			}
 		});
+		
+		// Event listener for SearchTag Button
+				SearchTag7Store.SearchButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+						ArrayList<tag> tagList = new ArrayList<tag>();
+						
+						for(int i = 0; i <SearchTag7Store.listModel.getSize(); i++){
+
+							String temp = SearchTag7Store.listModel.get(i);
+							String type = temp.substring(0, temp.indexOf(':'));
+							String value = temp.substring(temp.indexOf(':') + 1);
+							tag newTag = new tag(type, value); 
+
+							tagList.add(newTag);
+							
+						}
+
+						Results8Store.results = PhotoAlbum.controller.getPhotosByTag(Login1State.user, tagList); 
+						SearchTag7State.instance = null;
+						PhotoAlbumStore.results8State.enter();
+					}
+				});
+		
 		
 		// Add listener for TagList to set removeTag button enabled or not
 		SearchTag7Store.TagList.addListSelectionListener(new ListSelectionListener() {
@@ -426,7 +434,6 @@ public class SearchTag7State extends PhotoAlbumState {
 		SearchTag7Store.bgbc.gridx = 0;
 		SearchTag7Store.bgbc.weighty = 1;
 		SearchTag7Store.bgbc.weightx = 1;
-		SearchTag7Store.bgbc.fill = GridBagConstraints.BOTH;
 		SearchTag7Store.bgbc.gridwidth = 3;
 		SearchTag7Store.ButtonsPanel.add(SearchTag7Store.errLabel, SearchTag7Store.bgbc);
 

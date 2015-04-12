@@ -12,8 +12,7 @@ public class PhotoAlbumStore {
 
 	static final SearchDate6State searchDate6State = SearchDate6State
 			.getInstance();
-	
-	static final SearchTag7State searchTag7State = SearchTag7State.getInstance();
+
 	
 	static final Results8State results8State = Results8State.getInstance();
 }
