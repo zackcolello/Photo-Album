@@ -36,7 +36,6 @@ public class Admin2State extends PhotoAlbumState {
 	}
 
 	public void enter(){
-		System.out.println("Admin state");
 
 		
 		// Grab current JFrame
