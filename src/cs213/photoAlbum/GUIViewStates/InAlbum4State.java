@@ -42,10 +42,8 @@ public class InAlbum4State extends PhotoAlbumState {
 
 		InAlbum4Store.pa = (PhotoAlbum) frames[0];
 
-		System.out.println(Login1State.user);
 		InAlbum4Store.DestAlbums = PhotoAlbum.backend.getUser(Login1State.user)
 				.getAlbums();
-		System.out.println(InAlbum4Store.DestAlbums);
 
 		InAlbum4Store.pa.getContentPane().removeAll();
 		InAlbum4Store.pa.getContentPane().repaint();
@@ -175,7 +173,6 @@ public class InAlbum4State extends PhotoAlbumState {
 				"Error: Cannot add Photo to this Album");
 		InAlbum4Store.MoveErrLabel = new JLabel(
 				"Error: Cannot move Photo to Destination Album");
-		System.out.println(PhotoAlbum.backend.getUser(Login1State.user).getAlbum(InAlbum4Store.albumName));
 
 		if (!PhotoAlbum.backend.getUser(Login1State.user).getAlbum(InAlbum4Store.albumName)
 				.getPhotos().isEmpty()) {
@@ -540,10 +537,10 @@ public class InAlbum4State extends PhotoAlbumState {
 							} else {
 								photo newPhoto = new photo(f.getCanonicalPath(), InAlbum4Store.CaptionField
 										.getText());
-								System.out.println(PhotoAlbum.backend.getUser(
+								PhotoAlbum.backend.getUser(
 										Login1State.user).addUserPhoto(
 										f.getCanonicalPath(),
-										InAlbum4Store.CaptionField.getText()));
+										InAlbum4Store.CaptionField.getText());
 								PhotoAlbum.backend.getUser(Login1State.user)
 										.getAlbum(InAlbum4Store.albumName).addPhoto(newPhoto);
 								PhotoAlbum.backend
@@ -574,7 +571,6 @@ public class InAlbum4State extends PhotoAlbumState {
 
 				for (photo p : PhotoAlbum.backend.getUser(Login1State.user)
 						.getUserPhotos()) {
-					System.out.println(p + " " + p.getCount());
 
 				}
 
@@ -586,8 +582,7 @@ public class InAlbum4State extends PhotoAlbumState {
 										.getPhoto(getSelectedPhoto())
 										.getCount() - 1);
 
-				System.out.println(PhotoAlbum.backend.getUser(Login1State.user)
-						.getPhoto(getSelectedPhoto()));
+				
 
 				if (PhotoAlbum.backend.getUser(Login1State.user)
 						.getPhoto(getSelectedPhoto()).getCount() == 0) {
@@ -826,7 +821,7 @@ public class InAlbum4State extends PhotoAlbumState {
 	private String getSelectedPhoto() {
 		for (JPanel j : InAlbum4Store.PhotosArray) {
 			if (j.getBackground() == Color.LIGHT_GRAY) {
-				System.out.println();
+				
 				return ((JLabel) j.getComponent(1)).getText();
 			}
 		}
