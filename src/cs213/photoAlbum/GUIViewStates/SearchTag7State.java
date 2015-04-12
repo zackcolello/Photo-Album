@@ -393,8 +393,6 @@ public class SearchTag7State extends PhotoAlbumState {
 				String value = SearchTag7Store.valueField.getText();
 				SearchTag7Store.listModel.removeElement(type + ":" + value);
 				
-				
-				
 				PhotoAlbumStore.searchTag7State.enter();
 			}
 		});
