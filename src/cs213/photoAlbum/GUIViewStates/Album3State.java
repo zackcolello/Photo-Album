@@ -505,7 +505,7 @@ public class Album3State extends PhotoAlbumState {
 		// Event listener for Rename Album Button
 		Album3Store.RenameAlbumButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// PhotoAlbum.backend.getUser(Login1State.user).getAlbum(Album3Store.AlbumField.getText()).;
+
 				// Create GBL & GBC for filler panel
 				Album3Store.filgbl = new GridBagLayout();
 				Album3Store.filgbc = new GridBagConstraints();
@@ -533,6 +533,17 @@ public class Album3State extends PhotoAlbumState {
 				Album3Store.fillerPanel.add(Album3Store.AlbumField,
 						Album3Store.filgbc);
 
+				Album3Store.errLabel.setVisible(false);
+				Album3Store.errLabel.setForeground(Color.red);
+				Album3Store.filgbc.gridy = 2;
+				Album3Store.filgbc.gridx = 0;
+				Album3Store.filgbc.weighty = 1;
+				Album3Store.filgbc.weightx = 1;
+				Album3Store.filgbc.fill = GridBagConstraints.BOTH;
+				Album3Store.filgbc.gridwidth = 3;
+				Album3Store.fillerPanel.add(Album3Store.errLabel, Album3Store.filgbc);
+				
+				
 				// Create 'Rename' Button
 				Album3Store.filgbc.fill = GridBagConstraints.HORIZONTAL;
 				Album3Store.filgbc.weightx = .5;
@@ -607,11 +618,22 @@ public class Album3State extends PhotoAlbumState {
 		Album3Store.RenameAlbum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				PhotoAlbum.backend.getUser(Login1State.user).renameAlbum(
-						getSelectedAlbum(), Album3Store.AlbumField.getText());
+				Album3Store.errLabel.setVisible(false);
+				
+				if (PhotoAlbum.backend.getUser(Login1State.user).getAlbum(
+						Album3Store.AlbumField.getText()) != null) {
+					
+					addAlbumError();
 
-				Album3State.instance = null;
-				PhotoAlbumStore.album3State.enter();
+				} else {
+
+					PhotoAlbum.backend.getUser(Login1State.user).renameAlbum(
+							getSelectedAlbum(), Album3Store.AlbumField.getText());
+
+					Album3State.instance = null;
+					PhotoAlbumStore.album3State.enter();
+				}
+				
 
 			}
 		});
