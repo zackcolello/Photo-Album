@@ -774,6 +774,7 @@ public class InAlbum4State extends PhotoAlbumState {
 			}
 		});
 
+		
 	}
 
 	private void addPhotoError() {
@@ -789,6 +790,7 @@ public class InAlbum4State extends PhotoAlbumState {
 				InAlbum4Store.bgbc);
 
 		InAlbum4Store.pa.revalidate();
+		
 		InAlbum4Store.pa.repaint();
 	}
 
