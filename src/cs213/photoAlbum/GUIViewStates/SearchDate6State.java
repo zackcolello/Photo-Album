@@ -272,7 +272,6 @@ public class SearchDate6State extends PhotoAlbumState {
 				String month = (String) SearchDate6Store.startMonth
 						.getSelectedItem();
 				String month1 = null;
-				System.out.println(month);
 				switch ((String) SearchDate6Store.startMonth.getSelectedItem()) {
 				case ("January"):
 					month1 = "01";
@@ -314,7 +313,6 @@ public class SearchDate6State extends PhotoAlbumState {
 
 				String month2 = null;
 				month = (String) SearchDate6Store.endMonth.getSelectedItem();
-				System.out.println(month);
 				switch (month) {
 				case ("January"):
 					month2 = "01";
@@ -369,8 +367,6 @@ public class SearchDate6State extends PhotoAlbumState {
 						+ SearchDate6Store.endMinute.getSelectedItem() + ":"
 						+ SearchDate6Store.endSecond.getSelectedItem();
 
-				System.out.println(startdate);
-				System.out.println(enddate);
 
 				// Sanity check for month
 				if (!validDateCheck()) {
@@ -411,8 +407,6 @@ public class SearchDate6State extends PhotoAlbumState {
 		case ("January"):
 			return true;
 		case ("February"):
-			System.out.println(Integer.parseInt(SearchDate6Store.startDay.getSelectedItem()
-					.toString()));
 			if (Integer.parseInt(SearchDate6Store.startDay.getSelectedItem()
 					.toString()) > 28) {
 				return false;
@@ -457,8 +451,7 @@ public class SearchDate6State extends PhotoAlbumState {
 		case ("January"):
 			return true;
 		case ("February"):
-			System.out.println(Integer.parseInt(SearchDate6Store.endDay.getSelectedItem()
-					.toString()));
+
 			if (Integer.parseInt(SearchDate6Store.endDay.getSelectedItem()
 					.toString()) > 28) {
 				return false;
